@@ -9,6 +9,7 @@
 ---@field prefix_min_len number
 ---@field get_command fun(self: blink.cmp.Context, prefix: string): string[]
 ---@field get_prefix fun(self: blink.cmp.Context): string
+---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse)): (fun(): nil) | nil
 local RgSource = {}
 
 ---@param opts blink-cmp-rg.Options
@@ -42,44 +43,48 @@ function RgSource:get_completions(context, resolve)
 	local prefix = self.get_prefix(context)
 
 	if string.len(prefix) < self.prefix_min_len then
-		resolve()
+		resolve(
+			-- TODO check https://github.com/Saghen/blink.cmp/pull/254
+			{ is_incomplete_forward = true, is_incomplete_backward = true, items = {}, context = context }
+		)
+		---@diagnostic disable-next-line: missing-return-value
 		return
 	end
 
 	vim.system(self.get_command(context, prefix), nil, function(result)
 		if result.code ~= 0 then
-			resolve()
+			resolve(
+				-- TODO check https://github.com/Saghen/blink.cmp/pull/254
+				{ is_incomplete_forward = true, is_incomplete_backward = true, items = {}, context = context }
+			)
 			return
 		end
 
-		local items = {}
 		local lines = vim.split(result.stdout, "\n")
-		vim.iter(lines)
-			:map(function(line)
-				local ok, item = pcall(vim.json.decode, line)
-				item = ok and item or {}
-				if item.type == "match" then
-					return item.data.submatches
-				else
-					return {}
+
+		local items = {}
+		for _, line in ipairs(lines) do
+			local ok, item = pcall(vim.json.decode, line)
+			item = ok and item or {}
+
+			if item.type == "match" then
+				for _, submatch in ipairs(item.data.submatches) do
+					items[submatch.match.text] = {
+						label = submatch.match.text,
+						kind = vim.lsp.protocol.CompletionItemKind.Text,
+						insertText = submatch.match.text,
+					}
 				end
-			end)
-			:flatten()
-			:each(function(submatch)
-				---@type blink.cmp.CompletionItem
-				---@diagnostic disable-next-line: missing-fields
-				items[submatch.match.text] = {
-					label = submatch.match.text,
-					kind = vim.lsp.protocol.CompletionItemKind.Text,
-					insertText = submatch.match.text,
-				}
-			end)
+			end
+		end
 
 		resolve({
 			is_incomplete_forward = false,
 			is_incomplete_backward = false,
 			items = vim.tbl_values(items),
+			context = context,
 		})
+		---@diagnostic disable-next-line: missing-return
 	end)
 end
 
