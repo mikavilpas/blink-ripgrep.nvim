@@ -14,7 +14,7 @@ function RgSource.new(opts)
 				"--ignore-case",
 				"--",
 				prefix .. "[\\w_-]+",
-				vim.fs.root(0, "git") or vim.fn.getcwd(),
+				vim.fs.root(0, ".git") or vim.fn.getcwd(),
 			}
 		end,
 		get_prefix = opts.get_prefix or function(_)
