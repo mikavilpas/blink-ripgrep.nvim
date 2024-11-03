@@ -11,21 +11,21 @@ vim.env.LAZY_STDPATH = ".repro"
 
 -- set stdpaths to use .repro
 for _, name in ipairs({ "config", "data", "state", "cache" }) do
-  vim.env[("XDG_%s_HOME"):format(name:upper())] = root .. "/" .. name
+	vim.env[("XDG_%s_HOME"):format(name:upper())] = root .. "/" .. name
 end
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "--branch=v11.14.1",
-    lazyrepo,
-    lazypath,
-  })
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"--branch=v11.14.1",
+		lazyrepo,
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -41,40 +41,45 @@ vim.o.swapfile = false
 -- install the following plugins
 ---@type LazySpec
 local plugins = {
-  {
-    "saghen/blink.cmp",
-    event = "VeryLazy",
-    -- use a release tag to download pre-built binaries
-    version = "v0.*",
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
-    opts = {
-      sources = {
-        completion = {
-          enabled_providers = {
-            "ripgrep",
-          },
-        },
-        providers = {
-          ripgrep = {
-            module = "blink-cmp-rg",
-            name = "Ripgrep",
-          },
-        },
-      },
-      windows = {
-        autocomplete = {
-          max_height = 25,
-        },
-      },
-    },
-  },
-  {
-    "https://github.com/niuiic/blink-cmp-rg.nvim",
-    -- for tests, always use the code from this repository
-    dir = "../..",
-  },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+	{
+		"saghen/blink.cmp",
+		event = "VeryLazy",
+		-- use a release tag to download pre-built binaries
+		version = "v0.*",
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		opts = {
+			sources = {
+				completion = {
+					enabled_providers = {
+						"buffer",
+						"ripgrep",
+					},
+				},
+				providers = {
+					ripgrep = {
+						module = "blink-cmp-rg",
+						name = "Ripgrep",
+						---@type blink-cmp-rg.Options
+						opts = {
+							--
+						},
+					},
+				},
+			},
+			windows = {
+				autocomplete = {
+					max_height = 25,
+				},
+			},
+		},
+	},
+	{
+		"https://github.com/niuiic/blink-cmp-rg.nvim",
+		-- for tests, always use the code from this repository
+		dir = "../..",
+	},
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 }
 require("lazy").setup({ spec = plugins })
 
