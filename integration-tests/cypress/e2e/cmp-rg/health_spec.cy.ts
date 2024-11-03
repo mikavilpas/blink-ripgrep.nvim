@@ -7,6 +7,7 @@ describe("the healthcheck", () => {
 
       cy.typeIntoTerminal(":checkhealth blink-cmp-rg{enter}")
       cy.contains("OK blink-cmp-rg")
+      cy.contains("WARN").should("not.exist")
     })
   })
 })
