@@ -1,5 +1,17 @@
+---@module "blink.cmp"
+
+---@class blink-cmp-rg.Options
+---@field prefix_min_len? number
+---@field get_command? fun(self: blink.cmp.Context, prefix: string): string[]
+---@field get_prefix? fun(self: blink.cmp.Context): string
+
+---@class blink-cmp-rg.RgSource : blink.cmp.Source
+---@field prefix_min_len number
+---@field get_command fun(self: blink.cmp.Context, prefix: string): string[]
+---@field get_prefix fun(self: blink.cmp.Context): string
 local RgSource = {}
 
+---@param opts blink-cmp-rg.Options
 function RgSource.new(opts)
 	opts = opts or {}
 
@@ -45,16 +57,17 @@ function RgSource:get_completions(context, resolve)
 		vim.iter(lines)
 			:map(function(line)
 				local ok, item = pcall(vim.json.decode, line)
-				return ok and item or {}
-			end)
-			:filter(function(item)
-				return item.type == "match"
-			end)
-			:map(function(item)
-				return item.data.submatches
+				item = ok and item or {}
+				if item.type == "match" then
+					return item.data.submatches
+				else
+					return {}
+				end
 			end)
 			:flatten()
 			:each(function(submatch)
+				---@type blink.cmp.CompletionItem
+				---@diagnostic disable-next-line: missing-fields
 				items[submatch.match.text] = {
 					label = submatch.match.text,
 					kind = vim.lsp.protocol.CompletionItemKind.Text,
