@@ -53,13 +53,12 @@ function RgSource:get_completions(context, resolve)
 		vim.iter(lines)
 			:map(function(line)
 				local ok, item = pcall(vim.json.decode, line)
-				return ok and item or {}
-			end)
-			:filter(function(item)
-				return item.type == "match"
-			end)
-			:map(function(item)
-				return item.data.submatches
+				item = ok and item or {}
+				if item.type == "match" then
+					return item.data.submatches
+				else
+					return {}
+				end
 			end)
 			:flatten()
 			:each(function(submatch)
