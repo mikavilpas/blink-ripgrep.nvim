@@ -27,7 +27,7 @@ require("blink.cmp").setup({
 							"--ignore-case",
 							"--",
 							prefix .. "[\\w_-]+",
-							vim.fs.root(0, "git") or vim.fn.getcwd(),
+							vim.fs.root(0, ".git") or vim.fn.getcwd(),
 						}
 					end,
 					get_prefix = function(context)
