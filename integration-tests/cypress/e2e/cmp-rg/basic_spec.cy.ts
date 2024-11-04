@@ -14,7 +14,7 @@ describe("the basics", () => {
       // If the plugin works, this text should show up as a suggestion.
       cy.typeIntoTerminal("hip")
 
-      cy.contains("Hippopotamus123")
+      cy.contains("Hippopotamus123 (rg)")
     })
   })
 })
