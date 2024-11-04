@@ -72,6 +72,7 @@ function RgSource:get_completions(context, resolve)
 
     local lines = vim.split(result.stdout, "\n")
 
+    ---@type table<string, blink.cmp.CompletionItem>
     local items = {}
     for _, line in ipairs(lines) do
       local ok, item = pcall(vim.json.decode, line)
@@ -79,9 +80,10 @@ function RgSource:get_completions(context, resolve)
 
       if item.type == "match" then
         for _, submatch in ipairs(item.data.submatches) do
+          ---@diagnostic disable-next-line: missing-fields
           items[submatch.match.text] = {
-            label = submatch.match.text,
-            kind = vim.lsp.protocol.CompletionItemKind.Text,
+            source_id = "blink-cmp-rg",
+            label = submatch.match.text .. " (rg)",
             insertText = submatch.match.text,
           }
         end
