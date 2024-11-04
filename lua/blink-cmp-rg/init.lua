@@ -84,11 +84,22 @@ function RgSource:get_completions(context, resolve)
           "ripgrep output missing item.data.lines.text for item "
             .. vim.inspect(item)
         )
-        local documentation = item.data.lines.text or ""
+        assert(
+          item.data.path.text,
+          "ripgrep output missing item.data.path.text for item "
+            .. vim.inspect(item)
+        )
+        ---@type string[]
+        local documentation = {
+          item.data.lines.text,
+          " ", -- empty lines seem to do nothing, so just have something
+          item.data.path.text,
+        }
+
         for _, submatch in ipairs(item.data.submatches) do
           ---@diagnostic disable-next-line: missing-fields
           items[submatch.match.text] = {
-            documentation = documentation,
+            documentation = table.concat(documentation, "\n"),
             source_id = "blink-cmp-rg",
             label = submatch.match.text .. " (rg)",
             insertText = submatch.match.text,

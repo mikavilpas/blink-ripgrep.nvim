@@ -74,6 +74,8 @@ local plugins = {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 0,
+          -- file names need to fit the screen when testing
+          max_width = 200,
         },
       },
     },
