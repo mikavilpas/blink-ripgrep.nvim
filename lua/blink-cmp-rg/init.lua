@@ -82,13 +82,11 @@ function RgSource:get_completions(context, resolve)
       if item.type == "match" then
         assert(
           item.data.lines.text,
-          "ripgrep output missing item.data.lines.text for item "
-            .. vim.inspect(item)
+          "ripgrep output missing item.data.lines.text"
         )
         assert(
           item.data.path.text,
-          "ripgrep output missing item.data.path.text for item "
-            .. vim.inspect(item)
+          "ripgrep output missing item.data.path.text"
         )
         ---@type string
         local path = item.data.path.text
