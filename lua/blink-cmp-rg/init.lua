@@ -71,6 +71,7 @@ function RgSource:get_completions(context, resolve)
     end
 
     local lines = vim.split(result.stdout, "\n")
+    local cwd = vim.uv.cwd()
 
     ---@type table<string, blink.cmp.CompletionItem>
     local items = {}
@@ -89,11 +90,17 @@ function RgSource:get_completions(context, resolve)
           "ripgrep output missing item.data.path.text for item "
             .. vim.inspect(item)
         )
+        ---@type string
+        local path = item.data.path.text
+        if path:sub(1, #cwd) == cwd then
+          path = path:sub(#cwd + 2)
+        end
+
         ---@type string[]
         local documentation = {
           item.data.lines.text,
           " ", -- empty lines seem to do nothing, so just have something
-          item.data.path.text,
+          path,
         }
 
         for _, submatch in ipairs(item.data.submatches) do
