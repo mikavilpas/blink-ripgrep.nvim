@@ -54,45 +54,21 @@ function RgSource:get_completions(context, resolve)
     end
 
     local lines = vim.split(result.stdout, "\n")
-    local cwd = vim.uv.cwd()
+    local cwd = vim.uv.cwd() or ""
+
+    local parsed = require("blink-cmp-rg.ripgrep_parser").parse(lines, cwd)
 
     ---@type table<string, blink.cmp.CompletionItem>
     local items = {}
-    for _, line in ipairs(lines) do
-      local ok, item = pcall(vim.json.decode, line)
-      item = ok and item or {}
-
-      if item.type == "match" then
-        assert(
-          item.data.lines.text,
-          "ripgrep output missing item.data.lines.text"
-        )
-        assert(
-          item.data.path.text,
-          "ripgrep output missing item.data.path.text"
-        )
-        ---@type string
-        local path = item.data.path.text
-        if path:sub(1, #cwd) == cwd then
-          path = path:sub(#cwd + 2)
-        end
-
-        ---@type string[]
-        local documentation = {
-          item.data.lines.text,
-          " ", -- empty lines seem to do nothing, so just have something
-          path,
+    for _, file in pairs(parsed.files) do
+      for _, match in ipairs(file.submatches) do
+        ---@diagnostic disable-next-line: missing-fields
+        items[match.match.text] = {
+          documentation = table.concat(file.lines, "\n"),
+          source_id = "blink-cmp-rg",
+          label = match.match.text .. " (rg)",
+          insertText = match.match.text,
         }
-
-        for _, submatch in ipairs(item.data.submatches) do
-          ---@diagnostic disable-next-line: missing-fields
-          items[submatch.match.text] = {
-            documentation = table.concat(documentation, "\n"),
-            source_id = "blink-cmp-rg",
-            label = submatch.match.text .. " (rg)",
-            insertText = submatch.match.text,
-          }
-        end
       end
     end
 

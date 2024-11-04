@@ -4,3 +4,6 @@ integration-tests/test-environment/.repro
 integration-tests/test-environment/testdirs/
 integration-tests/cypress/screenshots/
 integration-tests/dist
+.luarocks
+lua_modules
+luarocks
