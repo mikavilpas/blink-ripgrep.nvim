@@ -79,9 +79,16 @@ function RgSource:get_completions(context, resolve)
       item = ok and item or {}
 
       if item.type == "match" then
+        assert(
+          item.data.lines.text,
+          "ripgrep output missing item.data.lines.text for item "
+            .. vim.inspect(item)
+        )
+        local documentation = item.data.lines.text or ""
         for _, submatch in ipairs(item.data.submatches) do
           ---@diagnostic disable-next-line: missing-fields
           items[submatch.match.text] = {
+            documentation = documentation,
             source_id = "blink-cmp-rg",
             label = submatch.match.text .. " (rg)",
             insertText = submatch.match.text,

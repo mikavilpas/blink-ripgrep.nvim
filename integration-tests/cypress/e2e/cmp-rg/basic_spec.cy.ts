@@ -15,6 +15,9 @@ describe("the basics", () => {
       cy.typeIntoTerminal("hip")
 
       cy.contains("Hippopotamus123 (rg)")
+
+      // should show documentation with more details about the match
+      cy.contains("Hippopotamus123 is my password")
     })
   })
 })
