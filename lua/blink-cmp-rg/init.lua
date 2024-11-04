@@ -9,7 +9,7 @@
 ---@field prefix_min_len number
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
 ---@field get_prefix fun(context: blink.cmp.Context): string
----@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse)): (fun(): nil) | nil
+---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)): (fun(): nil) | nil
 local RgSource = {}
 
 ---@param opts blink-cmp-rg.Options
@@ -43,30 +43,14 @@ function RgSource:get_completions(context, resolve)
   local prefix = self.get_prefix(context)
 
   if string.len(prefix) < self.prefix_min_len then
-    resolve(
-      -- TODO check https://github.com/Saghen/blink.cmp/pull/254
-      {
-        is_incomplete_forward = true,
-        is_incomplete_backward = true,
-        items = {},
-        context = context,
-      }
-    )
+    resolve()
     ---@diagnostic disable-next-line: missing-return-value
     return
   end
 
   vim.system(self.get_command(context, prefix), nil, function(result)
     if result.code ~= 0 then
-      resolve(
-        -- TODO check https://github.com/Saghen/blink.cmp/pull/254
-        {
-          is_incomplete_forward = true,
-          is_incomplete_backward = true,
-          items = {},
-          context = context,
-        }
-      )
+      resolve()
       return
     end
 
