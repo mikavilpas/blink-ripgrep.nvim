@@ -12,6 +12,15 @@
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
 
+---@param context blink.cmp.Context
+---@return string
+local function default_get_prefix(context)
+  local line = context.line
+  local col = context.cursor[2]
+  local prefix = line:sub(1, col):match("[%w_-]+$") or ""
+  return prefix
+end
+
 ---@param opts blink-ripgrep.Options
 function RgSource.new(opts)
   opts = opts or {}
@@ -30,12 +39,7 @@ function RgSource.new(opts)
         vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd()),
       }
     end,
-    get_prefix = opts.get_prefix or function(_)
-      local col = vim.api.nvim_win_get_cursor(0)[2]
-      local line = vim.api.nvim_get_current_line()
-      local prefix = line:sub(1, col):match("[%w_-]+$") or ""
-      return prefix
-    end,
+    get_prefix = opts.get_prefix or default_get_prefix,
   }, { __index = RgSource })
 end
 
