@@ -23,10 +23,11 @@ jobs:
             sudo apt-get install ripgrep
           }
 
-      - uses: rhysd/action-setup-vim@v1
+      - name: Run tests
+        uses: nvim-neorocks/nvim-busted-action@v1.1.0
         with:
-          neovim: true
-          version: ${{ inputs.nvim_version }}
+          nvim_version: ${{ matrix.neovim_version }}
+          luarocks_version: "3.11.1"
 
       - uses: pnpm/action-setup@v4.0.0
       - uses: actions/setup-node@v4.1.0
