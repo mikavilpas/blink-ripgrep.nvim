@@ -2,7 +2,7 @@
 -- integration tests. It should be executed before running the tests.
 
 ---@module "lazy"
----@module "blink-cmp-rg"
+---@module "blink-ripgrep"
 ---@module "catppuccin"
 
 -- DO NOT change the paths and don't remove the colorscheme
@@ -58,9 +58,9 @@ local plugins = {
         },
         providers = {
           ripgrep = {
-            module = "blink-cmp-rg",
+            module = "blink-ripgrep",
             name = "Ripgrep",
-            ---@type blink-cmp-rg.Options
+            ---@type blink-ripgrep.Options
             opts = {
               --
             },
@@ -81,7 +81,7 @@ local plugins = {
     },
   },
   {
-    "https://github.com/niuiic/blink-cmp-rg.nvim",
+    "mikavilpas/blink-ripgrep.nvim",
     -- for tests, always use the code from this repository
     dir = "../..",
   },

@@ -1,9 +1,9 @@
-local ripgrep_parser = require("blink-cmp-rg.ripgrep_parser")
+local ripgrep_parser = require("blink-ripgrep.ripgrep_parser")
 local assert = require("luassert")
 
 describe("ripgrep_parser", function()
   local ripgrep_output_lines =
-    vim.fn.readfile("spec/blink-cmp-rg/rg-output.jsonl")
+    vim.fn.readfile("spec/blink-ripgrep/rg-output.jsonl")
 
   it("can parse according to the expected schema", function()
     local result = ripgrep_parser.parse(ripgrep_output_lines, "/home/user")

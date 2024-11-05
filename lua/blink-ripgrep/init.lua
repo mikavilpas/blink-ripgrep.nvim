@@ -1,18 +1,18 @@
 ---@module "blink.cmp"
 
----@class blink-cmp-rg.Options
+---@class blink-ripgrep.Options
 ---@field prefix_min_len? number
 ---@field get_command? fun(context: blink.cmp.Context, prefix: string): string[]
 ---@field get_prefix? fun(context: blink.cmp.Context): string
 
----@class blink-cmp-rg.RgSource : blink.cmp.Source
+---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field prefix_min_len number
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
 ---@field get_prefix fun(context: blink.cmp.Context): string
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
 
----@param opts blink-cmp-rg.Options
+---@param opts blink-ripgrep.Options
 function RgSource.new(opts)
   opts = opts or {}
 
@@ -56,7 +56,7 @@ function RgSource:get_completions(context, resolve)
     local lines = vim.split(result.stdout, "\n")
     local cwd = vim.uv.cwd() or ""
 
-    local parsed = require("blink-cmp-rg.ripgrep_parser").parse(lines, cwd)
+    local parsed = require("blink-ripgrep.ripgrep_parser").parse(lines, cwd)
 
     ---@type table<string, blink.cmp.CompletionItem>
     local items = {}
@@ -65,7 +65,7 @@ function RgSource:get_completions(context, resolve)
         ---@diagnostic disable-next-line: missing-fields
         items[match.match.text] = {
           documentation = table.concat(file.lines, "\n"),
-          source_id = "blink-cmp-rg",
+          source_id = "blink-ripgrep",
           label = match.match.text .. " (rg)",
           insertText = match.match.text,
         }
