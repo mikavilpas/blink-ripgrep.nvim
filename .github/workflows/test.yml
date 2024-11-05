@@ -41,6 +41,12 @@ jobs:
         with:
           runTests: false
           # https://github.com/cypress-io/github-action/blob/bff0ae58f02476fbc4b13229bcaac2767f645b3e/README.md#pnpm-workspaces
+      - name: initialize neovim dependencies
+        run: |
+          echo "Initializing neovim dependencies..."
+          cd integration-tests/test-environment/
+          # execute the lazy installation script and exit right away
+          nvim -u test-setup.lua -c "exit"
 
       - name: Cypress test
         uses: cypress-io/github-action@v6
