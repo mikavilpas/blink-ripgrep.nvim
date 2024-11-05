@@ -1,9 +1,9 @@
 ---@diagnostic disable: lowercase-global
 rockspec_format = "3.0"
-package = "blink-cmp-rg.nvim"
+package = "blink-ripgrep.nvim"
 version = "scm-1"
 source = {
-  url = "git+https://github.com/mikavilpas/blink-cmp-rg.nvim",
+  url = "git+https://github.com/mikavilpas/blink-ripgrep.nvim",
 }
 dependencies = {
   -- Add runtime dependencies here

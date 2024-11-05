@@ -1,4 +1,4 @@
-# blink-cmp-rg.nvim
+# blink-ripgrep.nvim
 
 Ripgrep source for [blink.cmp](https://github.com/Saghen/blink.cmp).
 
@@ -9,7 +9,7 @@ Forked here (mikavilpas/blink.cmp) for my own use from
 -- NOTE: you can skip the type annotations if you don't want to use them
 --
 ---@module "lazy"
----@module "blink-cmp-rg"
+---@module "blink-ripgrep"
 ---@type LazySpec
 require("blink.cmp").setup({
   sources = {
@@ -19,10 +19,10 @@ require("blink.cmp").setup({
     providers = {
       -- other sources
       ripgrep = {
-        module = "blink-cmp-rg",
+        module = "blink-ripgrep",
         name = "Ripgrep",
         -- options below are optional, these are the default values
-        ---@type blink-cmp-rg.Options
+        ---@type blink-ripgrep.Options
         opts = {
           -- blink.cmp get prefix in a different way,
           -- thus use `prefix_min_len` instead of `min_keyword_length`

@@ -1,5 +1,5 @@
 {
-  "name": "@blink-cmp-rg.nvim/integration-tests",
+  "name": "@blink-ripgrep.nvim/integration-tests",
   "version": "0.0.0",
   "private": true,
   "type": "module",
