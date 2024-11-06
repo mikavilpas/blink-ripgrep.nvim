@@ -25,7 +25,10 @@ function M.parse(ripgrep_output, cwd)
         ---@type string
         local filename = json.data.path.text
 
-        output.files[filename] = { lines = {}, submatches = {} }
+        local filetype = vim.fn.fnamemodify(filename, ":e")
+        local lang = vim.treesitter.language.get_lang(filetype or "text")
+          or "markdown"
+        output.files[filename] = { lines = { "```" .. lang }, submatches = {} }
       elseif json.type == "context" then
         ---@type string
         local filename = json.data.path.text
@@ -52,7 +55,8 @@ function M.parse(ripgrep_output, cwd)
         if filename:sub(1, #cwd) == cwd then
           filename = filename:sub(#cwd + 2)
         end
-        data.lines[#data.lines + 1] = " "
+        data.lines[#data.lines + 1] = ""
+        data.lines[#data.lines + 1] = "```"
         data.lines[#data.lines + 1] = "> " .. filename
       end
     end

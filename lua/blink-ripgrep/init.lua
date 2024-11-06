@@ -66,11 +66,18 @@ function RgSource:get_completions(context, resolve)
     local items = {}
     for _, file in pairs(parsed.files) do
       for _, match in ipairs(file.submatches) do
+        local label = match.match.text .. " (rg)"
+        -- the implementation for render_detail_and_documentation:
+        -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
         ---@diagnostic disable-next-line: missing-fields
         items[match.match.text] = {
-          documentation = table.concat(file.lines, "\n"),
+          documentation = {
+            kind = "markdown",
+            value = table.concat(file.lines, "\n"),
+          },
+          detail = match.match.text .. ".",
           source_id = "blink-ripgrep",
-          label = match.match.text .. " (rg)",
+          label = label,
           insertText = match.match.text,
         }
       end

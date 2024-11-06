@@ -20,10 +20,10 @@ export const MyTestDirectorySchema = z.object({
       extension: z.literal("txt"),
       stem: z.literal("initial-file."),
     }),
-    "other-file.txt": z.object({
-      name: z.literal("other-file.txt"),
+    "other-file.lua": z.object({
+      name: z.literal("other-file.lua"),
       type: z.literal("file"),
-      extension: z.literal("txt"),
+      extension: z.literal("lua"),
       stem: z.literal("other-file."),
     }),
     "test-setup.lua": z.object({
@@ -45,7 +45,7 @@ export type MyTestDirectory = MyTestDirectoryContentsSchemaType["contents"]
 
 export const testDirectoryFiles = z.enum([
   "initial-file.txt",
-  "other-file.txt",
+  "other-file.lua",
   "test-setup.lua",
   ".",
 ])
