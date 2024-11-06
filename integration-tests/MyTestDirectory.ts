@@ -20,6 +20,41 @@ export const MyTestDirectorySchema = z.object({
       extension: z.literal("txt"),
       stem: z.literal("initial-file."),
     }),
+    limited: z.object({
+      name: z.literal("limited"),
+      type: z.literal("directory"),
+      contents: z.object({
+        ".git": z.object({
+          name: z.literal(".git"),
+          type: z.literal("directory"),
+          contents: z.object({}),
+        }),
+        "main-project-file.lua": z.object({
+          name: z.literal("main-project-file.lua"),
+          type: z.literal("file"),
+          extension: z.literal("lua"),
+          stem: z.literal("main-project-file."),
+        }),
+        subproject: z.object({
+          name: z.literal("subproject"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "file1.lua": z.object({
+              name: z.literal("file1.lua"),
+              type: z.literal("file"),
+              extension: z.literal("lua"),
+              stem: z.literal("file1."),
+            }),
+            "file2.lua": z.object({
+              name: z.literal("file2.lua"),
+              type: z.literal("file"),
+              extension: z.literal("lua"),
+              stem: z.literal("file2."),
+            }),
+          }),
+        }),
+      }),
+    }),
     "other-file.lua": z.object({
       name: z.literal("other-file.lua"),
       type: z.literal("file"),
@@ -45,6 +80,12 @@ export type MyTestDirectory = MyTestDirectoryContentsSchemaType["contents"]
 
 export const testDirectoryFiles = z.enum([
   "initial-file.txt",
+  "limited/.git",
+  "limited/main-project-file.lua",
+  "limited/subproject/file1.lua",
+  "limited/subproject/file2.lua",
+  "limited/subproject",
+  "limited",
   "other-file.lua",
   "test-setup.lua",
   ".",

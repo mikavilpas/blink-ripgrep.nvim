@@ -1,8 +1,8 @@
 import { flavors } from "@catppuccin/palette"
 
-const theme = flavors.macchiato.colors
-
-export function rgbify(color: (typeof theme)["surface0"]["rgb"]): string {
+export function rgbify(
+  color: (typeof flavors.macchiato.colors)["surface0"]["rgb"],
+): string {
   return `rgb(${color.r.toString()}, ${color.g.toString()}, ${color.b.toString()})`
 }
 
@@ -44,6 +44,50 @@ describe("the basics", () => {
         "have.css",
         "color",
         rgbify(flavors.macchiato.colors.maroon.rgb),
+      )
+    })
+  })
+})
+
+describe("searching inside projects", () => {
+  // NOTE: the tests setup fake git repositories in the test environment using
+  // ../../../server/server.ts
+  //
+  // This limits the search to the nearest .git directory above the current
+  // file.
+  it("descends into subprojects", () => {
+    cy.visit("http://localhost:5173")
+    cy.startNeovim({ filename: "limited/main-project-file.lua" }).then(() => {
+      // when completing from a file in a superproject, the search may descend
+      // to subprojects
+      cy.contains("this text is from main-project-file")
+
+      cy.typeIntoTerminal("o")
+      cy.typeIntoTerminal("some")
+
+      cy.contains("someTextFromFile2 here").should(
+        "have.css",
+        "color",
+        rgbify(flavors.macchiato.colors.green.rgb),
+      )
+    })
+  })
+
+  it("limits the search to the nearest .git directory", () => {
+    cy.visit("http://localhost:5173")
+    cy.startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
+      // when opening a file from a subproject, the search should be limited to
+      // the nearest .git directory (only the files in the same project should
+      // be searched)
+      cy.contains("This is text from file1.lua")
+
+      cy.typeIntoTerminal("o")
+      cy.typeIntoTerminal("some")
+
+      cy.contains("someTextFromFile2 here").should(
+        "have.css",
+        "color",
+        rgbify(flavors.macchiato.colors.green.rgb),
       )
     })
   })

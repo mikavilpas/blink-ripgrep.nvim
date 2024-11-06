@@ -1,0 +1,1 @@
+-- This is text from file1.lua
