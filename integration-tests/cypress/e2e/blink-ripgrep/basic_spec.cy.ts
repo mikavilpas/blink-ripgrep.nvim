@@ -1,3 +1,11 @@
+import { flavors } from "@catppuccin/palette"
+
+const theme = flavors.macchiato.colors
+
+export function rgbify(color: (typeof theme)["surface0"]["rgb"]): string {
+  return `rgb(${color.r.toString()}, ${color.g.toString()}, ${color.b.toString()})`
+}
+
 describe("the basics", () => {
   it("shows words in other files as suggestions", () => {
     cy.visit("http://localhost:5173")
@@ -23,9 +31,20 @@ describe("the basics", () => {
       // should show documentation with more details about the match
       //
       // should show the text for the matched line
-      cy.contains("Hippopotamus" + "234 was my previous password")
+      //
+      // the text should also be syntax highlighted
+      cy.contains("Hippopotamus" + "234 was my previous password").should(
+        "have.css",
+        "color",
+        rgbify(flavors.macchiato.colors.green.rgb),
+      )
+
       // should show the file name
-      cy.contains(dir.contents["other-file.txt"].name)
+      cy.contains(dir.contents["other-file.lua"].name).should(
+        "have.css",
+        "color",
+        rgbify(flavors.macchiato.colors.maroon.rgb),
+      )
     })
   })
 })
