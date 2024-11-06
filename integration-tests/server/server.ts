@@ -9,7 +9,9 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // create a fake git repository to test searching inside one
-await mkdir(path.join(__dirname, "..", "test-environment", "limited", ".git"))
+await mkdir(path.join(__dirname, "..", "test-environment", "limited", ".git"), {
+  recursive: true,
+})
 
 const config: TestServerConfig = {
   testEnvironmentPath: path.join(__dirname, "..", "test-environment/"),
