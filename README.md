@@ -19,6 +19,10 @@ for blink. Example for [lazy.nvim](https://lazy.folke.io/):
 ---@type LazySpec
 return {
   "saghen/blink.cmp",
+  dependencies = {
+    "mikavilpas/blink-ripgrep.nvim",
+    -- 👆🏻👆🏻 add the dependency here
+  },
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
