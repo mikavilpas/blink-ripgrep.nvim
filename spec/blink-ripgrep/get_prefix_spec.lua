@@ -27,6 +27,21 @@ describe("match_prefix", function()
     end
   )
 
+  it("matches when there is nonmatching input at the end", function()
+    assert.are_same(blink_ripgrep.match_prefix(".hello)"), "hello")
+    assert.are_same(blink_ripgrep.match_prefix(",hello)"), "hello")
+    assert.are_same(
+      blink_ripgrep.match_prefix(".,,!@!@$@%<<@$<hello)"),
+      "hello"
+    )
+    assert.are_same(blink_ripgrep.match_prefix(" hello)"), "hello")
+    assert.are_same(blink_ripgrep.match_prefix("random_text hello)"), "hello")
+    assert.are_same(blink_ripgrep.match_prefix("-- hello)"), "hello")
+    assert.are_same(blink_ripgrep.match_prefix("-- abc123)"), "abc123")
+    assert.are_same(blink_ripgrep.match_prefix("-- abc-123)"), "abc-123")
+    assert.are_same(blink_ripgrep.match_prefix("-- abc_123)"), "abc_123")
+  end)
+
   it(
     "matches when there are multiple nonmatching pieces of input in the beginning",
     function()
