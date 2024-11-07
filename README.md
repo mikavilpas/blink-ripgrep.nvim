@@ -41,10 +41,11 @@ return {
           ---@module "blink-ripgrep"
           ---@type blink-ripgrep.Options
           opts = {
-            -- the minimum length of the query to start searching
+            -- the minimum length of the current word to start searching
+            -- (if the word is shorter than this, the search will not start)
             prefix_min_len = 3,
             -- The number of lines to show around each match in the preview window
-            context_size = 3,
+            context_size = 5,
           },
         },
       },
