@@ -4,6 +4,7 @@
 ---@field prefix_min_len? number
 ---@field get_command? fun(context: blink.cmp.Context, prefix: string): string[]
 ---@field get_prefix? fun(context: blink.cmp.Context): string
+---@field context_size? number "The number of lines to show around each match"
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field prefix_min_len number
@@ -32,6 +33,7 @@ function RgSource.new(opts)
         "rg",
         "--no-config",
         "--json",
+        "--context=" .. (opts.context_size or 3),
         "--word-regexp",
         "--ignore-case",
         "--",
