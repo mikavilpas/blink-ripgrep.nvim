@@ -13,12 +13,34 @@
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
 
+local word_character = vim.lpeg.R("az", "AZ", "09", "\128\255")
+  + vim.lpeg.P("_")
+  + vim.lpeg.P("-")
+local non_word_character = vim.lpeg.P(1) - word_character
+
+local collect_pattern = vim.lpeg.Ct(
+  -- Skip non-word characters first
+  (
+    non_word_character ^ 0
+    * vim.lpeg.C(word_character ^ 1)
+    * non_word_character ^ 0
+  ) ^ 0
+)
+
+---@param text_before_cursor string "The text of the entire line before the cursor"
+---@return string
+function RgSource.match_prefix(text_before_cursor)
+  local matches = vim.lpeg.match(collect_pattern, text_before_cursor)
+  return matches and matches[#matches] or ""
+end
+
 ---@param context blink.cmp.Context
 ---@return string
 local function default_get_prefix(context)
   local line = context.line
   local col = context.cursor[2]
-  local prefix = line:sub(1, col):match("[%w_-]+$") or ""
+  local text = line:sub(1, col)
+  local prefix = RgSource.match_prefix(text)
   return prefix
 end
 
