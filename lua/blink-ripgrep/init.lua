@@ -13,17 +13,18 @@
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
 
-local word_character = vim.lpeg.R("az", "AZ", "09", "\128\255")
+local starting_word_character = vim.lpeg.R("az", "AZ", "09", "\128\255")
+local word_character = starting_word_character
   + vim.lpeg.P("_")
   + vim.lpeg.P("-")
-local non_word_character = vim.lpeg.P(1) - word_character
+local non_middle_word_character = vim.lpeg.P(1) - word_character
+local non_starting_word_character = vim.lpeg.P(1) - starting_word_character
 
 local collect_pattern = vim.lpeg.Ct(
-  -- Skip non-word characters first
   (
-    non_word_character ^ 0
+    non_starting_word_character ^ 0
     * vim.lpeg.C(word_character ^ 1)
-    * non_word_character ^ 0
+    * non_middle_word_character ^ 0
   ) ^ 0
 )
 

@@ -42,6 +42,11 @@ describe("match_prefix", function()
     assert.are_same(blink_ripgrep.match_prefix("-- abc_123)"), "abc_123")
   end)
 
+  it("matches when word_characters are in the front", function()
+    assert.are_same(blink_ripgrep.match_prefix("--hello)"), "hello")
+    assert.are_same(blink_ripgrep.match_prefix("__hello)"), "hello")
+  end)
+
   it(
     "matches when there are multiple nonmatching pieces of input in the beginning",
     function()
