@@ -29,6 +29,8 @@ require("blink.cmp").setup({
           -- blink.cmp get prefix in a different way,
           -- thus use `prefix_min_len` instead of `min_keyword_length`
           prefix_min_len = 3,
+          -- The number of lines to show around each match in the preview window
+          context_size = 3
         },
       },
     },
