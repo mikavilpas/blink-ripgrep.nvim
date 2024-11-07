@@ -55,7 +55,7 @@ function RgSource.new(opts)
         "rg",
         "--no-config",
         "--json",
-        "--context=" .. (opts.context_size or 3),
+        "--context=" .. (opts.context_size or 5),
         "--word-regexp",
         "--ignore-case",
         "--",
