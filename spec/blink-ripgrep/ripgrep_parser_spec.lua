@@ -13,6 +13,7 @@ describe("ripgrep_parser", function()
     assert.is_not_nil(result.files[filename])
     assert.is_truthy(#result.files[filename].lines > 19)
     assert.same(#result.files[filename].submatches, 3)
+    assert.same(result.files[filename].relative_to_cwd, filename)
 
     for _, submatch in ipairs(result.files[filename].submatches) do
       assert.is_not_nil(submatch.start)
@@ -20,6 +21,4 @@ describe("ripgrep_parser", function()
       assert.is_not_nil(submatch.match.text)
     end
   end)
-
-  -- TODO test that the cwd is stripped from the filename
 end)

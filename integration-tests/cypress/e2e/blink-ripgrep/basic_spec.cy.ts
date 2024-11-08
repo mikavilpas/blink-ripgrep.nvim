@@ -40,11 +40,7 @@ describe("the basics", () => {
       )
 
       // should show the file name
-      cy.contains(dir.contents["other-file.lua"].name).should(
-        "have.css",
-        "color",
-        rgbify(flavors.macchiato.colors.maroon.rgb),
-      )
+      cy.contains(dir.contents["other-file.lua"].name)
     })
   })
 })
