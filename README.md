@@ -1,6 +1,7 @@
 # blink-ripgrep.nvim
 
-Ripgrep source for [blink.cmp](https://github.com/Saghen/blink.cmp).
+Ripgrep source for the [blink.cmp](https://github.com/Saghen/blink.cmp)
+completion plugin.
 
 ![blink-ripgrep search with a context preview](./demo/screenshot.png)
 
