@@ -6,6 +6,7 @@ local M = {}
 ---@class RipgrepFile
 ---@field lines string[] the context preview for all the matches
 ---@field submatches RipgrepSubmatch[] the matches
+---@field relative_to_cwd string the relative path of the file to the current working directory
 
 ---@class RipgrepSubmatch
 ---@field start number the start column of the match
@@ -28,7 +29,16 @@ function M.parse(ripgrep_output, cwd)
         local filetype = vim.fn.fnamemodify(filename, ":e")
         local lang = vim.treesitter.language.get_lang(filetype or "text")
           or "markdown"
-        output.files[filename] = { lines = { "```" .. lang }, submatches = {} }
+
+        local relative_filename = filename
+        if filename:sub(1, #cwd) == cwd then
+          relative_filename = filename:sub(#cwd + 2)
+        end
+        output.files[filename] = {
+          lines = { "```" .. lang },
+          submatches = {},
+          relative_to_cwd = relative_filename,
+        }
       elseif json.type == "context" then
         ---@type string
         local filename = json.data.path.text
@@ -47,17 +57,6 @@ function M.parse(ripgrep_output, cwd)
           end_ = json.data.submatches[1]["end"],
           match = { text = json.data.submatches[1].match.text },
         }
-      elseif json.type == "end" then
-        ---@type string
-        local filename = json.data.path.text
-        local data = output.files[filename]
-
-        if filename:sub(1, #cwd) == cwd then
-          filename = filename:sub(#cwd + 2)
-        end
-        data.lines[#data.lines + 1] = ""
-        data.lines[#data.lines + 1] = "```"
-        data.lines[#data.lines + 1] = "> " .. filename
       end
     end
   end

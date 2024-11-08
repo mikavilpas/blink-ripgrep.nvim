@@ -100,7 +100,7 @@ function RgSource:get_completions(context, resolve)
             kind = "markdown",
             value = table.concat(file.lines, "\n"),
           },
-          detail = match.match.text .. ".",
+          detail = file.relative_to_cwd,
           source_id = "blink-ripgrep",
           label = label,
           insertText = match.match.text,
