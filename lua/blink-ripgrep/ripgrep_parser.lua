@@ -19,6 +19,7 @@ function M.parse(ripgrep_output, cwd)
   ---@type RipgrepOutput
   local output = { files = {} }
 
+  -- phase one: parse the output and collect the matches and context
   for _, line in ipairs(ripgrep_output) do
     local ok, json = pcall(vim.json.decode, line)
     if ok then

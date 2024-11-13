@@ -48,6 +48,13 @@ describe("match_prefix", function()
   end)
 
   it(
+    "matches when there is nonmatching input at the beginning and at the end",
+    function()
+      assert.are_same(blink_ripgrep.match_prefix('"hello"'), "hello")
+    end
+  )
+
+  it(
     "matches when there are multiple nonmatching pieces of input in the beginning",
     function()
       assert.are_same(blink_ripgrep.match_prefix(".hello.hello"), "hello")
@@ -95,7 +102,7 @@ describe("match_prefix", function()
     )
   end)
 
-  it("matches special characters", function()
+  it("matches unicode characters", function()
     -- umlauts and other special characters
     assert.are_same(blink_ripgrep.match_prefix("yöllä"), "yöllä") -- Finnish word with 'ö' and 'ä'
     assert.are_same(blink_ripgrep.match_prefix("über"), "über") -- German word with 'ü'
