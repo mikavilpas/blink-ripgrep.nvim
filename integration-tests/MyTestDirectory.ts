@@ -11,9 +11,27 @@
 import { z } from "zod"
 
 export const MyTestDirectorySchema = z.object({
-  name: z.literal("test-environment"),
+  name: z.literal("test-environment/"),
   type: z.literal("directory"),
   contents: z.object({
+    ".config": z.object({
+      name: z.literal(".config/"),
+      type: z.literal("directory"),
+      contents: z.object({
+        nvim: z.object({
+          name: z.literal("nvim/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "init.lua": z.object({
+              name: z.literal("init.lua"),
+              type: z.literal("file"),
+              extension: z.literal("lua"),
+              stem: z.literal("init."),
+            }),
+          }),
+        }),
+      }),
+    }),
     "initial-file.txt": z.object({
       name: z.literal("initial-file.txt"),
       type: z.literal("file"),
@@ -21,14 +39,9 @@ export const MyTestDirectorySchema = z.object({
       stem: z.literal("initial-file."),
     }),
     limited: z.object({
-      name: z.literal("limited"),
+      name: z.literal("limited/"),
       type: z.literal("directory"),
       contents: z.object({
-        ".git": z.object({
-          name: z.literal(".git"),
-          type: z.literal("directory"),
-          contents: z.object({}),
-        }),
         "main-project-file.lua": z.object({
           name: z.literal("main-project-file.lua"),
           type: z.literal("file"),
@@ -36,7 +49,7 @@ export const MyTestDirectorySchema = z.object({
           stem: z.literal("main-project-file."),
         }),
         subproject: z.object({
-          name: z.literal("subproject"),
+          name: z.literal("subproject/"),
           type: z.literal("directory"),
           contents: z.object({
             "file1.lua": z.object({
@@ -61,12 +74,6 @@ export const MyTestDirectorySchema = z.object({
       extension: z.literal("lua"),
       stem: z.literal("other-file."),
     }),
-    "test-setup.lua": z.object({
-      name: z.literal("test-setup.lua"),
-      type: z.literal("file"),
-      extension: z.literal("lua"),
-      stem: z.literal("test-setup."),
-    }),
   }),
 })
 
@@ -79,15 +86,16 @@ export type MyTestDirectoryContentsSchemaType = z.infer<
 export type MyTestDirectory = MyTestDirectoryContentsSchemaType["contents"]
 
 export const testDirectoryFiles = z.enum([
+  ".config/nvim/init.lua",
+  ".config/nvim",
+  ".config",
   "initial-file.txt",
-  "limited/.git",
   "limited/main-project-file.lua",
   "limited/subproject/file1.lua",
   "limited/subproject/file2.lua",
   "limited/subproject",
   "limited",
   "other-file.lua",
-  "test-setup.lua",
   ".",
 ])
 export type MyTestDirectoryFile = z.infer<typeof testDirectoryFiles>

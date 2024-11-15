@@ -25,24 +25,25 @@ jobs:
             sudo apt-get install ripgrep
           }
 
-      - name: Run tests
+      - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@v1.1.0
         with:
           nvim_version: ${{ matrix.neovim_version }}
           luarocks_version: "3.11.1"
 
+      # https://github.com/cypress-io/github-action?tab=readme-ov-file#pnpm-workspaces
       - uses: pnpm/action-setup@v4.0.0
       - uses: actions/setup-node@v4.1.0
         with:
           node-version-file: .nvmrc
           cache: "pnpm"
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/Cypress
+          key: my-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install
 
-      - name: Install dependencies
-        uses: cypress-io/github-action@v6
-        with:
-          runTests: false
-          # https://github.com/cypress-io/github-action/blob/bff0ae58f02476fbc4b13229bcaac2767f645b3e/README.md#pnpm-workspaces
       - name: initialize neovim dependencies
         run: |
           echo "Initializing neovim dependencies..."
@@ -50,11 +51,9 @@ jobs:
           # execute the lazy installation script and exit right away
           nvim -u test-setup.lua -c "exit"
 
-      - name: Cypress test
-        uses: cypress-io/github-action@v6
-        with:
-          install: false
-          command: pnpm cy:run
+      # need to work around https://github.com/cypress-io/github-action/issues/1246
+      - run: pnpm --filter integration-tests exec cypress install
+      - run: pnpm cy:run
 
       - uses: actions/upload-artifact@v4.4.3
         # add the line below to store screenshots only on failures
