@@ -9,7 +9,6 @@ describe("the basics", () => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createFakeGitDirectoriesToLimitRipgrepScope()
-      cy.pause()
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
