@@ -1,9 +1,3 @@
--- This files defines how to initialize the test environment for the
--- integration tests. It should be executed before running the tests.
-
--- this is used in some tests
-_G.isInitFileLoaded = "yesTheInitFileIsLoaded"
-
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
