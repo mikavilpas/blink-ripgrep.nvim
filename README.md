@@ -1,5 +1,9 @@
 # blink-ripgrep.nvim
 
+<a href="https://dotfyle.com/plugins/mikavilpas/blink-ripgrep.nvim">
+  <img src="https://dotfyle.com/plugins/mikavilpas/blink-ripgrep.nvim/shield?style=flat-square" alt="shield image for plugin usage"/>
+</a>
+
 Ripgrep source for the [blink.cmp](https://github.com/Saghen/blink.cmp)
 completion plugin.
 
