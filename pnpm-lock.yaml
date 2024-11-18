@@ -37,8 +37,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@tui-sandbox/library':
-        specifier: 5.1.0
-        version: 5.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 6.0.2
+        version: 6.0.2(cypress@13.15.1)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.3)
       '@types/node':
         specifier: 22.8.7
         version: 22.8.7
@@ -535,17 +535,22 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@trpc/client@11.0.0-rc.633':
-    resolution: {integrity: sha512-fha4Mix/birOFNMIutHXAhkJuZ8Zob0PGZ5s0NVyt4VbIGIpuvx2DYjFQG9lmyt+LEGZklsi1G0QfY+7rNaSmg==}
+  '@trpc/client@11.0.0-rc.638':
+    resolution: {integrity: sha512-zKOZZwUMcF4cvm04aawG7dP6M9dCs7FEWHuiBy7xmU+RIonsgpolLMRXm7bFie5EhQOGizhLRGnhneGwjNzWMA==}
     peerDependencies:
-      '@trpc/server': 11.0.0-rc.633+55512768a
+      '@trpc/server': 11.0.0-rc.638+09a76869e
 
-  '@trpc/server@11.0.0-rc.633':
-    resolution: {integrity: sha512-R26i5aP7/DvgIp3YbU+0u0nbggqItMLYvPmVBOyTP8rD5+wrifZ9ZKp8p+KMzhQEGeBv5mJ48TjJ2URcKwxg6g==}
+  '@trpc/server@11.0.0-rc.638':
+    resolution: {integrity: sha512-ho3sRx66UuncKTtuy7UKbYP8IB4qaPj2gmdDIIdQOftta1oYzEsQuYiBozQAIAmX9TbV5FaqAdBUl2alFBSbdg==}
 
-  '@tui-sandbox/library@5.1.0':
-    resolution: {integrity: sha512-WpZGDKWU7fovyzqF9eNmpmt+Fhfqg/tOI2sFM3YW8CWxwi0lhtBZSK8N5BF5/0CwWaa89sjOOyG/4IZiMBgh+w==}
+  '@tui-sandbox/library@6.0.2':
+    resolution: {integrity: sha512-EbCgohCTF4wyYgKr8+w9VazIDZU6oxWSvmCTHLQ8nC9ie0429c7fHMWk6cSLKWySrKoxS3f46NnRxzpZ9bGf0g==}
     hasBin: true
+    peerDependencies:
+      cypress: ^13
+      prettier: '>= 3.3.3'
+      type-fest: '>= 4.27.0'
+      typescript: '>= 5.6.3'
 
   '@types/aws-lambda@8.10.145':
     resolution: {integrity: sha512-dtByW6WiFk5W5Jfgz1VM+YPA21xMXTuSFoLYIDY0L44jDLLflVPtZkYuu3/YxpGcvjzKFBZLU+GyKjR0HOYtyw==}
@@ -3154,11 +3159,11 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@trpc/client@11.0.0-rc.633(@trpc/server@11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
+  '@trpc/client@11.0.0-rc.638(@trpc/server@11.0.0-rc.638(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
     dependencies:
-      '@trpc/server': 11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@trpc/server': 11.0.0-rc.638(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  '@trpc/server@11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@trpc/server@11.0.0-rc.638(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     optionalDependencies:
       '@types/aws-lambda': 8.10.145
       express: 4.21.1
@@ -3178,17 +3183,18 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@tui-sandbox/library@5.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tui-sandbox/library@6.0.2(cypress@13.15.1)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.3)':
     dependencies:
       '@catppuccin/palette': 1.7.1
-      '@trpc/client': 11.0.0-rc.633(@trpc/server@11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@trpc/server': 11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@trpc/client': 11.0.0-rc.638(@trpc/server@11.0.0-rc.638(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      '@trpc/server': 11.0.0-rc.638(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@xterm/addon-attach': 0.11.0(@xterm/xterm@5.5.0)
       '@xterm/addon-fit': 0.10.0(@xterm/xterm@5.5.0)
       '@xterm/xterm': 5.5.0
       command-exists: 1.2.9
       core-js: 3.39.0
       cors: 2.8.5
+      cypress: 13.15.1
       dree: 5.1.5
       express: 4.21.1
       neovim: 5.3.0
@@ -3196,6 +3202,7 @@ snapshots:
       prettier: 3.3.3
       tsx: 4.19.2
       type-fest: 4.26.1
+      typescript: 5.6.3
       winston: 3.17.0
       zod: 3.23.8
     transitivePeerDependencies:
