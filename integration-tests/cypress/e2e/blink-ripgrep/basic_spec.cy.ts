@@ -84,9 +84,8 @@ describe("searching inside projects", () => {
 })
 
 function createFakeGitDirectoriesToLimitRipgrepScope() {
-  cy.typeIntoTerminal(`:!mkdir %:h/.git{enter}`, { delay: 0 })
-  cy.typeIntoTerminal(
-    `:!mkdir %:h/${"limited" satisfies MyTestDirectoryFile}/.git{enter}`,
-    { delay: 0 },
-  )
+  cy.runExCommand({ command: `!mkdir %:h/.git` })
+  cy.runExCommand({
+    command: `!mkdir %:h/${"limited" satisfies MyTestDirectoryFile}/.git`,
+  })
 }
