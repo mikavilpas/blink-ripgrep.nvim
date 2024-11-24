@@ -38,11 +38,11 @@ return {
           "path",
           "snippets",
           "buffer",
-          "ripgrep", -- 👈🏻 add "ripgrep"
+          "ripgrep", -- 👈🏻 add "ripgrep" here
         },
       },
       providers = {
-        -- 👇🏻👇🏻 add the ripgrep provider
+        -- 👇🏻👇🏻 add the ripgrep provider config below
         ripgrep = {
           module = "blink-ripgrep",
           name = "Ripgrep",
