@@ -2,7 +2,7 @@
 
 ---@class blink-ripgrep.Options
 ---@field prefix_min_len? number
----@field get_command? fun(context: blink.cmp.Context, prefix: string): string[]
+---@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open and issue 🙂
 ---@field get_prefix? fun(context: blink.cmp.Context): string
 ---@field context_size? number "The number of lines to show around each match"
 
