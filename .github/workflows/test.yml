@@ -24,6 +24,7 @@ jobs:
           which rg || {
             sudo apt-get install ripgrep
           }
+          echo "Ripgrep version: $(rg --version)"
 
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@v1.1.0

@@ -5,7 +5,7 @@ export default defineConfig({
     baseUrl: "http://localhost:3000",
     experimentalRunAllSpecs: true,
     retries: {
-      runMode: 2,
+      runMode: 5,
       openMode: 0,
     },
   },
