@@ -24,6 +24,7 @@ jobs:
           which rg || {
             sudo apt-get install ripgrep
           }
+          echo "Ripgrep version: $(rg --version)"
 
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@v1.1.0
@@ -49,7 +50,7 @@ jobs:
           echo "Initializing neovim dependencies..."
           cd integration-tests/test-environment/
           # execute the lazy installation script and exit right away
-          nvim -u test-setup.lua -c "exit"
+          nvim -c "exit"
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install

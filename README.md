@@ -50,11 +50,21 @@ return {
           ---@module "blink-ripgrep"
           ---@type blink-ripgrep.Options
           opts = {
+            -- For many options, see `rg --help` for an exact description of
+            -- the values that ripgrep expects.
+
             -- the minimum length of the current word to start searching
             -- (if the word is shorter than this, the search will not start)
             prefix_min_len = 3,
+
             -- The number of lines to show around each match in the preview window
             context_size = 5,
+
+            -- The maximum file size that ripgrep should include in its search.
+            -- Useful when your project contains large files that might cause
+            -- performance issues.
+            -- Examples: "1024" (bytes by default), "200K", "1M", "1G"
+            max_filesize = "1M",
           },
         },
       },
