@@ -49,7 +49,7 @@ jobs:
           echo "Initializing neovim dependencies..."
           cd integration-tests/test-environment/
           # execute the lazy installation script and exit right away
-          nvim -u test-setup.lua -c "exit"
+          nvim -c "exit"
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
