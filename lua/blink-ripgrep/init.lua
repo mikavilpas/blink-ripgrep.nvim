@@ -14,26 +14,33 @@
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
 
-local starting_word_character = vim.lpeg.R("az", "AZ", "09", "\128\255")
-local word_character = starting_word_character
-  + vim.lpeg.P("_")
-  + vim.lpeg.P("-")
-local non_middle_word_character = vim.lpeg.P(1) - word_character
-local non_starting_word_character = vim.lpeg.P(1) - starting_word_character
+local word_pattern
+do
+  -- match an ascii character as well as unicode continuation bytes.
+  -- Technically, unicode continuation bytes need to be applied in order to
+  -- construct valid utf-8 characters, but right now we trust that the user
+  -- only types valid utf-8 in their project.
+  local char = vim.lpeg.R("az", "AZ", "09", "\128\255")
 
-local collect_pattern = vim.lpeg.Ct(
-  (
-    non_starting_word_character ^ 0
-    * vim.lpeg.C(word_character ^ 1)
-    * non_middle_word_character ^ 0
-  ) ^ 0
-)
+  local non_starting_word_character = vim.lpeg.P(1) - char
+  local word_character = char + vim.lpeg.P("_") + vim.lpeg.P("-")
+  local non_middle_word_character = vim.lpeg.P(1) - word_character
+
+  word_pattern = vim.lpeg.Ct(
+    (
+      non_starting_word_character ^ 0
+      * vim.lpeg.C(word_character ^ 1)
+      * non_middle_word_character ^ 0
+    ) ^ 0
+  )
+end
 
 ---@param text_before_cursor string "The text of the entire line before the cursor"
 ---@return string
 function RgSource.match_prefix(text_before_cursor)
-  local matches = vim.lpeg.match(collect_pattern, text_before_cursor)
-  return matches and matches[#matches] or ""
+  local matches = vim.lpeg.match(word_pattern, text_before_cursor)
+  local last_match = matches and matches[#matches]
+  return last_match or ""
 end
 
 ---@param context blink.cmp.Context
