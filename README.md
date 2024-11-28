@@ -5,7 +5,15 @@
 </a>
 
 Ripgrep source for the [blink.cmp](https://github.com/Saghen/blink.cmp)
-completion plugin.
+completion plugin. Adding it to your configuration offers matching words from
+your entire project as completions. This can reduce the chance of typos as well
+as repetitive typing.
+
+> [!NOTE]
+>
+> A project root is considered to be the nearest ancestor directory containing a
+> `.git` directory. If none can be found, neovim's current working directory is
+> used.
 
 ![blink-ripgrep search with a context preview](./demo/screenshot.png)
 
