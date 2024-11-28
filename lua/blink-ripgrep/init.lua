@@ -70,6 +70,8 @@ function RgSource.new(opts)
         "--ignore-case",
         "--",
         prefix .. "[\\w_-]+",
+        -- NOTE: 2024-11-28 the logic is documented in the README file, and
+        -- should be kept up to date
         vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd()),
       }
     end,
