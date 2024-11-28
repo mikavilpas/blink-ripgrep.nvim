@@ -37,6 +37,9 @@ local plugins = {
     event = "VeryLazy",
     -- use a release tag to download pre-built binaries
     version = "v0.*",
+
+    -- to (locally) track nightly builds, use the following:
+    -- dir = "/Users/mikavilpas/git/blink.cmp/",
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -58,6 +61,7 @@ local plugins = {
           },
         },
       },
+      -- configuration for the stable version of blink
       windows = {
         autocomplete = {
           max_height = 25,
@@ -67,6 +71,27 @@ local plugins = {
           auto_show_delay_ms = 0,
           -- file names need to fit the screen when testing
           max_width = 200,
+        },
+      },
+
+      -- 2024-11-28 configuration for the nightly version of blink. mikavilpas
+      -- uses this for local development, but currently ci uses the stable
+      -- version
+      --
+      ---@diagnostic disable-next-line: missing-fields
+      completion = {
+        ---@diagnostic disable-next-line: missing-fields
+        documentation = {
+          ---@diagnostic disable-next-line: missing-fields
+          window = {
+            desired_min_height = 30,
+          },
+          auto_show = true,
+          auto_show_delay_ms = 0,
+        },
+        ---@diagnostic disable-next-line: missing-fields
+        menu = {
+          max_height = 25,
         },
       },
     },
