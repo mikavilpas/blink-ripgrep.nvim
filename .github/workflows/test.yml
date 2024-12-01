@@ -45,12 +45,9 @@ jobs:
           key: my-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install
 
-      - name: initialize neovim dependencies
-        run: |
-          echo "Initializing neovim dependencies..."
-          cd integration-tests/test-environment/
-          # execute the lazy installation script and exit right away
-          nvim -c "exit"
+      - name: Preinstall neovim plugins
+        run: pnpm tui neovim exec "Lazy! sync"
+        working-directory: integration-tests
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
