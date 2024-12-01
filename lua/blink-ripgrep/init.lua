@@ -102,20 +102,26 @@ function RgSource:get_completions(context, resolve)
     local items = {}
     for _, file in pairs(parsed.files) do
       for _, match in ipairs(file.submatches) do
-        local label = match.match.text .. " (rg)"
-        -- the implementation for render_detail_and_documentation:
-        -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
-        ---@diagnostic disable-next-line: missing-fields
-        items[match.match.text] = {
-          documentation = {
-            kind = "markdown",
-            value = table.concat(file.lines, "\n"),
-          },
-          detail = file.relative_to_cwd,
-          source_id = "blink-ripgrep",
-          label = label,
-          insertText = match.match.text,
-        }
+        local matchkey = match.match.text
+
+        -- PERF: only register the match once - right now there is no useful
+        -- way to display the same match multiple times
+        if not items[matchkey] then
+          local label = match.match.text .. " (rg)"
+          -- the implementation for render_detail_and_documentation:
+          -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
+          ---@diagnostic disable-next-line: missing-fields
+          items[matchkey] = {
+            documentation = {
+              kind = "markdown",
+              value = table.concat(file.lines, "\n"),
+            },
+            detail = file.relative_to_cwd,
+            source_id = "blink-ripgrep",
+            label = label,
+            insertText = matchkey,
+          }
+        end
       end
     end
 
