@@ -1,18 +1,19 @@
 ---@module "blink.cmp"
 
 ---@class blink-ripgrep.Options
----@field prefix_min_len? number
+---@field prefix_min_len? number # The minimum length of the current word to start searching (if the word is shorter than this, the search will not start)
 ---@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open and issue 🙂
 ---@field get_prefix? fun(context: blink.cmp.Context): string
----@field context_size? number # The number of lines to show around each match
+---@field context_size? number # The number of lines to show around each match in the preview window
 ---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
----@field prefix_min_len number
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
 ---@field get_prefix fun(context: blink.cmp.Context): string
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
+---@field options blink-ripgrep.Options
 local RgSource = {}
+RgSource.__index = RgSource
 
 local word_pattern
 do
@@ -55,11 +56,21 @@ end
 
 ---@param opts blink-ripgrep.Options
 function RgSource.new(opts)
-  opts = opts or {}
+  local self = setmetatable({}, RgSource)
 
-  return setmetatable({
-    prefix_min_len = opts.prefix_min_len or 3,
-    get_command = opts.get_command or function(_, prefix)
+  ---@type blink-ripgrep.Options
+  local default_options = {
+    prefix_min_len = 3,
+    context_size = 5,
+    max_filesize = "1M",
+  }
+
+  self.options = vim.tbl_extend("force", opts or {}, default_options)
+
+  self.get_prefix = opts.get_prefix or default_get_prefix
+
+  self.get_command = opts.get_command
+    or function(_, prefix)
       return {
         "rg",
         "--no-config",
@@ -74,15 +85,15 @@ function RgSource.new(opts)
         -- should be kept up to date
         vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd()),
       }
-    end,
-    get_prefix = opts.get_prefix or default_get_prefix,
-  }, { __index = RgSource })
+    end
+
+  return self
 end
 
 function RgSource:get_completions(context, resolve)
   local prefix = self.get_prefix(context)
 
-  if string.len(prefix) < self.prefix_min_len then
+  if string.len(prefix) < self.options.prefix_min_len then
     resolve()
     return
   end
