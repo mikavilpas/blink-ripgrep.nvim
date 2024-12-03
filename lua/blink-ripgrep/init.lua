@@ -5,7 +5,7 @@
 ---@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open and issue 🙂
 ---@field get_prefix? fun(context: blink.cmp.Context): string
 ---@field context_size? number # The number of lines to show around each match
----@field max_filesize? number # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
+---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field prefix_min_len number
