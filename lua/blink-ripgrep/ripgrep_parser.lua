@@ -6,7 +6,7 @@ local M = {}
 ---@class RipgrepFile
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
 ---@field lines table<number, string> the context preview, shared for all the matches in this file so that they can display a subset
----@field matches RipgrepMatch[]
+---@field matches table<string,RipgrepMatch>
 ---@field relative_to_cwd string the relative path of the file to the current working directory
 
 ---@class RipgrepMatch
@@ -66,20 +66,24 @@ function M.parse(ripgrep_output, cwd, context_size)
         local file, line_number = get_file_context(json, output)
         file.lines[line_number] = json.data.lines.text
 
-        file.matches[#file.matches + 1] = {
-          start_col = json.data.submatches[1].start,
-          end_col = json.data.submatches[1]["end"],
-          match = { text = json.data.submatches[1].match.text },
-          line_number = line_number,
-          context_preview = {},
-        }
+        local text = json.data.submatches[1].match.text
+
+        if not file.matches[text] then
+          file.matches[text] = {
+            start_col = json.data.submatches[1].start,
+            end_col = json.data.submatches[1]["end"],
+            match = { text = text },
+            line_number = line_number,
+            context_preview = {},
+          }
+        end
       elseif json.type == "end" then
         -- Right now, we have collected the necessary lines for the context in
         -- previous steps. Get the context preview for each match.
         local filename = json.data.path.text
         local file = output.files[filename]
 
-        for _, match in ipairs(file.matches) do
+        for _, match in pairs(file.matches) do
           match.context_preview =
             M.get_context_preview(file.lines, match.line_number, context_size)
         end
