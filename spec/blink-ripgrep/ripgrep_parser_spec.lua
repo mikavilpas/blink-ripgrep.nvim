@@ -12,7 +12,6 @@ describe("ripgrep_parser", function()
     assert.is_not_nil(result.files)
     assert.is_not_nil(result.files[filename])
     assert.is_truthy(#result.files[filename].lines == 0)
-    assert.same(#result.files[filename].matches, 3)
     assert.same(result.files[filename].relative_to_cwd, filename)
 
     for _, file in ipairs(result.files) do

@@ -118,7 +118,7 @@ function RgSource:get_completions(context, resolve)
     ---@type table<string, blink.cmp.CompletionItem>
     local items = {}
     for _, file in pairs(parsed.files) do
-      for _, match in ipairs(file.matches) do
+      for _, match in pairs(file.matches) do
         local matchkey = match.match.text
 
         -- PERF: only register the match once - right now there is no useful
