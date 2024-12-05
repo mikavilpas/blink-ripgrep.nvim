@@ -98,7 +98,9 @@ function RgSource:get_completions(context, resolve)
     return
   end
 
-  vim.system(self.get_command(context, prefix), nil, function(result)
+  local cmd = self.get_command(context, prefix)
+
+  vim.system(cmd, nil, function(result)
     if result.code ~= 0 then
       resolve()
       return
@@ -107,25 +109,33 @@ function RgSource:get_completions(context, resolve)
     local lines = vim.split(result.stdout, "\n")
     local cwd = vim.uv.cwd() or ""
 
-    local parsed = require("blink-ripgrep.ripgrep_parser").parse(lines, cwd)
+    local parsed = require("blink-ripgrep.ripgrep_parser").parse(
+      lines,
+      cwd,
+      self.options.context_size
+    )
 
     ---@type table<string, blink.cmp.CompletionItem>
     local items = {}
     for _, file in pairs(parsed.files) do
-      for _, match in ipairs(file.submatches) do
+      for _, match in ipairs(file.matches) do
         local matchkey = match.match.text
 
         -- PERF: only register the match once - right now there is no useful
         -- way to display the same match multiple times
         if not items[matchkey] then
           local label = match.match.text .. " (rg)"
+          local docstring = ("```" .. file.language .. "\n")
+            .. table.concat(match.context_preview, "\n")
+            .. "```"
+
           -- the implementation for render_detail_and_documentation:
           -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
           ---@diagnostic disable-next-line: missing-fields
           items[matchkey] = {
             documentation = {
               kind = "markdown",
-              value = table.concat(file.lines, "\n"),
+              value = docstring,
             },
             detail = file.relative_to_cwd,
             source_id = "blink-ripgrep",
