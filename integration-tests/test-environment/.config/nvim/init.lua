@@ -34,6 +34,7 @@ vim.o.swapfile = false
 local plugins = {
   {
     "saghen/blink.cmp",
+    dir = "/Users/mikavilpas/git/blink.cmp/",
     event = "VeryLazy",
     -- use a release tag to download pre-built binaries
     version = "v0.*",

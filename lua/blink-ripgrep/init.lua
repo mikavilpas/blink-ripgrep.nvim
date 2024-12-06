@@ -101,57 +101,59 @@ function RgSource:get_completions(context, resolve)
   local cmd = self.get_command(context, prefix)
 
   vim.system(cmd, nil, function(result)
-    if result.code ~= 0 then
-      resolve()
-      return
-    end
+    vim.schedule(function()
+      if result.code ~= 0 then
+        resolve()
+        return
+      end
 
-    local lines = vim.split(result.stdout, "\n")
-    local cwd = vim.uv.cwd() or ""
+      local lines = vim.split(result.stdout, "\n")
+      local cwd = vim.uv.cwd() or ""
 
-    local parsed = require("blink-ripgrep.ripgrep_parser").parse(
-      lines,
-      cwd,
-      self.options.context_size
-    )
+      local parsed = require("blink-ripgrep.ripgrep_parser").parse(
+        lines,
+        cwd,
+        self.options.context_size
+      )
 
-    ---@type table<string, blink.cmp.CompletionItem>
-    local items = {}
-    for _, file in pairs(parsed.files) do
-      for _, match in pairs(file.matches) do
-        local matchkey = match.match.text
+      ---@type table<string, blink.cmp.CompletionItem>
+      local items = {}
+      for _, file in pairs(parsed.files) do
+        for _, match in pairs(file.matches) do
+          local matchkey = match.match.text
 
-        -- PERF: only register the match once - right now there is no useful
-        -- way to display the same match multiple times
-        if not items[matchkey] then
-          local label = match.match.text .. " (rg)"
-          local docstring = ("```" .. file.language .. "\n")
-            .. table.concat(match.context_preview, "\n")
-            .. "```"
+          -- PERF: only register the match once - right now there is no useful
+          -- way to display the same match multiple times
+          if not items[matchkey] then
+            local label = match.match.text .. " (rg)"
+            local docstring = ("```" .. file.language .. "\n")
+              .. table.concat(match.context_preview, "\n")
+              .. "```"
 
-          -- the implementation for render_detail_and_documentation:
-          -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
-          ---@diagnostic disable-next-line: missing-fields
-          items[matchkey] = {
-            documentation = {
-              kind = "markdown",
-              value = docstring,
-            },
-            detail = file.relative_to_cwd,
-            source_id = "blink-ripgrep",
-            label = label,
-            insertText = matchkey,
-          }
+            -- the implementation for render_detail_and_documentation:
+            -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
+            ---@diagnostic disable-next-line: missing-fields
+            items[matchkey] = {
+              documentation = {
+                kind = "markdown",
+                value = docstring,
+              },
+              detail = file.relative_to_cwd,
+              source_id = "blink-ripgrep",
+              label = label,
+              insertText = matchkey,
+            }
+          end
         end
       end
-    end
 
-    resolve({
-      is_incomplete_forward = false,
-      is_incomplete_backward = false,
-      items = vim.tbl_values(items),
-      context = context,
-    })
+      resolve({
+        is_incomplete_forward = false,
+        is_incomplete_backward = false,
+        items = vim.tbl_values(items),
+        context = context,
+      })
+    end)
   end)
 end
 

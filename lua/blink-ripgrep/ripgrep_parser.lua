@@ -49,9 +49,12 @@ function M.parse(ripgrep_output, cwd, context_size)
           relative_filename = filename:sub(#cwd + 2)
         end
 
-        local filetype = vim.fn.fnamemodify(filename, ":e")
-        local language = vim.treesitter.language.get_lang(filetype or "text")
-          or "markdown"
+        local ext = vim.fn.fnamemodify(filename, ":e")
+
+        local ft = vim.filetype.match({ filename = filename })
+        local language = ft
+          or vim.treesitter.language.get_lang(ext or "text")
+          or ext
 
         output.files[filename] = {
           language = language,
