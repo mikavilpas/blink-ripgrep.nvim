@@ -65,7 +65,9 @@ return {
             -- (if the word is shorter than this, the search will not start)
             prefix_min_len = 3,
 
-            -- The number of lines to show around each match in the preview window
+            -- The number of lines to show around each match in the preview window.
+            -- For example, 5 means to show 5 lines before, then the match, and
+            -- another 5 lines after the match.
             context_size = 5,
 
             -- The maximum file size that ripgrep should include in its search.
