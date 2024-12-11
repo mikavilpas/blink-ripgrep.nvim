@@ -37,6 +37,51 @@ describe("the basics", () => {
   })
 })
 
+describe("the match context", () => {
+  // The match context means the lines around the matched line.
+  // We want to show context so that the user can see/remember where the match
+  // was found. Although we don't explicitly show all the matches in the
+  // project, this can still be very useful.
+  it("shows 5 lines around the match by default", () => {
+    cy.visit("/")
+    cy.startNeovim().then(() => {
+      cy.contains("If you see this text, Neovim is ready!")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+
+      cy.typeIntoTerminal("cc")
+
+      // find a match that has more than 5 lines of context
+      cy.typeIntoTerminal("line_7")
+
+      // we should now see lines 2-12 (default 5 lines of context around the match)
+      cy.contains(`"This is line 1"`).should("not.exist")
+      assertMatchVisible(`"This is line 2"`)
+      assertMatchVisible(`"This is line 3"`)
+      assertMatchVisible(`"This is line 4"`)
+      assertMatchVisible(`"This is line 5"`)
+      assertMatchVisible(`"This is line 6"`)
+      assertMatchVisible(`"This is line 7"`) // the match
+      assertMatchVisible(`"This is line 8"`)
+      assertMatchVisible(`"This is line 9"`)
+      assertMatchVisible(`"This is line 10"`)
+      assertMatchVisible(`"This is line 11"`)
+      assertMatchVisible(`"This is line 12"`)
+      cy.contains(`"This is line 13"`).should("not.exist")
+    })
+  })
+
+  function assertMatchVisible(
+    match: string,
+    color?: typeof flavors.macchiato.colors.green.rgb,
+  ) {
+    cy.contains(match).should(
+      "have.css",
+      "color",
+      rgbify(color ?? flavors.macchiato.colors.green.rgb),
+    )
+  }
+})
+
 describe("searching inside projects", () => {
   // NOTE: the tests setup fake git repositories in the test environment using
   // ../../../server/server.ts

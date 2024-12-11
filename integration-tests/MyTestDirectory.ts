@@ -68,6 +68,12 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
+    "line-file.lua": z.object({
+      name: z.literal("line-file.lua"),
+      type: z.literal("file"),
+      extension: z.literal("lua"),
+      stem: z.literal("line-file."),
+    }),
     "other-file.lua": z.object({
       name: z.literal("other-file.lua"),
       type: z.literal("file"),
@@ -95,6 +101,7 @@ export const testDirectoryFiles = z.enum([
   "limited/subproject/file2.lua",
   "limited/subproject",
   "limited",
+  "line-file.lua",
   "other-file.lua",
   ".",
 ])
