@@ -55,9 +55,10 @@ local plugins = {
             module = "blink-ripgrep",
             name = "Ripgrep",
             ---@type blink-ripgrep.Options
-            opts = {
-              --
-            },
+            -- opts = {
+            --   Keep the default options empty for tests, so that the we can
+            --   make sure they are supported without specifying them
+            -- },
           },
         },
       },
