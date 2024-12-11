@@ -54,30 +54,33 @@ local function default_get_prefix(context)
   return prefix
 end
 
----@param opts blink-ripgrep.Options
-function RgSource.new(opts)
+---@param input_opts blink-ripgrep.Options
+function RgSource.new(input_opts)
+  input_opts = input_opts or {}
   local self = setmetatable({}, RgSource)
 
-  ---@type blink-ripgrep.Options
-  local default_options = {
-    prefix_min_len = 3,
-    context_size = 5,
-    max_filesize = "1M",
-  }
+  self.options = vim.tbl_deep_extend(
+    "force",
+    ---@type blink-ripgrep.Options
+    {
+      prefix_min_len = input_opts.prefix_min_len or 3,
+      context_size = input_opts.context_size or 5,
+      max_filesize = input_opts.max_filesize or "1M",
+    },
+    input_opts
+  )
 
-  self.options = vim.tbl_extend("force", opts or {}, default_options)
+  self.get_prefix = self.options.get_prefix or default_get_prefix
 
-  self.get_prefix = opts.get_prefix or default_get_prefix
-
-  self.get_command = opts.get_command
+  self.get_command = self.options.get_command
     or function(_, prefix)
       return {
         "rg",
         "--no-config",
         "--json",
-        "--context=" .. (opts.context_size or 5),
+        "--context=" .. self.options.context_size,
         "--word-regexp",
-        "--max-filesize=" .. (opts.max_filesize or "1M"),
+        "--max-filesize=" .. self.options.max_filesize,
         "--ignore-case",
         "--",
         prefix .. "[\\w_-]+",
