@@ -6,6 +6,7 @@
 ---@field get_prefix? fun(context: blink.cmp.Context): string
 ---@field context_size? number # The number of lines to show around each match in the preview window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
 ---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
+---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
@@ -59,22 +60,18 @@ function RgSource.new(input_opts)
   input_opts = input_opts or {}
   local self = setmetatable({}, RgSource)
 
-  self.options = vim.tbl_deep_extend(
-    "force",
-    ---@type blink-ripgrep.Options
-    {
-      prefix_min_len = input_opts.prefix_min_len or 3,
-      context_size = input_opts.context_size or 5,
-      max_filesize = input_opts.max_filesize or "1M",
-    },
-    input_opts
-  )
+  self.options = vim.tbl_deep_extend("force", {
+    prefix_min_len = input_opts.prefix_min_len or 3,
+    context_size = input_opts.context_size or 5,
+    max_filesize = input_opts.max_filesize or "1M",
+    additional_rg_options = input_opts.additional_rg_options or {},
+  } --[[@as blink-ripgrep.Options]], input_opts)
 
   self.get_prefix = self.options.get_prefix or default_get_prefix
 
   self.get_command = self.options.get_command
     or function(_, prefix)
-      return {
+      local cmd = {
         "rg",
         "--no-config",
         "--json",
@@ -82,12 +79,23 @@ function RgSource.new(input_opts)
         "--word-regexp",
         "--max-filesize=" .. self.options.max_filesize,
         "--ignore-case",
+      }
+      for _, option in ipairs(self.options.additional_rg_options) do
+        table.insert(cmd, option)
+      end
+
+      local final = {
         "--",
         prefix .. "[\\w_-]+",
         -- NOTE: 2024-11-28 the logic is documented in the README file, and
         -- should be kept up to date
         vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd()),
       }
+      for _, option in ipairs(final) do
+        table.insert(cmd, option)
+      end
+
+      return cmd
     end
 
   return self

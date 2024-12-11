@@ -32,6 +32,18 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
+    "config-modifications": z.object({
+      name: z.literal("config-modifications/"),
+      type: z.literal("directory"),
+      contents: z.object({
+        ".gitkeep": z.object({
+          name: z.literal(".gitkeep"),
+          type: z.literal("file"),
+          extension: z.literal(""),
+          stem: z.literal(".gitkeep"),
+        }),
+      }),
+    }),
     "initial-file.txt": z.object({
       name: z.literal("initial-file.txt"),
       type: z.literal("file"),
@@ -95,6 +107,8 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim/init.lua",
   ".config/nvim",
   ".config",
+  "config-modifications/.gitkeep",
+  "config-modifications",
   "initial-file.txt",
   "limited/main-project-file.lua",
   "limited/subproject/file1.lua",

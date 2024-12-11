@@ -75,6 +75,14 @@ return {
             -- performance issues.
             -- Examples: "1024" (bytes by default), "200K", "1M", "1G"
             max_filesize = "1M",
+
+            -- (advanced) Any additional options you want to give to ripgrep.
+            -- See `rg -h` for a list of all available options. Might be
+            -- helpful in adjusting performance in specific situations.
+            -- If you have an idea for a default, please open an issue!
+            --
+            -- Not everything will work (obviously).
+            additional_rg_options = {}
           },
         },
       },
