@@ -42,6 +42,7 @@ return {
     sources = {
       completion = {
         enabled_providers = {
+          -- NOTE: blink >v0.7.6 moved `sources.completion.enabled_providers` to `sources.default`
           "lsp",
           "path",
           "snippets",
