@@ -157,12 +157,14 @@ function RgSource:get_completions(context, resolve)
       end
     end
 
-    resolve({
-      is_incomplete_forward = false,
-      is_incomplete_backward = false,
-      items = vim.tbl_values(items),
-      context = context,
-    })
+    vim.schedule(function()
+      resolve({
+        is_incomplete_forward = false,
+        is_incomplete_backward = false,
+        items = vim.tbl_values(items),
+        context = context,
+      })
+    end)
   end)
 end
 
