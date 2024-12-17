@@ -1,9 +1,11 @@
 # blink-ripgrep.nvim
 
 <a href="https://dotfyle.com/plugins/mikavilpas/blink-ripgrep.nvim">
-  <img src="https://dotfyle.com/plugins/mikavilpas/blink-ripgrep.nvim/shield?style=flat-square" alt="shield image for plugin usage"/>
+  <img
+    src="https://dotfyle.com/plugins/mikavilpas/blink-ripgrep.nvim/shield?style=flat-square"
+    alt="shield image for plugin usage"
+  />
 </a>
-
 Ripgrep source for the [blink.cmp](https://github.com/Saghen/blink.cmp)
 completion plugin. Adding it to your configuration offers matching words from
 your entire project as completions. This can reduce the chance of typos as well
@@ -42,7 +44,8 @@ return {
     sources = {
       completion = {
         enabled_providers = {
-          -- NOTE: blink >v0.7.6 moved `sources.completion.enabled_providers` to `sources.default`
+          -- NOTE: blink >v0.7.6 has moved
+          -- `sources.completion.enabled_providers` to `sources.default`
           "lsp",
           "path",
           "snippets",
@@ -66,9 +69,9 @@ return {
             -- (if the word is shorter than this, the search will not start)
             prefix_min_len = 3,
 
-            -- The number of lines to show around each match in the preview window.
-            -- For example, 5 means to show 5 lines before, then the match, and
-            -- another 5 lines after the match.
+            -- The number of lines to show around each match in the preview
+            -- (documentation) window. For example, 5 means to show 5 lines
+            -- before, then the match, and another 5 lines after the match.
             context_size = 5,
 
             -- The maximum file size that ripgrep should include in its search.
@@ -83,7 +86,7 @@ return {
             -- If you have an idea for a default, please open an issue!
             --
             -- Not everything will work (obviously).
-            additional_rg_options = {}
+            additional_rg_options = {},
           },
         },
       },
