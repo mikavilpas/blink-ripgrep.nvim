@@ -2,9 +2,9 @@
 
 ---@class blink-ripgrep.Options
 ---@field prefix_min_len? number # The minimum length of the current word to start searching (if the word is shorter than this, the search will not start)
----@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open and issue 🙂
+---@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open an issue 🙂
 ---@field get_prefix? fun(context: blink.cmp.Context): string
----@field context_size? number # The number of lines to show around each match in the preview window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
+---@field context_size? number # The number of lines to show around each match in the preview (documentation) window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
 ---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
 ---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 
