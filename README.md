@@ -103,3 +103,24 @@ return {
   },
 }
 ```
+
+## 🏁 Performance
+
+Depending on the size of your project and your computer's specifications, the
+search can be fast or slow. Here are a few things you can do to improve
+performance:
+
+- Set the `prefix_min_len` option to a larger number avoid starting a search for
+  very short words. This can prevent unnecessary searches and improve
+  performance.
+- Disable automatically starting the search by removing the provider from
+  blink's default sources. Only invoke the search manually with a keymap when
+  you need it. See above for an example keymap.
+  - In blink version <=0.7.6, this can be done by removing `"ripgrep"` from
+    `sources.completion.enabled_providers`.
+  - In later blink versions, this can be done by removing `"ripgrep"` from
+    `sources.default`.
+- Use the `max_filesize` option to exclude large files from the search. This can
+  prevent performance issues when searching in projects with large files.
+- If you still experience performance issues, please open an issue for
+  discussion.
