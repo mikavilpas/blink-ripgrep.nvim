@@ -6,6 +6,7 @@
     alt="shield image for plugin usage"
   />
 </a>
+
 Ripgrep source for the [blink.cmp](https://github.com/Saghen/blink.cmp)
 completion plugin. Adding it to your configuration offers matching words from
 your entire project as completions. This can reduce the chance of typos as well
@@ -88,6 +89,14 @@ return {
             -- Not everything will work (obviously).
             additional_rg_options = {},
           },
+        },
+      },
+      keymap = {
+        ["<c-g>"] = {
+          function()
+            -- invoke manually, requires blink >v0.7.6
+            require("blink-cmp").show({ sources = { "ripgrep" } })
+          end,
         },
       },
     },
