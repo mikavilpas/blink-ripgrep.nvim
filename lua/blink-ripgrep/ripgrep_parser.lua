@@ -14,7 +14,7 @@ local M = {}
 ---@field start_col number
 ---@field end_col number
 ---@field match {text: string} the matched text
----@field context_preview string[] the preview of this specific match
+---@field context_preview string[] the preview of this match
 
 ---@param json unknown
 ---@param output RipgrepOutput
@@ -112,7 +112,7 @@ function M.get_context_preview(lines, matched_line, context_size)
   for i = start_line, end_line do
     local line = lines[i]
     if line then
-      context_preview[#context_preview + 1] = lines[i]
+      context_preview[#context_preview + 1] = lines[i]:gsub("%s*$", "")
     end
   end
 

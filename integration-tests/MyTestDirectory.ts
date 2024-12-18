@@ -32,6 +32,24 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
+    "config-modifications": z.object({
+      name: z.literal("config-modifications/"),
+      type: z.literal("directory"),
+      contents: z.object({
+        ".gitkeep": z.object({
+          name: z.literal(".gitkeep"),
+          type: z.literal("file"),
+          extension: z.literal(""),
+          stem: z.literal(".gitkeep"),
+        }),
+        "use_manual_mode.lua": z.object({
+          name: z.literal("use_manual_mode.lua"),
+          type: z.literal("file"),
+          extension: z.literal("lua"),
+          stem: z.literal("use_manual_mode."),
+        }),
+      }),
+    }),
     "initial-file.txt": z.object({
       name: z.literal("initial-file.txt"),
       type: z.literal("file"),
@@ -74,6 +92,12 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
+    "line-file.lua": z.object({
+      name: z.literal("line-file.lua"),
+      type: z.literal("file"),
+      extension: z.literal("lua"),
+      stem: z.literal("line-file."),
+    }),
     "other-file.lua": z.object({
       name: z.literal("other-file.lua"),
       type: z.literal("file"),
@@ -95,6 +119,9 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim/init.lua",
   ".config/nvim",
   ".config",
+  "config-modifications/.gitkeep",
+  "config-modifications/use_manual_mode.lua",
+  "config-modifications",
   "initial-file.txt",
   "limited/main-project-file.lua",
   "limited/subproject/example.clj",
@@ -102,6 +129,7 @@ export const testDirectoryFiles = z.enum([
   "limited/subproject/file2.lua",
   "limited/subproject",
   "limited",
+  "line-file.lua",
   "other-file.lua",
   ".",
 ])

@@ -2,10 +2,11 @@
 
 ---@class blink-ripgrep.Options
 ---@field prefix_min_len? number # The minimum length of the current word to start searching (if the word is shorter than this, the search will not start)
----@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open and issue 🙂
+---@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open an issue 🙂
 ---@field get_prefix? fun(context: blink.cmp.Context): string
----@field context_size? number # The number of lines to show around each match in the preview window
+---@field context_size? number # The number of lines to show around each match in the preview (documentation) window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
 ---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
+---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
@@ -54,37 +55,47 @@ local function default_get_prefix(context)
   return prefix
 end
 
----@param opts blink-ripgrep.Options
-function RgSource.new(opts)
+---@param input_opts blink-ripgrep.Options
+function RgSource.new(input_opts)
+  input_opts = input_opts or {}
   local self = setmetatable({}, RgSource)
 
-  ---@type blink-ripgrep.Options
-  local default_options = {
-    prefix_min_len = 3,
-    context_size = 5,
-    max_filesize = "1M",
-  }
+  self.options = vim.tbl_deep_extend("force", {
+    prefix_min_len = input_opts.prefix_min_len or 3,
+    context_size = input_opts.context_size or 5,
+    max_filesize = input_opts.max_filesize or "1M",
+    additional_rg_options = input_opts.additional_rg_options or {},
+  } --[[@as blink-ripgrep.Options]], input_opts)
 
-  self.options = vim.tbl_extend("force", opts or {}, default_options)
+  self.get_prefix = self.options.get_prefix or default_get_prefix
 
-  self.get_prefix = opts.get_prefix or default_get_prefix
-
-  self.get_command = opts.get_command
+  self.get_command = self.options.get_command
     or function(_, prefix)
-      return {
+      local cmd = {
         "rg",
         "--no-config",
         "--json",
-        "--context=" .. (opts.context_size or 5),
+        "--context=" .. self.options.context_size,
         "--word-regexp",
-        "--max-filesize=" .. (opts.max_filesize or "1M"),
+        "--max-filesize=" .. self.options.max_filesize,
         "--ignore-case",
+      }
+      for _, option in ipairs(self.options.additional_rg_options) do
+        table.insert(cmd, option)
+      end
+
+      local final = {
         "--",
         prefix .. "[\\w_-]+",
         -- NOTE: 2024-11-28 the logic is documented in the README file, and
         -- should be kept up to date
         vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd()),
       }
+      for _, option in ipairs(final) do
+        table.insert(cmd, option)
+      end
+
+      return cmd
     end
 
   return self
@@ -100,8 +111,10 @@ function RgSource:get_completions(context, resolve)
 
   local cmd = self.get_command(context, prefix)
 
-  vim.system(cmd, nil, function(result)
-    vim.schedule(function()
+  vim.system(
+    cmd,
+    nil,
+    vim.schedule_wrap(function(result)
       if result.code ~= 0 then
         resolve()
         return
@@ -116,6 +129,7 @@ function RgSource:get_completions(context, resolve)
         self.options.context_size
       )
 
+      local highlight_ns = require("blink.cmp.config").appearance.highlight_ns
       ---@type table<string, blink.cmp.CompletionItem>
       local items = {}
       for _, file in pairs(parsed.files) do
@@ -126,9 +140,10 @@ function RgSource:get_completions(context, resolve)
           -- way to display the same match multiple times
           if not items[matchkey] then
             local label = match.match.text .. " (rg)"
-            local docstring = ("```" .. file.language .. "\n")
-              .. table.concat(match.context_preview, "\n")
-              .. "```"
+            -- local docstring = ("```" .. file.language .. "\n")
+            --   .. table.concat(match.context_preview, "\n")
+            --   .. "```"
+            local docstring = table.concat(match.context_preview, "\n")
 
             -- the implementation for render_detail_and_documentation:
             -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
@@ -138,10 +153,56 @@ function RgSource:get_completions(context, resolve)
                 kind = "markdown",
                 value = docstring,
               },
-              detail = file.relative_to_cwd,
               source_id = "blink-ripgrep",
               label = label,
               insertText = matchkey,
+              render_documentation_fn = function(_, doc_window)
+                local bufnr = doc_window:get_buf()
+                local text = {
+                  file.relative_to_cwd,
+                  string.rep("─", doc_window.config.max_width),
+                }
+                for _, line in ipairs(match.context_preview) do
+                  table.insert(text, line)
+                end
+
+                vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, text)
+
+                vim.api.nvim_buf_clear_namespace(bufnr, highlight_ns, 0, -1)
+
+                local parser = vim.treesitter.language.get_lang(file.language)
+                local parser_installed = parser
+                  and pcall(function()
+                    return vim.treesitter.get_parser(bufnr, file.language, {})
+                  end)
+
+                if parser_installed then
+                  -- Highlight with treesitter
+                  require("blink.cmp.lib.window.docs").highlight_with_treesitter(
+                    bufnr,
+                    -- TODO does this need to be resolved to a filetype?
+                    file.language,
+                    2,
+                    #text
+                  )
+                else
+                  -- Can't show highlighted text because no treesitter parser
+                  -- has been installed for this language.
+                  --
+                  -- Fall back to regex based highlighting that is bundled in
+                  -- neovim.
+                  vim.schedule(function()
+                    vim.api.nvim_set_option_value(
+                      "filetype",
+                      file.language,
+                      { buf = bufnr }
+                    )
+                    vim.api.nvim_buf_call(bufnr, function()
+                      vim.cmd("syntax on")
+                    end)
+                  end)
+                end
+              end,
             }
           end
         end
@@ -154,7 +215,7 @@ function RgSource:get_completions(context, resolve)
         context = context,
       })
     end)
-  end)
+  )
 end
 
 return RgSource
