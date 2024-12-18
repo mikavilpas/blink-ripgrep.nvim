@@ -15,7 +15,7 @@ as repetitive typing.
 > [!NOTE]
 >
 > A project root is considered to be the nearest ancestor directory containing a
-> `.git` directory. If none can be found, neovim's current working directory is
+> `.git` directory. If none can be found, Neovim's current working directory is
 > used.
 
 ![blink-ripgrep search with a context preview](./demo/screenshot.png)
@@ -75,10 +75,12 @@ return {
             -- before, then the match, and another 5 lines after the match.
             context_size = 5,
 
-            -- The maximum file size that ripgrep should include in its search.
-            -- Useful when your project contains large files that might cause
-            -- performance issues.
-            -- Examples: "1024" (bytes by default), "200K", "1M", "1G"
+            -- The maximum file size of a file that ripgrep should include in
+            -- its search. Useful when your project contains large files that
+            -- might cause performance issues.
+            -- Examples:
+            -- "1024" (bytes by default), "200K", "1M", "1G", which will
+            -- exclude files larger than that size.
             max_filesize = "1M",
 
             -- (advanced) Any additional options you want to give to ripgrep.
@@ -113,14 +115,43 @@ performance:
 - Set the `prefix_min_len` option to a larger number avoid starting a search for
   very short words. This can prevent unnecessary searches and improve
   performance.
-- Disable automatically starting the search by removing the provider from
-  blink's default sources. Only invoke the search manually with a keymap when
-  you need it. See above for an example keymap.
-  - In blink version <=0.7.6, this can be done by removing `"ripgrep"` from
-    `sources.completion.enabled_providers`.
-  - In later blink versions, this can be done by removing `"ripgrep"` from
-    `sources.default`.
 - Use the `max_filesize` option to exclude large files from the search. This can
   prevent performance issues when searching in projects with large files.
 - If you still experience performance issues, please open an issue for
   discussion.
+
+### Automatic mode
+
+In this mode, the search starts automatically when typing a word that is at
+least `prefix_min_len` in length.
+
+This is enabled by including the `ripgrep` provider in blink-cmp's providers:
+
+```lua
+return {
+  -- ... other configuration
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    sources = {
+      completion = {
+        enabled_providers = {
+          -- NOTE: blink >v0.7.6 has moved
+          -- `sources.completion.enabled_providers` to `sources.default`
+          "lsp",
+          "path",
+          "snippets",
+          "buffer",
+          "ripgrep", -- 👈🏻 including this enables automatic search
+        },
+      },
+    }
+  }
+}
+```
+
+### Manual mode
+
+If you prefer to start the search manually, you can use a keymap to invoke the
+search. The example configuration includes a keymap that invokes the search when
+pressing `Ctrl+g`.
