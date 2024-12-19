@@ -83,6 +83,12 @@ return {
             -- exclude files larger than that size.
             max_filesize = "1M",
 
+            -- The casing to use for the search in a format that ripgrep
+            -- accepts. Defaults to "--ignore-case". See `rg --help` for all the
+            -- available options ripgrep supports, but you can try
+            -- "--case-sensitive" or "--smart-case".
+            search_casing = "--ignore-case",
+
             -- (advanced) Any additional options you want to give to ripgrep.
             -- See `rg -h` for a list of all available options. Might be
             -- helpful in adjusting performance in specific situations.
