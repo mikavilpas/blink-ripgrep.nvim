@@ -126,6 +126,39 @@ describe("searching inside projects", () => {
       )
     })
   })
+
+  describe("custom ripgrep options", () => {
+    it("allows using a custom search_casing when searching", () => {
+      cy.visit("/")
+      cy.startNeovim({
+        filename: "limited/subproject/file1.lua",
+      }).then(() => {
+        cy.contains("This is text from file1.lua")
+        createFakeGitDirectoriesToLimitRipgrepScope()
+
+        // the default is to use --ignore-case. Let's make sure that works first
+        cy.typeIntoTerminal("o")
+        cy.typeIntoTerminal("{esc}cc")
+        cy.typeIntoTerminal("sometext")
+        // the search should match in both casings
+        cy.contains("someTextFromFile2")
+        cy.contains("SomeTextFromFile3")
+
+        // now switch to using --smart-case, which should be case sensitive
+        // when uppercase letters are used
+        cy.runLuaCode({
+          luaCode: `vim.cmd("luafile config-modifications/use_case_sensitive_search.lua")`,
+        })
+        cy.typeIntoTerminal("{esc}cc")
+        // type something that does not match
+        cy.typeIntoTerminal("SomeText")
+
+        // the search should only match the case sensitive version
+        cy.contains("SomeTextFromFile3")
+        cy.contains("someTextFromFile2").should("not.exist")
+      })
+    })
+  })
 })
 
 function createFakeGitDirectoriesToLimitRipgrepScope() {

@@ -6,13 +6,13 @@
 ---@field get_prefix? fun(context: blink.cmp.Context): string
 ---@field context_size? number # The number of lines to show around each match in the preview (documentation) window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
 ---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
+---@field search_casing? string # The casing to use for the search in a format that ripgrep accepts. Defaults to "--ignore-case". See `rg --help` for all the available options ripgrep supports, but you can try "--case-sensitive" or "--smart-case".
 ---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
 ---@field get_prefix fun(context: blink.cmp.Context): string
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
----@field options blink-ripgrep.Options
 local RgSource = {}
 RgSource.__index = RgSource
 
@@ -37,6 +37,21 @@ do
   )
 end
 
+---@type blink-ripgrep.Options
+RgSource.config = {
+  prefix_min_len = 3,
+  context_size = 5,
+  max_filesize = "1M",
+  additional_rg_options = {},
+  search_casing = "--ignore-case",
+}
+
+-- set up default options so that they are used by the next search
+---@param options? blink-ripgrep.Options
+function RgSource.setup(options)
+  RgSource.config = vim.tbl_deep_extend("force", RgSource.config, options or {})
+end
+
 ---@param text_before_cursor string "The text of the entire line before the cursor"
 ---@return string
 function RgSource.match_prefix(text_before_cursor)
@@ -57,30 +72,26 @@ end
 
 ---@param input_opts blink-ripgrep.Options
 function RgSource.new(input_opts)
-  input_opts = input_opts or {}
   local self = setmetatable({}, RgSource)
 
-  self.options = vim.tbl_deep_extend("force", {
-    prefix_min_len = input_opts.prefix_min_len or 3,
-    context_size = input_opts.context_size or 5,
-    max_filesize = input_opts.max_filesize or "1M",
-    additional_rg_options = input_opts.additional_rg_options or {},
-  } --[[@as blink-ripgrep.Options]], input_opts)
+  RgSource.config =
+    vim.tbl_deep_extend("force", RgSource.config, input_opts or {})
 
-  self.get_prefix = self.options.get_prefix or default_get_prefix
+  self.get_prefix = RgSource.config.get_prefix or default_get_prefix
 
-  self.get_command = self.options.get_command
+  self.get_command = RgSource.config.get_command
     or function(_, prefix)
       local cmd = {
         "rg",
         "--no-config",
         "--json",
-        "--context=" .. self.options.context_size,
+        "--context=" .. RgSource.config.context_size,
         "--word-regexp",
-        "--max-filesize=" .. self.options.max_filesize,
-        "--ignore-case",
+        "--max-filesize=" .. RgSource.config.max_filesize,
+        RgSource.config.search_casing,
       }
-      for _, option in ipairs(self.options.additional_rg_options) do
+
+      for _, option in ipairs(RgSource.config.additional_rg_options) do
         table.insert(cmd, option)
       end
 
@@ -104,7 +115,7 @@ end
 function RgSource:get_completions(context, resolve)
   local prefix = self.get_prefix(context)
 
-  if string.len(prefix) < self.options.prefix_min_len then
+  if string.len(prefix) < RgSource.config.prefix_min_len then
     resolve()
     return
   end
@@ -123,7 +134,7 @@ function RgSource:get_completions(context, resolve)
     local parsed = require("blink-ripgrep.ripgrep_parser").parse(
       lines,
       cwd,
-      self.options.context_size
+      RgSource.config.context_size
     )
 
     ---@type table<string, blink.cmp.CompletionItem>
