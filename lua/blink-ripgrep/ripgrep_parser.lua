@@ -1,23 +1,23 @@
 local M = {}
 
----@class(exact) RipgrepOutput
----@field files table<string, RipgrepFile>
+---@class(exact) blink-ripgrep.RipgrepOutput
+---@field files table<string, blink-ripgrep.RipgrepFile>
 
----@class RipgrepFile
+---@class blink-ripgrep.RipgrepFile
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
 ---@field lines table<number, string> the context preview, shared for all the matches in this file so that they can display a subset
----@field matches table<string,RipgrepMatch>
+---@field matches table<string,blink-ripgrep.RipgrepMatch>
 ---@field relative_to_cwd string the relative path of the file to the current working directory
 
----@class RipgrepMatch
+---@class blink-ripgrep.RipgrepMatch
 ---@field line_number number
 ---@field start_col number
 ---@field end_col number
 ---@field match {text: string} the matched text
----@field context_preview string[] the preview of this specific match
+---@field context_preview string[] the preview of this match
 
 ---@param json unknown
----@param output RipgrepOutput
+---@param output blink-ripgrep.RipgrepOutput
 local function get_file_context(json, output)
   ---@type string
   local filename = json.data.path.text
@@ -33,7 +33,7 @@ end
 ---@param cwd string the current working directory
 ---@param context_size number the number of lines of context to include in the output
 function M.parse(ripgrep_output, cwd, context_size)
-  ---@type RipgrepOutput
+  ---@type blink-ripgrep.RipgrepOutput
   local output = { files = {} }
 
   -- parse the output and collect the matches and context
@@ -49,9 +49,12 @@ function M.parse(ripgrep_output, cwd, context_size)
           relative_filename = filename:sub(#cwd + 2)
         end
 
-        local filetype = vim.fn.fnamemodify(filename, ":e")
-        local language = vim.treesitter.language.get_lang(filetype or "text")
-          or "markdown"
+        local ext = vim.fn.fnamemodify(filename, ":e")
+
+        local ft = vim.filetype.match({ filename = filename })
+        local language = ft
+          or vim.treesitter.language.get_lang(ext or "text")
+          or ext
 
         output.files[filename] = {
           language = language,
@@ -109,7 +112,7 @@ function M.get_context_preview(lines, matched_line, context_size)
   for i = start_line, end_line do
     local line = lines[i]
     if line then
-      context_preview[#context_preview + 1] = lines[i]
+      context_preview[#context_preview + 1] = lines[i]:gsub("%s*$", "")
     end
   end
 

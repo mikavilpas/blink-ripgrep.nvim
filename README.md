@@ -89,6 +89,11 @@ return {
             --
             -- Not everything will work (obviously).
             additional_rg_options = {},
+
+            -- When a result is found for a file whose filetype does not have a
+            -- treesitter parser installed, fall back to regex based highlighting
+            -- that is bundled in Neovim.
+            fallback_to_regex_highlighting = true,
           },
         },
       },

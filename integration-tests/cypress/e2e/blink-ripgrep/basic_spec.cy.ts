@@ -182,6 +182,36 @@ describe("searching inside projects", () => {
       })
     })
   })
+
+  describe("syntax highlighting", () => {
+    it("can highlight file types that don't have a treesitter parser installed", () => {
+      cy.visit("/")
+      cy.startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
+        // when opening a file from a subproject, the search should be limited to
+        // the nearest .git directory (only the files in the same project should
+        // be searched)
+        cy.contains("This is text from file1.lua")
+        createFakeGitDirectoriesToLimitRipgrepScope()
+
+        cy.typeIntoTerminal("o")
+        // match text inside ../../../test-environment/limited/subproject/example.clj
+        cy.typeIntoTerminal("Subtraction")
+
+        // make sure the syntax is highlighted
+        // (needs https://github.com/Saghen/blink.cmp/pull/462)
+        cy.contains("defn").should(
+          "have.css",
+          "color",
+          rgbify(flavors.macchiato.colors.pink.rgb),
+        )
+        cy.contains("Clojure Calculator").should(
+          "have.css",
+          "color",
+          rgbify(flavors.macchiato.colors.green.rgb),
+        )
+      })
+    })
+  })
 })
 
 function createFakeGitDirectoriesToLimitRipgrepScope() {

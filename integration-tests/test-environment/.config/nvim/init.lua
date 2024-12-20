@@ -34,6 +34,8 @@ vim.o.swapfile = false
 local plugins = {
   {
     "saghen/blink.cmp",
+    -- dir = "/Users/mikavilpas/git/blink.cmp/",
+
     event = "VeryLazy",
     -- use a release tag to download pre-built binaries
     -- https://github.com/Saghen/blink.cmp/releases
@@ -41,6 +43,8 @@ local plugins = {
 
     -- to (locally) track nightly builds, use the following:
     -- version = false,
+
+    -- to (locally) track nightly builds, use the following:
     -- dir = "/Users/mikavilpas/git/blink.cmp/",
     -- build = "cargo build --release",
 
@@ -64,11 +68,6 @@ local plugins = {
           },
         },
       },
-
-      -- 2024-11-28 configuration for the nightly version of blink. mikavilpas
-      -- uses this for local development, but currently ci uses the stable
-      -- version
-      --
       ---@diagnostic disable-next-line: missing-fields
       completion = {
         ---@diagnostic disable-next-line: missing-fields

@@ -8,6 +8,7 @@
 ---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
 ---@field search_casing? string # The casing to use for the search in a format that ripgrep accepts. Defaults to "--ignore-case". See `rg --help` for all the available options ripgrep supports, but you can try "--case-sensitive" or "--smart-case".
 ---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
+---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
@@ -44,6 +45,7 @@ RgSource.config = {
   max_filesize = "1M",
   additional_rg_options = {},
   search_casing = "--ignore-case",
+  fallback_to_regex_highlighting = true,
 }
 
 -- set up default options so that they are used by the next search
@@ -112,6 +114,55 @@ function RgSource.new(input_opts)
   return self
 end
 
+---@param opts blink.cmp.SourceRenderDocumentationOpts
+---@param file blink-ripgrep.RipgrepFile
+---@param match blink-ripgrep.RipgrepMatch
+local function render_item_documentation(opts, file, match)
+  local bufnr = opts.window:get_buf()
+  local text = {
+    file.relative_to_cwd,
+    string.rep("─", opts.window.config.max_width),
+  }
+  for _, line in ipairs(match.context_preview) do
+    table.insert(text, line)
+  end
+
+  -- TODO add extmark highlighting for the divider line like in blink
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, text)
+
+  local filetype = vim.filetype.match({ filename = file.relative_to_cwd })
+  local parser = vim.treesitter.language.get_lang(filetype or "")
+  local parser_installed = parser
+    and pcall(function()
+      return vim.treesitter.get_parser(nil, file.language, {})
+    end)
+
+  if
+    not parser_installed and RgSource.config.fallback_to_regex_highlighting
+  then
+    -- Can't show highlighted text because no treesitter parser
+    -- has been installed for this language.
+    --
+    -- Fall back to regex based highlighting that is bundled in
+    -- neovim. It might not be perfect but it's much better
+    -- than no colors at all
+    vim.schedule(function()
+      vim.api.nvim_set_option_value("filetype", file.language, { buf = bufnr })
+      vim.api.nvim_buf_call(bufnr, function()
+        vim.cmd("syntax on")
+      end)
+    end)
+  else
+    assert(parser, "missing parser") -- lua-language-server should narrow this but can't
+    require("blink.cmp.lib.window.docs").highlight_with_treesitter(
+      bufnr,
+      parser,
+      2,
+      #text
+    )
+  end
+end
+
 function RgSource:get_completions(context, resolve)
   local prefix = self.get_prefix(context)
 
@@ -123,58 +174,63 @@ function RgSource:get_completions(context, resolve)
   local cmd = self.get_command(context, prefix)
 
   vim.system(cmd, nil, function(result)
-    if result.code ~= 0 then
-      resolve()
-      return
-    end
+    vim.schedule(function()
+      if result.code ~= 0 then
+        resolve()
+        return
+      end
 
-    local lines = vim.split(result.stdout, "\n")
-    local cwd = vim.uv.cwd() or ""
+      local lines = vim.split(result.stdout, "\n")
+      local cwd = vim.uv.cwd() or ""
 
-    local parsed = require("blink-ripgrep.ripgrep_parser").parse(
-      lines,
-      cwd,
-      RgSource.config.context_size
-    )
+      local parsed = require("blink-ripgrep.ripgrep_parser").parse(
+        lines,
+        cwd,
+        RgSource.config.context_size
+      )
 
-    ---@type table<string, blink.cmp.CompletionItem>
-    local items = {}
-    for _, file in pairs(parsed.files) do
-      for _, match in pairs(file.matches) do
-        local matchkey = match.match.text
+      ---@type table<string, blink.cmp.CompletionItem>
+      local items = {}
+      for _, file in pairs(parsed.files) do
+        for _, match in pairs(file.matches) do
+          local matchkey = match.match.text
 
-        -- PERF: only register the match once - right now there is no useful
-        -- way to display the same match multiple times
-        if not items[matchkey] then
-          local label = match.match.text .. " (rg)"
-          local docstring = ("```" .. file.language .. "\n")
-            .. table.concat(match.context_preview, "\n")
-            .. "```"
+          -- PERF: only register the match once - right now there is no useful
+          -- way to display the same match multiple times
+          if not items[matchkey] then
+            local label = match.match.text .. " (rg)"
+            -- local docstring = ("```" .. file.language .. "\n")
+            --   .. table.concat(match.context_preview, "\n")
+            --   .. "```"
+            local docstring = table.concat(match.context_preview, "\n")
 
-          -- the implementation for render_detail_and_documentation:
-          -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
-          ---@diagnostic disable-next-line: missing-fields
-          items[matchkey] = {
-            documentation = {
-              kind = "markdown",
-              value = docstring,
-            },
-            detail = file.relative_to_cwd,
-            source_id = "blink-ripgrep",
-            label = label,
-            insertText = matchkey,
-          }
+            -- the implementation for render_detail_and_documentation:
+            -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
+            ---@diagnostic disable-next-line: missing-fields
+            items[matchkey] = {
+              documentation = {
+                kind = "markdown",
+                value = docstring,
+                render = function(opts)
+                  render_item_documentation(opts, file, match)
+                end,
+              },
+              source_id = "blink-ripgrep",
+              label = label,
+              insertText = matchkey,
+            }
+          end
         end
       end
-    end
 
-    vim.schedule(function()
-      resolve({
-        is_incomplete_forward = false,
-        is_incomplete_backward = false,
-        items = vim.tbl_values(items),
-        context = context,
-      })
+      vim.schedule(function()
+        resolve({
+          is_incomplete_forward = false,
+          is_incomplete_backward = false,
+          items = vim.tbl_values(items),
+          context = context,
+        })
+      end)
     end)
   end)
 end
