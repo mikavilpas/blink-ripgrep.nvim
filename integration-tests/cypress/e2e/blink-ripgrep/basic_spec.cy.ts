@@ -35,6 +35,29 @@ describe("the basics", () => {
       cy.contains(dir.contents["other-file.lua"].name)
     })
   })
+
+  it("allows invoking manually as a blink-cmp keymap", () => {
+    cy.visit("/")
+    cy.startNeovim({
+      startupScriptModifications: ["use_manual_mode.lua"],
+    }).then(() => {
+      // wait until text on the start screen is visible
+      cy.contains("If you see this text, Neovim is ready!")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+
+      // clear the current line and enter insert mode
+      cy.typeIntoTerminal("cc")
+
+      // type some text that will match, but add a space so that we can make
+      // sure the completion is not shown automatically (the previous word is
+      // not found after a space)
+      cy.typeIntoTerminal("hip {backspace}")
+
+      // get back into position and invoke the completion manually
+      cy.typeIntoTerminal("{control+g}")
+      cy.contains("Hippopotamus" + "234 (rg)")
+    })
+  })
 })
 
 describe("the match context", () => {
