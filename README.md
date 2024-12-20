@@ -43,16 +43,9 @@ return {
   ---@type blink.cmp.Config
   opts = {
     sources = {
-      completion = {
-        enabled_providers = {
-          -- NOTE: blink >v0.7.6 has moved
-          -- `sources.completion.enabled_providers` to `sources.default`
-          "lsp",
-          "path",
-          "snippets",
-          "buffer",
-          "ripgrep", -- 👈🏻 add "ripgrep" here
-        },
+      default = {
+        "buffer",
+        "ripgrep",  -- 👈🏻 add "ripgrep" here
       },
       providers = {
         -- 👇🏻👇🏻 add the ripgrep provider config below
@@ -102,7 +95,7 @@ return {
       keymap = {
         ["<c-g>"] = {
           function()
-            -- invoke manually, requires blink >v0.7.6
+            -- invoke manually, requires blink >v0.8.0
             require("blink-cmp").show({ sources = { "ripgrep" } })
           end,
         },
@@ -114,9 +107,9 @@ return {
 
 ## 🏁 Performance
 
-Depending on the size of your project and your computer's specifications, the
-search can be fast or slow. Here are a few things you can do to improve
-performance:
+Generally performance is very good, but depending on the size of your project
+and your computer's specifications, the search can be fast or slow. Here are a
+few things you can do to improve performance:
 
 - Set the `prefix_min_len` option to a larger number avoid starting a search for
   very short words. This can prevent unnecessary searches and improve
