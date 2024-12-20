@@ -48,6 +48,12 @@ export const MyTestDirectorySchema = z.object({
           extension: z.literal("lua"),
           stem: z.literal("use_case_sensitive_search."),
         }),
+        "use_manual_mode.lua": z.object({
+          name: z.literal("use_manual_mode.lua"),
+          type: z.literal("file"),
+          extension: z.literal("lua"),
+          stem: z.literal("use_manual_mode."),
+        }),
       }),
     }),
     "initial-file.txt": z.object({
@@ -121,6 +127,7 @@ export const testDirectoryFiles = z.enum([
   ".config",
   "config-modifications/.gitkeep",
   "config-modifications/use_case_sensitive_search.lua",
+  "config-modifications/use_manual_mode.lua",
   "config-modifications",
   "initial-file.txt",
   "limited/main-project-file.lua",
