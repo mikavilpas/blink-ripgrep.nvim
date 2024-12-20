@@ -36,19 +36,21 @@ local plugins = {
     "saghen/blink.cmp",
     event = "VeryLazy",
     -- use a release tag to download pre-built binaries
-    version = "v0.*",
+    -- https://github.com/Saghen/blink.cmp/releases
+    version = "v0.8.0",
 
     -- to (locally) track nightly builds, use the following:
+    -- version = false,
     -- dir = "/Users/mikavilpas/git/blink.cmp/",
+    -- build = "cargo build --release",
+
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        completion = {
-          enabled_providers = {
-            "buffer",
-            "ripgrep",
-          },
+        default = {
+          "buffer",
+          "ripgrep",
         },
         providers = {
           ripgrep = {
@@ -60,18 +62,6 @@ local plugins = {
             --   make sure they are supported without specifying them
             -- },
           },
-        },
-      },
-      -- configuration for the stable version of blink
-      windows = {
-        autocomplete = {
-          max_height = 25,
-        },
-        documentation = {
-          auto_show = true,
-          auto_show_delay_ms = 0,
-          -- file names need to fit the screen when testing
-          max_width = 200,
         },
       },
 
@@ -93,6 +83,13 @@ local plugins = {
         ---@diagnostic disable-next-line: missing-fields
         menu = {
           max_height = 25,
+        },
+      },
+      keymap = {
+        ["<c-g>"] = {
+          function()
+            require("blink-cmp").show({ providers = { "ripgrep" } })
+          end,
         },
       },
     },
