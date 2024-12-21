@@ -9,6 +9,7 @@
 ---@field search_casing? string # The casing to use for the search in a format that ripgrep accepts. Defaults to "--ignore-case". See `rg --help` for all the available options ripgrep supports, but you can try "--case-sensitive" or "--smart-case".
 ---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 ---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
+---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
@@ -46,6 +47,7 @@ RgSource.config = {
   additional_rg_options = {},
   search_casing = "--ignore-case",
   fallback_to_regex_highlighting = true,
+  project_root_marker = ".git",
 }
 
 -- set up default options so that they are used by the next search
@@ -102,7 +104,9 @@ function RgSource.new(input_opts)
         prefix .. "[\\w_-]+",
         -- NOTE: 2024-11-28 the logic is documented in the README file, and
         -- should be kept up to date
-        vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd()),
+        vim.fn.fnameescape(
+          vim.fs.root(0, RgSource.config.project_root_marker) or vim.fn.getcwd()
+        ),
       }
       for _, option in ipairs(final) do
         table.insert(cmd, option)
