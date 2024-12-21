@@ -135,8 +135,8 @@ local function render_item_documentation(opts, file, match)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, text)
 
   local filetype = vim.filetype.match({ filename = file.relative_to_cwd })
-  local parser = vim.treesitter.language.get_lang(filetype or "")
-  local parser_installed = parser
+  local parser_name = vim.treesitter.language.get_lang(filetype or "")
+  local parser_installed = parser_name
     and pcall(function()
       return vim.treesitter.get_parser(nil, file.language, {})
     end)
@@ -157,10 +157,10 @@ local function render_item_documentation(opts, file, match)
       end)
     end)
   else
-    assert(parser, "missing parser") -- lua-language-server should narrow this but can't
+    assert(parser_name, "missing parser") -- lua-language-server should narrow this but can't
     require("blink.cmp.lib.window.docs").highlight_with_treesitter(
       bufnr,
-      parser,
+      parser_name,
       2,
       #text
     )
