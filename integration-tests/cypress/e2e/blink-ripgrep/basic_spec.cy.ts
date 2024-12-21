@@ -244,6 +244,18 @@ describe("searching inside projects", () => {
           "color",
           rgbify(flavors.macchiato.colors.green.rgb),
         )
+
+        // hide the documentation and reshow it to make sure the syntax is
+        // still highlighted
+        cy.typeIntoTerminal("{control} ")
+        cy.contains("Clojure Calculator").should("not.exist")
+
+        cy.typeIntoTerminal("{control} ")
+        cy.contains("Clojure Calculator").should(
+          "have.css",
+          "color",
+          rgbify(flavors.macchiato.colors.green.rgb),
+        )
       })
     })
   })

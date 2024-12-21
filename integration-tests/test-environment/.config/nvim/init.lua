@@ -75,6 +75,11 @@ local plugins = {
           },
         },
       },
+      fuzzy = {
+        prebuilt_binaries = {
+          ignore_version_mismatch = true,
+        },
+      },
       ---@diagnostic disable-next-line: missing-fields
       completion = {
         ---@diagnostic disable-next-line: missing-fields
