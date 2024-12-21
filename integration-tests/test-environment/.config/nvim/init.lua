@@ -97,7 +97,17 @@ local plugins = {
     "mikavilpas/blink-ripgrep.nvim",
     -- for tests, always use the code from this repository
     dir = "../..",
+    config = function()
+      -- customize the search highlighting (Search)
+      local colors = require("catppuccin.palettes.macchiato")
+      vim.api.nvim_set_hl(
+        0,
+        "BlinkRipgrepMatch",
+        { fg = colors.base, bg = colors.mauve }
+      )
+    end,
   },
+
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 }
 require("lazy").setup({ spec = plugins })

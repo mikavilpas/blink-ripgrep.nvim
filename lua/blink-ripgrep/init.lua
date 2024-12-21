@@ -18,6 +18,12 @@
 local RgSource = {}
 RgSource.__index = RgSource
 
+local highlight_ns_id = 0
+pcall(function()
+  highlight_ns_id = require("blink.cmp.config").appearance.highlight_ns
+end)
+vim.api.nvim_set_hl(0, "BlinkRipgrepMatch", { link = "Search", default = true })
+
 local word_pattern
 do
   -- match an ascii character as well as unicode continuation bytes.
@@ -123,12 +129,13 @@ end
 ---@param match blink-ripgrep.RipgrepMatch
 local function render_item_documentation(opts, file, match)
   local bufnr = opts.window:get_buf()
+  ---@type string[]
   local text = {
     file.relative_to_cwd,
     string.rep("─", opts.window.config.max_width),
   }
-  for _, line in ipairs(match.context_preview) do
-    table.insert(text, line)
+  for _, data in ipairs(match.context_preview) do
+    table.insert(text, data.text)
   end
 
   -- TODO add extmark highlighting for the divider line like in blink
@@ -165,6 +172,12 @@ local function render_item_documentation(opts, file, match)
       #text
     )
   end
+
+  require("blink-ripgrep.highlighting").highlight_match_in_doc_window(
+    bufnr,
+    match,
+    highlight_ns_id
+  )
 end
 
 function RgSource:get_completions(context, resolve)
@@ -203,10 +216,10 @@ function RgSource:get_completions(context, resolve)
           -- way to display the same match multiple times
           if not items[matchkey] then
             local label = match.match.text .. " (rg)"
-            -- local docstring = ("```" .. file.language .. "\n")
-            --   .. table.concat(match.context_preview, "\n")
-            --   .. "```"
-            local docstring = table.concat(match.context_preview, "\n")
+            local docstring = ""
+            for _, line in ipairs(match.context_preview) do
+              docstring = docstring .. line.text .. "\n"
+            end
 
             -- the implementation for render_detail_and_documentation:
             -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua

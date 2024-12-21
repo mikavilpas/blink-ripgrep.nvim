@@ -14,7 +14,7 @@ local M = {}
 ---@field start_col number
 ---@field end_col number
 ---@field match {text: string} the matched text
----@field context_preview string[] the preview of this match
+---@field context_preview blink-ripgrep.NumberedLine[] the preview of this match. Each key is the line number in the original file, and each value is the line of context (text)
 
 ---@param json unknown
 ---@param output blink-ripgrep.RipgrepOutput
@@ -104,20 +104,25 @@ function M.parse(ripgrep_output, cwd, context_size)
   return output
 end
 
+---@alias blink-ripgrep.NumberedLine {line_number: number, text: string}
+
 ---@param lines table<number, string>
 ---@param matched_line number the line number the match was found on
 ---@param context_size number how many lines of context to include before and after the match
+---@return blink-ripgrep.NumberedLine[]
 function M.get_context_preview(lines, matched_line, context_size)
-  ---@type string[]
+  ---@type blink-ripgrep.NumberedLine[]
   local context_preview = {}
 
-  local start_line = matched_line - context_size
+  local start_line = math.max(1, matched_line - context_size)
   local end_line = matched_line + context_size
 
   for i = start_line, end_line do
     local line = lines[i]
+
     if line then
-      context_preview[#context_preview + 1] = lines[i]:gsub("%s*$", "")
+      local data = { line_number = i, text = line:gsub("%s*$", "") }
+      context_preview[#context_preview + 1] = data
     end
   end
 
