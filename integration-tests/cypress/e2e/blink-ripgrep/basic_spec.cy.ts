@@ -25,7 +25,7 @@ describe("the basics", () => {
       // should show the text for the matched line
       //
       // the text should also be syntax highlighted
-      cy.contains("Hippopotamus234 was my previous password").should(
+      cy.contains("was my previous password").should(
         "have.css",
         "color",
         rgbify(flavors.macchiato.colors.green.rgb),
@@ -122,7 +122,7 @@ describe("searching inside projects", () => {
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
 
-      cy.contains("someTextFromFile2 here").should(
+      cy.contains("here").should(
         "have.css",
         "color",
         rgbify(flavors.macchiato.colors.green.rgb),
@@ -142,7 +142,7 @@ describe("searching inside projects", () => {
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
 
-      cy.contains("someTextFromFile2 here").should(
+      cy.contains("here").should(
         "have.css",
         "color",
         rgbify(flavors.macchiato.colors.green.rgb),
@@ -183,7 +183,37 @@ describe("searching inside projects", () => {
     })
   })
 
-  describe("syntax highlighting", () => {
+  it("can highlight the match in the documentation window", () => {
+    cy.visit("/")
+    cy.startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
+      // When a match has been found in a file in the project, the
+      // documentation window should show a preview of the match context (lines
+      // around the match), and highlight the part where the match was found.
+      // This way the user can quickly get an idea of where the match was
+      // found.
+      cy.contains("This is text from file1.lua")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+
+      cy.typeIntoTerminal("o")
+      // match text inside ../../../test-environment/limited/subproject/example.clj
+      cy.typeIntoTerminal("Subtraction")
+
+      // we should see the match highlighted with the configured color
+      // somewhere on the page (in the documentation window)
+      cy.get("span")
+        .filter((_, el) => el.textContent?.includes("Subtraction") ?? false)
+        .then((elements) => {
+          const matchingElements = elements.map((_, el) => {
+            return window.getComputedStyle(el).backgroundColor
+          })
+
+          return matchingElements.toArray()
+        })
+        .should("contain", rgbify(flavors.macchiato.colors.mauve.rgb))
+    })
+  })
+
+  describe("regex based syntax highlighting", () => {
     it("can highlight file types that don't have a treesitter parser installed", () => {
       cy.visit("/")
       cy.startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {

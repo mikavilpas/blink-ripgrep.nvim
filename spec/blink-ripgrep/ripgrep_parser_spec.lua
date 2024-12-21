@@ -49,32 +49,40 @@ describe("ripgrep_parser", function()
         ripgrep_parser.get_context_preview(lines, matched_line, context_size)
 
       assert.same(result, {
-        "line 3",
-        "line 4",
-        "line 5",
+        { line_number = 3, text = "line 3" },
+        { line_number = 4, text = "line 4" },
+        { line_number = 5, text = "line 5" },
       })
     end)
 
     it("does not crash if context_size is too large", function()
-      local lines = { "line 1" }
+      local lines = {
+        [1] = "line 1",
+      }
 
       local matched_line = 1
       local context_size = 10
       local result =
         ripgrep_parser.get_context_preview(lines, matched_line, context_size)
 
-      assert.same(result, lines)
+      assert.same(result, {
+        { line_number = 1, text = "line 1" },
+      })
     end)
 
     it("does not crash if context_size is too small", function()
-      local lines = { "line 1" }
+      local lines = {
+        "line 1",
+      }
 
       local matched_line = 1
       local context_size = 0
       local result =
         ripgrep_parser.get_context_preview(lines, matched_line, context_size)
 
-      assert.same(result, lines)
+      assert.same(result, {
+        { line_number = 1, text = "line 1" },
+      })
     end)
 
     it("can display context around the match at the end of the file", function()
@@ -91,9 +99,9 @@ describe("ripgrep_parser", function()
         ripgrep_parser.get_context_preview(lines, matched_line, context_size)
 
       assert.same(result, {
-        "line 8",
-        "line 9",
-        "line 10",
+        { line_number = 8, text = "line 8" },
+        { line_number = 9, text = "line 9" },
+        { line_number = 10, text = "line 10" },
       })
     end)
   end)
