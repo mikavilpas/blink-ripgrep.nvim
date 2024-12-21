@@ -14,9 +14,9 @@ as repetitive typing.
 
 > [!NOTE]
 >
-> A project root is considered to be the nearest ancestor directory containing a
-> `.git` directory. If none can be found, Neovim's current working directory is
-> used.
+> By default, a project root is considered to be the nearest ancestor directory
+> containing a `.git` directory. This can be configured with the
+> `project_root_marker` option.
 
 ![blink-ripgrep search with a context preview](./demo/screenshot.png)
 
@@ -75,6 +75,12 @@ return {
             -- "1024" (bytes by default), "200K", "1M", "1G", which will
             -- exclude files larger than that size.
             max_filesize = "1M",
+
+            -- Specifies how to find the root of the project where the ripgrep
+            -- search will start from. Accepts the same options as the marker
+            -- given to `:h vim.fs.root()` which offers many possibilities for
+            -- configuration.
+            project_root_marker = ".git",
 
             -- The casing to use for the search in a format that ripgrep
             -- accepts. Defaults to "--ignore-case". See `rg --help` for all the
