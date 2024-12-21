@@ -29,6 +29,11 @@ local function get_file_context(json, output)
   return file, line_number
 end
 
+-- When ripgrep is run with the `--json` flag, it outputs a stream of jsonl
+-- (json lines) objects. They show what matched the search as well as lines
+-- surrounding each match.
+-- This function converts the jsonl stream into a table.
+--
 ---@param ripgrep_output string[] ripgrep output in jsonl format
 ---@param cwd string the current working directory
 ---@param context_size number the number of lines of context to include in the output
