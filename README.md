@@ -104,6 +104,7 @@ return {
         },
       },
       keymap = {
+        -- 👇🏻👇🏻 (optional) add a keymap to invoke the search manually
         ["<c-g>"] = {
           function()
             -- invoke manually, requires blink >v0.8.0
