@@ -79,7 +79,11 @@ return {
             -- Specifies how to find the root of the project where the ripgrep
             -- search will start from. Accepts the same options as the marker
             -- given to `:h vim.fs.root()` which offers many possibilities for
-            -- configuration.
+            -- configuration. If none can be found, defaults to Neovim's cwd.
+            --
+            -- Examples:
+            -- - ".git" (default)
+            -- - { ".git", "package.json", ".root" }
             project_root_marker = ".git",
 
             -- The casing to use for the search in a format that ripgrep
