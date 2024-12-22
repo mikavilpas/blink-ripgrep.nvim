@@ -132,7 +132,13 @@ local function render_item_documentation(opts, file, match)
   ---@type string[]
   local text = {
     file.relative_to_cwd,
-    string.rep("─", opts.window.config.max_width),
+    string.rep(
+      "─",
+      -- TODO account for the width of the scrollbar if it's visible
+      opts.window:get_width()
+        - opts.window:get_border_size().horizontal
+        - 1
+    ),
   }
   for _, data in ipairs(match.context_preview) do
     table.insert(text, data.text)
