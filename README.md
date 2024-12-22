@@ -149,16 +149,12 @@ return {
   ---@type blink.cmp.Config
   opts = {
     sources = {
-      completion = {
-        enabled_providers = {
-          -- NOTE: blink >v0.7.6 has moved
-          -- `sources.completion.enabled_providers` to `sources.default`
-          "lsp",
-          "path",
-          "snippets",
-          "buffer",
-          "ripgrep", -- 👈🏻 including this enables automatic search
-        },
+      default = {
+        "lsp",
+        "path",
+        "snippets",
+        "buffer",
+        "ripgrep", -- 👈🏻 including this enables automatic search
       },
     }
   }
