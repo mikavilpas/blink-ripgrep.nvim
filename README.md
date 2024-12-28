@@ -112,7 +112,7 @@ return {
         ["<c-g>"] = {
           function()
             -- invoke manually, requires blink >v0.8.0
-            require("blink-cmp").show({ sources = { "ripgrep" } })
+            require("blink-cmp").show({ providers = { "ripgrep" } })
           end,
         },
       },
