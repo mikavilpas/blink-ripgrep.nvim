@@ -202,14 +202,8 @@ describe("searching inside projects", () => {
       // somewhere on the page (in the documentation window)
       cy.get("span")
         .filter((_, el) => el.textContent?.includes("Subtraction") ?? false)
-        .then((elements) => {
-          const matchingElements = elements.map((_, el) => {
-            return window.getComputedStyle(el).backgroundColor
-          })
-
-          return matchingElements.toArray()
-        })
-        .should("contain", rgbify(flavors.macchiato.colors.mauve.rgb))
+        .invoke("css", "background-color")
+        .should("eq", rgbify(flavors.macchiato.colors.mauve.rgb))
     })
   })
 
