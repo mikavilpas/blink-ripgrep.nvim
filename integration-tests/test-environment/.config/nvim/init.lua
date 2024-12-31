@@ -60,6 +60,14 @@ local plugins = {
           ripgrep = {
             module = "blink-ripgrep",
             name = "Ripgrep",
+            transform_items = function(_, items)
+              for _, item in ipairs(items) do
+                item.labelDetails = {
+                  description = "(rg)",
+                }
+              end
+              return items
+            end,
             ---@type blink-ripgrep.Options
             -- opts = {
             --   Keep the default options empty for tests, so that the we can

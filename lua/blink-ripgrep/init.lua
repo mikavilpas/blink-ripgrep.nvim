@@ -221,7 +221,7 @@ function RgSource:get_completions(context, resolve)
           -- PERF: only register the match once - right now there is no useful
           -- way to display the same match multiple times
           if not items[matchkey] then
-            local label = match.match.text .. " (rg)"
+            local label = match.match.text
             local docstring = ""
             for _, line in ipairs(match.context_preview) do
               docstring = docstring .. line.text .. "\n"
