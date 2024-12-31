@@ -211,6 +211,7 @@ function RgSource:get_completions(context, resolve)
         cwd,
         RgSource.config.context_size
       )
+      local kinds = require("blink.cmp.types").CompletionItemKind
 
       ---@type table<string, blink.cmp.CompletionItem>
       local items = {}
@@ -239,6 +240,7 @@ function RgSource:get_completions(context, resolve)
                 end,
               },
               source_id = "blink-ripgrep",
+              kind = kinds.Text,
               label = label,
               insertText = matchkey,
             }
