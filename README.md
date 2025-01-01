@@ -104,6 +104,10 @@ return {
             -- treesitter parser installed, fall back to regex based highlighting
             -- that is bundled in Neovim.
             fallback_to_regex_highlighting = true,
+
+            -- Show debug information in `:messages` that can help in
+            -- diagnosing issues with the plugin.
+            debug = false,
           },
           -- (optional) customize how the results are displayed. Many options
           -- are available - make sure your lua LSP is set up so you get
@@ -144,6 +148,11 @@ few things you can do to improve performance:
   performance.
 - Use the `max_filesize` option to exclude large files from the search. This can
   prevent performance issues when searching in projects with large files.
+- Disable automatic mode and use the manual mode to start the search only when
+  you need it (see below).
+- Set the `debug = true` option, which will log debug information to your
+  `:messages` in Neovim. You can copy paste these commands to your terminal and
+  try to figure out why the search is slow.
 - If you still experience performance issues, please open an issue for
   discussion.
 

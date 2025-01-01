@@ -10,6 +10,7 @@
 ---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 ---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
 ---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
+---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
@@ -90,36 +91,6 @@ function RgSource.new(input_opts)
   self.get_prefix = RgSource.config.get_prefix or default_get_prefix
 
   self.get_command = RgSource.config.get_command
-    or function(_, prefix)
-      local cmd = {
-        "rg",
-        "--no-config",
-        "--json",
-        "--context=" .. RgSource.config.context_size,
-        "--word-regexp",
-        "--max-filesize=" .. RgSource.config.max_filesize,
-        RgSource.config.search_casing,
-      }
-
-      for _, option in ipairs(RgSource.config.additional_rg_options) do
-        table.insert(cmd, option)
-      end
-
-      local final = {
-        "--",
-        prefix .. "[\\w_-]+",
-        -- NOTE: 2024-11-28 the logic is documented in the README file, and
-        -- should be kept up to date
-        vim.fn.fnameescape(
-          vim.fs.root(0, RgSource.config.project_root_marker) or vim.fn.getcwd()
-        ),
-      }
-      for _, option in ipairs(final) do
-        table.insert(cmd, option)
-      end
-
-      return cmd
-    end
 
   return self
 end
@@ -194,7 +165,30 @@ function RgSource:get_completions(context, resolve)
     return
   end
 
-  local cmd = self.get_command(context, prefix)
+  local cmd
+  if self.get_command then
+    -- custom command provided by the user
+    cmd = self.get_command(context, prefix)
+  else
+    -- builtin default command
+    local command = require("blink-ripgrep.ripgrep_command")
+    cmd = command.get_command(prefix, RgSource.config)
+
+    if RgSource.config.debug then
+      -- print the command to :messages for hacky debugging, but don't show it
+      -- in the ui so that it doesn't interrupt the user's work
+      local debug_cmd = vim.deepcopy(cmd)
+
+      -- The pattern is not compatible with shell syntax, so escape it
+      -- separately. The user should be able to copy paste it into their posix
+      -- compatible terminal.
+      local pattern = debug_cmd[9]
+      debug_cmd[9] = "'" .. pattern .. "'"
+
+      local things = table.concat(debug_cmd, " ")
+      vim.api.nvim_exec2("echomsg " .. vim.fn.string(things), {})
+    end
+  end
 
   vim.system(cmd, nil, function(result)
     vim.schedule(function()

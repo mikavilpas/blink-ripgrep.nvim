@@ -69,10 +69,9 @@ local plugins = {
               return items
             end,
             ---@type blink-ripgrep.Options
-            -- opts = {
-            --   Keep the default options empty for tests, so that the we can
-            --   make sure they are supported without specifying them
-            -- },
+            opts = {
+              debug = true,
+            },
           },
         },
       },
