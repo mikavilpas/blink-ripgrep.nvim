@@ -36,11 +36,11 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("config-modifications/"),
       type: z.literal("directory"),
       contents: z.object({
-        ".gitkeep": z.object({
-          name: z.literal(".gitkeep"),
+        "don't_use_debug_mode.lua": z.object({
+          name: z.literal("don't_use_debug_mode.lua"),
           type: z.literal("file"),
-          extension: z.literal(""),
-          stem: z.literal(".gitkeep"),
+          extension: z.literal("lua"),
+          stem: z.literal("don't_use_debug_mode."),
         }),
         "use_case_sensitive_search.lua": z.object({
           name: z.literal("use_case_sensitive_search.lua"),
@@ -131,7 +131,7 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim/init.lua",
   ".config/nvim",
   ".config",
-  "config-modifications/.gitkeep",
+  "config-modifications/don't_use_debug_mode.lua",
   "config-modifications/use_case_sensitive_search.lua",
   "config-modifications/use_manual_mode.lua",
   "config-modifications",

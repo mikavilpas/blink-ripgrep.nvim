@@ -39,7 +39,12 @@ describe("the basics", () => {
   it("allows invoking manually as a blink-cmp keymap", () => {
     cy.visit("/")
     cy.startNeovim({
-      startupScriptModifications: ["use_manual_mode.lua"],
+      startupScriptModifications: [
+        "use_manual_mode.lua",
+        // make sure this is tested somewhere. it doesn't really belong to this
+        // specific test, but it should be tested 🙂
+        "don't_use_debug_mode.lua",
+      ],
     }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
