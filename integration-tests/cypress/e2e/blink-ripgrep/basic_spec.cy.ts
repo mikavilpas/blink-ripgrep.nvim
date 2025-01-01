@@ -272,7 +272,12 @@ describe("debug mode", () => {
         cy.log(result.value ?? "")
 
         cy.typeIntoTerminal("{esc}:term{enter}", { delay: 3 })
-        cy.contains("term://")
+
+        // get the current buffer name
+        cy.runExCommand({ command: "echo expand('%')" }).then((bufname) => {
+          cy.log(bufname.value ?? "")
+          expect(bufname.value).to.contain("term://")
+        })
 
         // start insert mode
         cy.typeIntoTerminal("a")
