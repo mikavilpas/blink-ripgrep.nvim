@@ -12,6 +12,7 @@ import type {
   RunExCommandOutput,
   RunLuaCodeOutput,
   StartNeovimGenericArguments,
+  TestDirectory,
 } from "@tui-sandbox/library/dist/src/server/types"
 import type { OverrideProperties } from "type-fest"
 import type {
@@ -19,10 +20,7 @@ import type {
   MyTestDirectoryFile,
 } from "../../MyTestDirectory"
 
-export type NeovimContext = {
-  contents: MyTestDirectory
-  rootPathAbsolute: string
-}
+export type NeovimContext = TestDirectory<MyTestDirectory>
 
 declare global {
   interface Window {
@@ -54,6 +52,7 @@ Cypress.Commands.add(
   "startNeovim",
   (startArguments?: MyStartNeovimServerArguments) => {
     cy.window().then(async (win) => {
+      testWindow = win
       return await win.startNeovim(startArguments)
     })
   },
@@ -89,6 +88,8 @@ Cypress.Commands.add("runExCommand", (input: ExCommandClientInput) => {
   })
 })
 
+let testWindow: Window | undefined
+
 before(function () {
   // disable Cypress's default behavior of logging all XMLHttpRequests and
   // fetches to the Command Log
@@ -116,7 +117,15 @@ declare global {
 
       runLuaCode(input: LuaCodeClientInput): Chainable<RunLuaCodeOutput>
 
+      /** Run an ex command in neovim.
+       * @example "echo expand('%:.')" current file, relative to the cwd
+       */
       runExCommand(input: ExCommandClientInput): Chainable<RunExCommandOutput>
     }
   }
 }
+
+afterEach(async () => {
+  if (!testWindow) return
+  await testWindow.runExCommand({ command: "messages", log: true })
+})
