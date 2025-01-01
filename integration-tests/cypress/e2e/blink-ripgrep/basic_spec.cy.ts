@@ -294,7 +294,11 @@ describe("debug mode", () => {
         // start insert mode
         cy.typeIntoTerminal("a")
 
-        cy.typeIntoTerminal(result.value ?? "")
+        // Quickly send the text over instead of typing it out. Cypress is a
+        // bit slow when writing a lot of text.
+        cy.runLuaCode({
+          luaCode: `vim.api.nvim_feedkeys([[${result.value}]], "n", true)`,
+        })
         cy.typeIntoTerminal("{enter}")
 
         // The results will lbe 5-10 lines of jsonl.
