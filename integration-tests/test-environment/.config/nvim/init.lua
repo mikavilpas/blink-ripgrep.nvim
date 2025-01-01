@@ -39,7 +39,7 @@ local plugins = {
     event = "VeryLazy",
     -- use a release tag to download pre-built binaries
     -- https://github.com/Saghen/blink.cmp/releases
-    version = "v0.8.2",
+    version = "v0.9.0",
 
     -- to (locally) track nightly builds, use the following:
     -- version = false,
