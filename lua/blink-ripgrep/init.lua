@@ -175,18 +175,7 @@ function RgSource:get_completions(context, resolve)
     cmd = command.get_command(prefix, RgSource.config)
 
     if RgSource.config.debug then
-      -- print the command to :messages for hacky debugging, but don't show it
-      -- in the ui so that it doesn't interrupt the user's work
-      local debug_cmd = vim.deepcopy(cmd)
-
-      -- The pattern is not compatible with shell syntax, so escape it
-      -- separately. The user should be able to copy paste it into their posix
-      -- compatible terminal.
-      local pattern = debug_cmd[9]
-      debug_cmd[9] = "'" .. pattern .. "'"
-
-      local things = table.concat(debug_cmd, " ")
-      vim.api.nvim_exec2("echomsg " .. vim.fn.string(things), {})
+      command.debugify_for_shell(cmd)
     end
   end
 
@@ -222,8 +211,6 @@ function RgSource:get_completions(context, resolve)
               docstring = docstring .. line.text .. "\n"
             end
 
-            -- the implementation for render_detail_and_documentation:
-            -- ../../integration-tests/test-environment/.repro/data/nvim/lazy/blink.cmp/lua/blink/cmp/windows/lib/docs.lua
             ---@diagnostic disable-next-line: missing-fields
             items[matchkey] = {
               documentation = {

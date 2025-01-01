@@ -66,6 +66,24 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("limited/"),
       type: z.literal("directory"),
       contents: z.object({
+        "dir with spaces": z.object({
+          name: z.literal("dir with spaces/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "file with spaces.txt": z.object({
+              name: z.literal("file with spaces.txt"),
+              type: z.literal("file"),
+              extension: z.literal("txt"),
+              stem: z.literal("file with spaces."),
+            }),
+            "other file with spaces.txt": z.object({
+              name: z.literal("other file with spaces.txt"),
+              type: z.literal("file"),
+              extension: z.literal("txt"),
+              stem: z.literal("other file with spaces."),
+            }),
+          }),
+        }),
         "main-project-file.lua": z.object({
           name: z.literal("main-project-file.lua"),
           type: z.literal("file"),
@@ -136,6 +154,9 @@ export const testDirectoryFiles = z.enum([
   "config-modifications/use_manual_mode.lua",
   "config-modifications",
   "initial-file.txt",
+  "limited/dir with spaces/file with spaces.txt",
+  "limited/dir with spaces/other file with spaces.txt",
+  "limited/dir with spaces",
   "limited/main-project-file.lua",
   "limited/subproject/example.clj",
   "limited/subproject/file1.lua",
