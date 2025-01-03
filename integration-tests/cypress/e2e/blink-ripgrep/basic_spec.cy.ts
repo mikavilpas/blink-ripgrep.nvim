@@ -311,8 +311,14 @@ describe("debug mode", () => {
 })
 
 function createFakeGitDirectoriesToLimitRipgrepScope() {
-  cy.runExCommand({ command: `!mkdir %:h/.git` })
+  cy.runExCommand({ command: `!mkdir $HOME/.git` }).then((result) => {
+    expect(result.value).not.to.include("shell returned 1")
+    expect(result.value).not.to.include("returned 1")
+  })
   cy.runExCommand({
-    command: `!mkdir %:h/${"limited" satisfies MyTestDirectoryFile}/.git`,
+    command: `!mkdir $HOME/${"limited" satisfies MyTestDirectoryFile}/.git`,
+  }).then((result) => {
+    expect(result.value).not.to.include("shell returned 1")
+    expect(result.value).not.to.include("returned 1")
   })
 }
