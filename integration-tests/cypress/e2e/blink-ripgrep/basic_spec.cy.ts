@@ -16,9 +16,9 @@ describe("the basics", () => {
       // this will match text from ../../../test-environment/other-file.lua
       //
       // If the plugin works, this text should show up as a suggestion.
-      cy.typeIntoTerminal("hip234")
-
-      cy.contains("Hippopotamus" + "234 (rg)")
+      cy.typeIntoTerminal("hip")
+      cy.contains("Hippopotamus" + "234 (rg)") // wait for blink to show up
+      cy.typeIntoTerminal("234")
 
       // should show documentation with more details about the match
       //
