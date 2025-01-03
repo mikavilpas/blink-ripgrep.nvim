@@ -310,6 +310,42 @@ describe("debug mode", () => {
   })
 })
 
+describe("using .gitignore files to exclude files from searching", () => {
+  it("shows words in other files as suggestions", () => {
+    // By default, ripgrep allows using gitignore files to exclude files from
+    // the search. It works exactly like git does, and allows an intuitive way
+    // to exclude files.
+    cy.visit("/")
+    cy.startNeovim({
+      filename: "limited/dir with spaces/file with spaces.txt",
+    }).then(() => {
+      // wait until text on the start screen is visible
+      cy.contains("this is file with spaces.txt")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+      cy.typeIntoTerminal("cc")
+
+      // first, make sure that a file is included (so we can make sure it can
+      // be hidden, next)
+      cy.typeIntoTerminal("spaceroni")
+      cy.contains("spaceroni-macaroni")
+
+      // add a .gitignore file that ignores the file we just searched for. This
+      // should cause the file to not show up in the search results.
+      cy.runExCommand({
+        command: `!echo "dir with spaces/other file with spaces.txt" > $HOME/limited/.gitignore`,
+      }).then((result) => {
+        expect(result.value).not.to.include("shell returned 1")
+        expect(result.value).not.to.include("returned 1")
+      })
+
+      // clear the buffer and repeat the search
+      cy.typeIntoTerminal("{esc}ggVGc")
+      cy.typeIntoTerminal("spaceroni")
+      cy.contains("spaceroni-macaroni").should("not.exist")
+    })
+  })
+})
+
 function createFakeGitDirectoriesToLimitRipgrepScope() {
   cy.runExCommand({ command: `!mkdir $HOME/.git` }).then((result) => {
     expect(result.value).not.to.include("shell returned 1")
