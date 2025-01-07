@@ -117,6 +117,12 @@ local plugins = {
         "BlinkRipgrepMatch",
         { fg = colors.base, bg = colors.mauve }
       )
+
+      vim.api.nvim_set_hl(
+        0,
+        "BlinkRipgrepSearchPrefix",
+        { fg = colors.base, bg = colors.flamingo }
+      )
     end,
   },
 

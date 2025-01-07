@@ -176,6 +176,7 @@ function RgSource:get_completions(context, resolve)
 
     if RgSource.config.debug then
       command.debugify_for_shell(cmd)
+      require("blink-ripgrep.visualization").flash_search_prefix(prefix)
     end
   end
 
