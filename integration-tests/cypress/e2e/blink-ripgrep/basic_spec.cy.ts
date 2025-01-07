@@ -308,6 +308,52 @@ describe("debug mode", () => {
       })
     })
   })
+
+  it("highlights the search word when a new ripgrep search is started", () => {
+    cy.visit("/")
+    cy.startNeovim({}).then(() => {
+      // wait until text on the start screen is visible
+      cy.contains("If you see this text, Neovim is ready!")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+
+      // clear the current line and enter insert mode
+      cy.typeIntoTerminal("cc")
+
+      // debug mode should be on by default for all tests. Otherwise it doesn't
+      // make sense to test this, as nothing will be displayed.
+      cy.runLuaCode({
+        luaCode: `assert(require("blink-ripgrep").config.debug)`,
+      })
+
+      // this will match text from ../../../test-environment/other-file.lua
+      //
+      // If the plugin works, this text should show up as a suggestion.
+      cy.typeIntoTerminal("hip")
+      // the search should have been started for the prefix "hip"
+      cy.contains("hip").should(
+        "have.css",
+        "backgroundColor",
+        rgbify(flavors.macchiato.colors.flamingo.rgb),
+      )
+      //
+      // blink is now in the Fuzzy(3) stage, and additional keypresses must not
+      // start a new ripgrep search. They must be used for filtering the
+      // results instead.
+      // https://cmp.saghen.dev/development/architecture.html#architecture
+      cy.contains("Hippopotamus" + "234 (rg)") // wait for blink to show up
+      cy.typeIntoTerminal("234")
+
+      // wait for the highlight to disappear to test that too
+      cy.contains("hip").should(
+        "have.css",
+        "backgroundColor",
+        rgbify(flavors.macchiato.colors.base.rgb),
+      )
+
+      // TODO should programmatically check that only one search was started,
+      // this will not catch all cases
+    })
+  })
 })
 
 describe("using .gitignore files to exclude files from searching", () => {
