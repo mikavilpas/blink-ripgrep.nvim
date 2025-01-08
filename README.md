@@ -137,6 +137,23 @@ return {
 }
 ```
 
+## 🤔 How it works
+
+When you enter insert mode and start typing a word, blink triggers a search with
+blink-ripgrep. Only one search is done to save resources. After getting the
+results, the following keys are used to filter the results.
+
+In this demo (using the option `debug = true` above), we can see the search
+starting when the word flashes with a different color. Notice how the word only
+flashes once:
+
+<!-- TODO add a better demo -->
+
+<https://github.com/user-attachments/assets/0651ad24-0403-4ab9-81ff-59b152283593>
+
+This is described in much more detail in blink's
+[architecture documentation](https://cmp.saghen.dev/development/architecture.html).
+
 ## 🏁 Performance
 
 Generally performance is very good, but depending on the size of your project
