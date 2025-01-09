@@ -182,14 +182,14 @@ function RgSource:get_completions(context, resolve)
     -- custom command provided by the user
     cmd = self.get_command(context, prefix)
     if cmd == nil then
-      return {}
+      resolve()
     end
   else
     -- builtin default command
     local command = require("blink-ripgrep.ripgrep_command")
     cmd = command.get_command(prefix, RgSource.config)
     if cmd == nil then
-      return {}
+      resolve()
     end
 
     if RgSource.config.debug then
