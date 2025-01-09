@@ -90,4 +90,17 @@ describe("get_command", function()
       "hello[\\w_-]+",
     })
   end)
+
+  it(
+    "allows disabling completion when project_root_fallback is disabled",
+    function()
+      local plugin = blink_ripgrep.new({
+        project_root_fallback = false,
+        project_root_marker = { ".notfound" },
+      })
+      ---@diagnostic disable-next-line: missing-fields
+      local cmd = RipgrepCommand.get_command("hello", plugin.config)
+      assert.are_same(cmd, nil)
+    end
+  )
 end)

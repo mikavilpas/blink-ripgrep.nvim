@@ -10,6 +10,7 @@
 ---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 ---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
 ---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
+---@field project_root_fallback? boolean # Enable fallback to neovim cwd if project_root_marker is not found.
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
 ---@field future_features? blink-ripgrep.FutureFeatures # Features that are not yet stable and might change in the future.
 
@@ -59,6 +60,7 @@ RgSource.config = {
   search_casing = "--ignore-case",
   fallback_to_regex_highlighting = true,
   project_root_marker = ".git",
+  project_root_fallback = true,
   future_features = {
     kill_previous_searches = false,
   },
@@ -93,7 +95,7 @@ function RgSource.new(input_opts)
   local self = setmetatable({}, RgSource)
 
   RgSource.config =
-    vim.tbl_deep_extend("force", RgSource.config, input_opts or {})
+      vim.tbl_deep_extend("force", RgSource.config, input_opts or {})
 
   self.get_prefix = RgSource.config.get_prefix or default_get_prefix
 
@@ -114,8 +116,8 @@ local function render_item_documentation(opts, file, match)
       "─",
       -- TODO account for the width of the scrollbar if it's visible
       opts.window:get_width()
-        - opts.window:get_border_size().horizontal
-        - 1
+      - opts.window:get_border_size().horizontal
+      - 1
     ),
   }
   for _, data in ipairs(match.context_preview) do
@@ -128,12 +130,12 @@ local function render_item_documentation(opts, file, match)
   local filetype = vim.filetype.match({ filename = file.relative_to_cwd })
   local parser_name = vim.treesitter.language.get_lang(filetype or "")
   local parser_installed = parser_name
-    and pcall(function()
-      return vim.treesitter.get_parser(nil, file.language, {})
-    end)
+      and pcall(function()
+        return vim.treesitter.get_parser(nil, file.language, {})
+      end)
 
   if
-    not parser_installed and RgSource.config.fallback_to_regex_highlighting
+      not parser_installed and RgSource.config.fallback_to_regex_highlighting
   then
     -- Can't show highlighted text because no treesitter parser
     -- has been installed for this language.
@@ -179,10 +181,16 @@ function RgSource:get_completions(context, resolve)
   if self.get_command then
     -- custom command provided by the user
     cmd = self.get_command(context, prefix)
+    if cmd == nil then
+      return {}
+    end
   else
     -- builtin default command
     local command = require("blink-ripgrep.ripgrep_command")
     cmd = command.get_command(prefix, RgSource.config)
+    if cmd == nil then
+      return {}
+    end
 
     if RgSource.config.debug then
       command.debugify_for_shell(cmd)

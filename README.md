@@ -80,11 +80,17 @@ return {
             -- search will start from. Accepts the same options as the marker
             -- given to `:h vim.fs.root()` which offers many possibilities for
             -- configuration. If none can be found, defaults to Neovim's cwd.
+            --                  if project_root_fallback is set to true (default)
             --
             -- Examples:
             -- - ".git" (default)
             -- - { ".git", "package.json", ".root" }
             project_root_marker = ".git",
+
+
+            -- Allow fallback to neovim's cwd if project_root_marker list goes unresolved.
+            -- if set to false then disable completion.
+            project_root_fallback = true
 
             -- The casing to use for the search in a format that ripgrep
             -- accepts. Defaults to "--ignore-case". See `rg --help` for all the
