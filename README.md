@@ -45,7 +45,7 @@ return {
     sources = {
       default = {
         "buffer",
-        "ripgrep",  -- 👈🏻 add "ripgrep" here
+        "ripgrep", -- 👈🏻 add "ripgrep" here
       },
       providers = {
         -- 👇🏻👇🏻 add the ripgrep provider config below
@@ -108,6 +108,14 @@ return {
             -- Show debug information in `:messages` that can help in
             -- diagnosing issues with the plugin.
             debug = false,
+
+            -- Features that are not yet stable and might change in the future.
+            future_features = {
+              -- Kill previous searches when a new search is started. This is
+              -- useful to save resources and might become the default in the
+              -- future.
+              kill_previous_searches = false,
+            },
           },
           -- (optional) customize how the results are displayed. Many options
           -- are available - make sure your lua LSP is set up so you get

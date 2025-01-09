@@ -71,6 +71,9 @@ local plugins = {
             ---@type blink-ripgrep.Options
             opts = {
               debug = true,
+              future_features = {
+                kill_previous_searches = true,
+              },
             },
           },
         },
