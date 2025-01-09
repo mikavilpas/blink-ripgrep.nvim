@@ -37,8 +37,8 @@ importers:
         version: 3.24.1
     devDependencies:
       '@tui-sandbox/library':
-        specifier: 7.5.5
-        version: 7.5.5(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)
+        specifier: 7.5.6
+        version: 7.5.6(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)
       '@types/node':
         specifier: 22.10.3
         version: 22.10.3
@@ -370,8 +370,8 @@ packages:
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@tui-sandbox/library@7.5.5':
-    resolution: {integrity: sha512-9dXFnS7iHpSHMT0thl0XyIVpSlQzVAq7xb2elxnCM2rSsDyGoLnFHHhOFEsqq2r29JcRX7EZz79R4Naqjf2ddg==}
+  '@tui-sandbox/library@7.5.6':
+    resolution: {integrity: sha512-lcqCKbFpdwkHkidUbIst+4KUPCRbxYjreZQ6VqCm6JBQO9+V1ERfoA0wjbfeUOoBwKcWpcbsRVTh8Y1m+7lZ2w==}
     hasBin: true
     peerDependencies:
       cypress: ^13
@@ -2691,7 +2691,7 @@ snapshots:
     dependencies:
       typescript: 5.7.2
 
-  '@tui-sandbox/library@7.5.5(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)':
+  '@tui-sandbox/library@7.5.6(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.0.0-rc.682(@trpc/server@11.0.0-rc.682(typescript@5.7.2))(typescript@5.7.2)
