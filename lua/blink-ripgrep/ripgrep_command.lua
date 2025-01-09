@@ -21,10 +21,13 @@ function RipgrepCommand.get_command(prefix, options)
   table.insert(cmd, prefix .. "[\\w_-]+")
 
   local root = (vim.fs.root(0, options.project_root_marker))
-  if root == nil and options.project_root_fallback then
-    root = vim.fn.getcwd()
-  else
-    return nil
+  if root == nil then
+    if options.project_root_fallback then
+      root = vim.fn.getcwd()
+    else
+      -- don't supply a ripgrep command
+      return nil
+    end
   end
   table.insert(cmd, root)
 
