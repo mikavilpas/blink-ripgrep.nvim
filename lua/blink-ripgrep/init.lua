@@ -177,6 +177,10 @@ function RgSource:get_completions(context, resolve)
     if RgSource.config.debug then
       command.debugify_for_shell(cmd)
       require("blink-ripgrep.visualization").flash_search_prefix(prefix)
+      -- selene: allow(global_usage)
+      _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
+      -- selene: allow(global_usage)
+      table.insert(_G.blink_ripgrep_invocations, cmd)
     end
   end
 

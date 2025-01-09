@@ -350,8 +350,13 @@ describe("debug mode", () => {
         rgbify(flavors.macchiato.colors.base.rgb),
       )
 
-      // TODO should programmatically check that only one search was started,
-      // this will not catch all cases
+      cy.runLuaCode({
+        luaCode: `return _G.blink_ripgrep_invocations`,
+      }).should((result) => {
+        // ripgrep should only have been invoked once
+        expect(result.value).to.be.an("array")
+        expect(result.value).to.have.length(1)
+      })
     })
   })
 })
