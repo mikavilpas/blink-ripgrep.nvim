@@ -12,6 +12,7 @@
 ---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
 ---@field future_features? blink-ripgrep.FutureFeatures # Features that are not yet stable and might change in the future.
+---@field ignore_paths? unknown # Specifies the paths where the rg command will not be executed.
 
 ---@class blink-ripgrep.FutureFeatures
 ---@field kill_previous_searches? boolean # Kill previous searches when a new search is started. This is useful to save resources and might become the default in the future.
@@ -62,6 +63,7 @@ RgSource.config = {
   future_features = {
     kill_previous_searches = false,
   },
+  ignore_paths = {},
 }
 
 -- set up default options so that they are used by the next search
@@ -168,6 +170,13 @@ end
 local ripgrep_invocations = vim.ringbuf(3)
 
 function RgSource:get_completions(context, resolve)
+  local cwd = vim.uv.cwd() or ""
+
+  if vim.tbl_contains(RgSource.config.ignore_paths, cwd) then
+    resolve()
+    return
+  end
+
   local prefix = self.get_prefix(context)
 
   if string.len(prefix) < RgSource.config.prefix_min_len then
