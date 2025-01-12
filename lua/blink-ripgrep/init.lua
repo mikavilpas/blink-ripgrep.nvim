@@ -88,7 +88,7 @@ function RgSource.new(input_opts)
   local self = setmetatable({}, RgSource)
 
   RgSource.config =
-      vim.tbl_deep_extend("force", RgSource.config, input_opts or {})
+    vim.tbl_deep_extend("force", RgSource.config, input_opts or {})
 
   self.get_prefix = RgSource.config.get_prefix or default_get_prefix
 
@@ -109,8 +109,8 @@ local function render_item_documentation(opts, file, match)
       "─",
       -- TODO account for the width of the scrollbar if it's visible
       opts.window:get_width()
-      - opts.window:get_border_size().horizontal
-      - 1
+        - opts.window:get_border_size().horizontal
+        - 1
     ),
   }
   for _, data in ipairs(match.context_preview) do
@@ -123,12 +123,12 @@ local function render_item_documentation(opts, file, match)
   local filetype = vim.filetype.match({ filename = file.relative_to_cwd })
   local parser_name = vim.treesitter.language.get_lang(filetype or "")
   local parser_installed = parser_name
-      and pcall(function()
-        return vim.treesitter.get_parser(nil, file.language, {})
-      end)
+    and pcall(function()
+      return vim.treesitter.get_parser(nil, file.language, {})
+    end)
 
   if
-      not parser_installed and RgSource.config.fallback_to_regex_highlighting
+    not parser_installed and RgSource.config.fallback_to_regex_highlighting
   then
     -- Can't show highlighted text because no treesitter parser
     -- has been installed for this language.
