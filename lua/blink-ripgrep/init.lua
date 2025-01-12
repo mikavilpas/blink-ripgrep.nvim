@@ -173,6 +173,7 @@ function RgSource:get_completions(context, resolve)
     cmd = self.get_command(context, prefix)
     if cmd == nil then
       resolve()
+      return
     end
   else
     -- builtin default command
@@ -180,6 +181,7 @@ function RgSource:get_completions(context, resolve)
     cmd = command.get_command(prefix, RgSource.config)
     if cmd == nil then
       resolve()
+      return
     end
 
     if RgSource.config.debug then
