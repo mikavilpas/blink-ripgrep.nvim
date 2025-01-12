@@ -155,6 +155,54 @@ describe("searching inside projects", () => {
     })
   })
 
+  it("does not search if the project root is not found", () => {
+    cy.visit("/")
+    cy.startNeovim({
+      filename: "limited/subproject/file1.lua",
+      startupScriptModifications: [
+        "use_not_found_project_root.lua",
+        "disable_project_root_fallback.lua",
+      ],
+    }).then(() => {
+      // when opening a file from a subproject, the search should be limited to
+      // the nearest .git directory (only the files in the same project should
+      // be searched)
+      cy.contains("This is text from file1.lua")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+
+      // make sure the preconditions for this case are met
+      cy.runLuaCode({
+        luaCode: `assert(require("blink-ripgrep").config.project_root_fallback == false)`,
+      })
+
+      // search for something that was found in the previous test (so we know
+      // it should be found)
+      cy.typeIntoTerminal("o")
+      cy.typeIntoTerminal("some")
+
+      // because the project root is not found, the search should not have
+      // found anything
+      cy.contains("here").should("not.exist")
+
+      cy.runLuaCode({
+        luaCode: `return _G.blink_ripgrep_invocations`,
+      }).should((result) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        expect(result.value).to.be.null
+      })
+
+      cy.runExCommand({ command: "messages" }).then((result) => {
+        // make sure the search was logged to be skipped due to not finding the
+        // root directory, etc. basically we want to double check it was
+        // skipped for this exact reason and not due to some other possible
+        // bug
+        expect(result.value).to.contain(
+          "no command returned, skipping the search",
+        )
+      })
+    })
+  })
+
   describe("custom ripgrep options", () => {
     it("allows using a custom search_casing when searching", () => {
       cy.visit("/")

@@ -180,6 +180,12 @@ function RgSource:get_completions(context, resolve)
     local command = require("blink-ripgrep.ripgrep_command")
     cmd = command.get_command(prefix, RgSource.config)
     if cmd == nil then
+      if RgSource.config.debug then
+        vim.api.nvim_exec2(
+          "echomsg 'no command returned, skipping the search'",
+          {}
+        )
+      end
       resolve()
       return
     end
