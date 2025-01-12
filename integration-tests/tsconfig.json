@@ -1,8 +1,4 @@
 {
-  // tsconfig settings for the server only
-
-  // TODO redo the directory structure so that the client is clearly separated
-  // from the server
   "compilerOptions": {
     "skipLibCheck": true,
     "module": "ESNext",
