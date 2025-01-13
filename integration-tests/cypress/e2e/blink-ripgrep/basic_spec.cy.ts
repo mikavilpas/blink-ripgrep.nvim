@@ -5,7 +5,7 @@ import type { MyTestDirectoryFile } from "MyTestDirectory"
 describe("the basics", () => {
   it("shows words in other files as suggestions", () => {
     cy.visit("/")
-    cy.startNeovim().then((dir) => {
+    cy.startNeovim().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createFakeGitDirectoriesToLimitRipgrepScope()
@@ -32,7 +32,7 @@ describe("the basics", () => {
       )
 
       // should show the file name
-      cy.contains(dir.contents["other-file.lua"].name)
+      cy.contains(nvim.dir.contents["other-file.lua"].name)
     })
   })
 
@@ -208,7 +208,7 @@ describe("searching inside projects", () => {
       cy.visit("/")
       cy.startNeovim({
         filename: "limited/subproject/file1.lua",
-      }).then(() => {
+      }).then((nvim) => {
         cy.contains("This is text from file1.lua")
         createFakeGitDirectoriesToLimitRipgrepScope()
 
@@ -222,7 +222,7 @@ describe("searching inside projects", () => {
 
         // now switch to using --smart-case, which should be case sensitive
         // when uppercase letters are used
-        cy.runLuaCode({
+        nvim.runLuaCode({
           luaCode: `vim.cmd("luafile config-modifications/use_case_sensitive_search.lua")`,
         })
         cy.typeIntoTerminal("{esc}cc")
@@ -315,10 +315,10 @@ describe("debug mode", () => {
     cy.startNeovim({
       // also test that the plugin can handle spaces in the file path
       filename: "limited/dir with spaces/file with spaces.txt",
-    }).then(() => {
+    }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("this is file with spaces.txt")
-      cy.runExCommand({ command: `!mkdir "%:h/.git"` })
+      nvim.runExCommand({ command: `!mkdir "%:h/.git"` })
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
@@ -326,7 +326,7 @@ describe("debug mode", () => {
       cy.typeIntoTerminal("spa")
       cy.contains("spaceroni-macaroni")
 
-      cy.runExCommand({ command: "messages" }).then((result) => {
+      nvim.runExCommand({ command: "messages" }).then((result) => {
         // make sure the logged command can be run in a shell
         expect(result.value)
         cy.log(result.value ?? "")
@@ -334,7 +334,7 @@ describe("debug mode", () => {
         cy.typeIntoTerminal("{esc}:term{enter}", { delay: 3 })
 
         // get the current buffer name
-        cy.runExCommand({ command: "echo expand('%')" }).then((bufname) => {
+        nvim.runExCommand({ command: "echo expand('%')" }).then((bufname) => {
           cy.log(bufname.value ?? "")
           expect(bufname.value).to.contain("term://")
         })
@@ -344,7 +344,7 @@ describe("debug mode", () => {
 
         // Quickly send the text over instead of typing it out. Cypress is a
         // bit slow when writing a lot of text.
-        cy.runLuaCode({
+        nvim.runLuaCode({
           luaCode: `vim.api.nvim_feedkeys([[${result.value}]], "n", true)`,
         })
         cy.typeIntoTerminal("{enter}")
@@ -359,7 +359,7 @@ describe("debug mode", () => {
 
   it("highlights the search word when a new ripgrep search is started", () => {
     cy.visit("/")
-    cy.startNeovim({}).then(() => {
+    cy.startNeovim({}).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createFakeGitDirectoriesToLimitRipgrepScope()
@@ -369,7 +369,7 @@ describe("debug mode", () => {
 
       // debug mode should be on by default for all tests. Otherwise it doesn't
       // make sense to test this, as nothing will be displayed.
-      cy.runLuaCode({
+      nvim.runLuaCode({
         luaCode: `assert(require("blink-ripgrep").config.debug)`,
       })
 
@@ -398,13 +398,15 @@ describe("debug mode", () => {
         rgbify(flavors.macchiato.colors.base.rgb),
       )
 
-      cy.runLuaCode({
-        luaCode: `return _G.blink_ripgrep_invocations`,
-      }).should((result) => {
-        // ripgrep should only have been invoked once
-        expect(result.value).to.be.an("array")
-        expect(result.value).to.have.length(1)
-      })
+      nvim
+        .runLuaCode({
+          luaCode: `return _G.blink_ripgrep_invocations`,
+        })
+        .should((result) => {
+          // ripgrep should only have been invoked once
+          expect(result.value).to.be.an("array")
+          expect(result.value).to.have.length(1)
+        })
     })
   })
 
@@ -414,7 +416,7 @@ describe("debug mode", () => {
     // https://github.com/mikavilpas/blink-ripgrep.nvim/issues/102
 
     cy.visit("/")
-    cy.startNeovim({}).then(() => {
+    cy.startNeovim({}).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createFakeGitDirectoriesToLimitRipgrepScope()
@@ -424,22 +426,24 @@ describe("debug mode", () => {
 
       // debug mode should be on by default for all tests. Otherwise it doesn't
       // make sense to test this, as nothing will be displayed.
-      cy.runLuaCode({
+      nvim.runLuaCode({
         luaCode: `assert(require("blink-ripgrep").config.debug)`,
       })
 
       // search for something that does not exist. This should start a couple
       // of searches
       cy.typeIntoTerminal("yyyyyy", { delay: 80 })
-      cy.runExCommand({ command: "messages" }).then((result) => {
+      nvim.runExCommand({ command: "messages" }).then((result) => {
         expect(result.value).to.contain("killed previous invocation")
       })
-      cy.runLuaCode({
-        luaCode: `return _G.blink_ripgrep_invocations`,
-      }).should((result) => {
-        expect(result.value).to.be.an("array")
-        expect(result.value).to.have.length.above(3)
-      })
+      nvim
+        .runLuaCode({
+          luaCode: `return _G.blink_ripgrep_invocations`,
+        })
+        .should((result) => {
+          expect(result.value).to.be.an("array")
+          expect(result.value).to.have.length.above(3)
+        })
     })
   })
 })
@@ -452,7 +456,7 @@ describe("using .gitignore files to exclude files from searching", () => {
     cy.visit("/")
     cy.startNeovim({
       filename: "limited/dir with spaces/file with spaces.txt",
-    }).then(() => {
+    }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("this is file with spaces.txt")
       createFakeGitDirectoriesToLimitRipgrepScope()
@@ -465,12 +469,14 @@ describe("using .gitignore files to exclude files from searching", () => {
 
       // add a .gitignore file that ignores the file we just searched for. This
       // should cause the file to not show up in the search results.
-      cy.runExCommand({
-        command: `!echo "dir with spaces/other file with spaces.txt" > $HOME/limited/.gitignore`,
-      }).then((result) => {
-        expect(result.value).not.to.include("shell returned 1")
-        expect(result.value).not.to.include("returned 1")
-      })
+      nvim
+        .runExCommand({
+          command: `!echo "dir with spaces/other file with spaces.txt" > $HOME/limited/.gitignore`,
+        })
+        .then((result) => {
+          expect(result.value).not.to.include("shell returned 1")
+          expect(result.value).not.to.include("returned 1")
+        })
 
       // clear the buffer and repeat the search
       cy.typeIntoTerminal("{esc}ggVGc")
@@ -481,11 +487,11 @@ describe("using .gitignore files to exclude files from searching", () => {
 })
 
 function createFakeGitDirectoriesToLimitRipgrepScope() {
-  cy.runExCommand({ command: `!mkdir $HOME/.git` }).then((result) => {
+  cy.nvim_runExCommand({ command: `!mkdir $HOME/.git` }).then((result) => {
     expect(result.value).not.to.include("shell returned 1")
     expect(result.value).not.to.include("returned 1")
   })
-  cy.runExCommand({
+  cy.nvim_runExCommand({
     command: `!mkdir $HOME/${"limited" satisfies MyTestDirectoryFile}/.git`,
   }).then((result) => {
     expect(result.value).not.to.include("shell returned 1")
