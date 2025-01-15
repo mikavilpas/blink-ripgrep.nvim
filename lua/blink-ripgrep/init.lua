@@ -11,11 +11,7 @@
 ---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
 ---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
----@field future_features? blink-ripgrep.FutureFeatures # Features that are not yet stable and might change in the future.
 ---@field ignore_paths? unknown # Specifies the paths where the rg command will not be executed.
-
----@class blink-ripgrep.FutureFeatures
----@field kill_previous_searches? boolean # Kill previous searches when a new search is started. This is useful to save resources and might become the default in the future.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
@@ -60,9 +56,6 @@ RgSource.config = {
   search_casing = "--ignore-case",
   fallback_to_regex_highlighting = true,
   project_root_marker = ".git",
-  future_features = {
-    kill_previous_searches = false,
-  },
   ignore_paths = {},
 }
 
@@ -166,9 +159,6 @@ local function render_item_documentation(opts, file, match)
   )
 end
 
----@type vim.Ringbuf<vim.SystemObj>
-local ripgrep_invocations = vim.ringbuf(3)
-
 function RgSource:get_completions(context, resolve)
   local cwd = vim.uv.cwd() or ""
 
@@ -201,23 +191,6 @@ function RgSource:get_completions(context, resolve)
       -- selene: allow(global_usage)
       table.insert(_G.blink_ripgrep_invocations, cmd)
     end
-  end
-
-  local kill_previous_searches = (
-    RgSource.config.future_features
-    and RgSource.config.future_features.kill_previous_searches
-  ) or false
-
-  if kill_previous_searches then
-    -- drain all previous invocations and kill them to save resources
-    for val in ripgrep_invocations do
-      ---@cast val vim.SystemObj
-      val:kill(9)
-      if RgSource.config.debug then
-        vim.api.nvim_exec2("echomsg 'killed previous invocation'", {})
-      end
-    end
-    assert(#ripgrep_invocations == 0)
   end
 
   local rg = vim.system(cmd, nil, function(result)
@@ -281,8 +254,11 @@ function RgSource:get_completions(context, resolve)
     end)
   end)
 
-  if kill_previous_searches then
-    ripgrep_invocations:push(rg)
+  return function()
+    rg:kill(9)
+    if RgSource.config.debug then
+      vim.api.nvim_exec2("echomsg 'killed previous invocation'", {})
+    end
   end
 end
 
