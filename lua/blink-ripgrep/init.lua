@@ -11,10 +11,10 @@
 ---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
 ---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
----@field ignore_paths? unknown # Specifies the paths where the rg command will not be executed.
+---@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
----@field get_command fun(context: blink.cmp.Context, prefix: string): string[]
+---@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand
 ---@field get_prefix fun(context: blink.cmp.Context): string
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
@@ -160,13 +160,6 @@ local function render_item_documentation(opts, file, match)
 end
 
 function RgSource:get_completions(context, resolve)
-  local cwd = vim.uv.cwd() or ""
-
-  if vim.tbl_contains(RgSource.config.ignore_paths, cwd) then
-    resolve()
-    return
-  end
-
   local prefix = self.get_prefix(context)
 
   if string.len(prefix) < RgSource.config.prefix_min_len then
@@ -174,26 +167,48 @@ function RgSource:get_completions(context, resolve)
     return
   end
 
+  ---@type blink-ripgrep.RipgrepCommand
   local cmd
   if self.get_command then
     -- custom command provided by the user
     cmd = self.get_command(context, prefix)
   else
     -- builtin default command
-    local command = require("blink-ripgrep.ripgrep_command")
-    cmd = command.get_command(prefix, RgSource.config)
+    local command_module = require("blink-ripgrep.ripgrep_command")
+    cmd = command_module.get_command(prefix, RgSource.config)
+  end
+
+  if vim.tbl_contains(RgSource.config.ignore_paths, cmd.root) then
+    if RgSource.config.debug then
+      vim.api.nvim_exec2(
+        string.format("echomsg 'skipping search in ignored path %s'", cmd.root),
+        {}
+      )
+    end
+    resolve()
 
     if RgSource.config.debug then
-      command.debugify_for_shell(cmd)
-      require("blink-ripgrep.visualization").flash_search_prefix(prefix)
       -- selene: allow(global_usage)
       _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
       -- selene: allow(global_usage)
-      table.insert(_G.blink_ripgrep_invocations, cmd)
+      table.insert(_G.blink_ripgrep_invocations, { "ignored", cmd.root })
+      return
     end
   end
 
-  local rg = vim.system(cmd, nil, function(result)
+  if RgSource.config.debug then
+    if cmd.debugify_for_shell then
+      cmd:debugify_for_shell()
+    end
+
+    require("blink-ripgrep.visualization").flash_search_prefix(prefix)
+    -- selene: allow(global_usage)
+    _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
+    -- selene: allow(global_usage)
+    table.insert(_G.blink_ripgrep_invocations, cmd)
+  end
+
+  local rg = vim.system(cmd.command, nil, function(result)
     vim.schedule(function()
       if result.code ~= 0 then
         resolve()

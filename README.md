@@ -105,6 +105,15 @@ return {
             -- that is bundled in Neovim.
             fallback_to_regex_highlighting = true,
 
+            -- Absolute root paths where the rg command will not be executed.
+            -- Usually you want to exclude paths using gitignore files or
+            -- ripgrep specific ignore files, but this can be used to only
+            -- ignore the paths in blink-ripgrep.nvim, maintaining the ability
+            -- to use ripgrep for those paths on the command line. If you need
+            -- to find out where the searches are executed, enable `debug` and
+            -- look at `:messages`.
+            ignore_paths = {},
+
             -- Show debug information in `:messages` that can help in
             -- diagnosing issues with the plugin.
             debug = false,
