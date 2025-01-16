@@ -63,6 +63,50 @@ describe("the basics", () => {
       cy.contains("Hippopotamus" + "234 (rg)")
     })
   })
+
+  it("does not search in ignore_paths", () => {
+    // By default, the paths ignored via git and ripgrep are also automatically
+    // ignored by blink-ripgrep.nvim, without any extra features (this is a
+    // ripgrep feature). However, the user may want to ignore some paths from
+    // blink-ripgrep.nvim specifically. Here we test that feature.
+    cy.visit("/")
+    cy.startNeovim({
+      filename: "limited/subproject/file1.lua",
+      startupScriptModifications: ["set_ignore_paths.lua"],
+    }).then((nvim) => {
+      // wait until text on the start screen is visible
+      cy.contains("This is text from file1.lua")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+      const ignorePath = nvim.dir.rootPathAbsolute + "/limited"
+      nvim.runLuaCode({
+        luaCode: `_G.set_ignore_paths({ "${ignorePath}" })`,
+      })
+
+      // clear the current line and enter insert mode
+      cy.typeIntoTerminal("cc")
+
+      // this will match text from ../../../test-environment/other-file.lua
+      //
+      // If the plugin works, this text should show up as a suggestion.
+      cy.typeIntoTerminal("hip")
+
+      nvim
+        .runLuaCode({
+          luaCode: `return _G.blink_ripgrep_invocations`,
+        })
+        .should((result) => {
+          // ripgrep should only have been invoked once
+          expect(result.value).to.be.an("array")
+          expect(result.value).to.have.length(1)
+
+          const invocations = (result.value as string[][])[0]
+          const invocation = invocations[0]
+          expect(invocation).to.eql("ignored")
+        })
+
+      cy.contains("Hippopotamus" + "234 (rg)").should("not.exist")
+    })
+  })
 })
 
 describe("the match context", () => {

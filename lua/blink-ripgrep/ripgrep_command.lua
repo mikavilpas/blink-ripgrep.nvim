@@ -1,7 +1,14 @@
+---@class blink-ripgrep.RipgrepCommand
+---@field command string[]
+---@field root string
+---@field debugify_for_shell? fun(self):nil # Echo the command to the messages buffer for debugging purposes.
 local RipgrepCommand = {}
+RipgrepCommand.__index = RipgrepCommand
 
 ---@param prefix string
 ---@param options blink-ripgrep.Options
+---@return blink-ripgrep.RipgrepCommand
+---@nodiscard
 function RipgrepCommand.get_command(prefix, options)
   local cmd = {
     "rg",
@@ -23,16 +30,19 @@ function RipgrepCommand.get_command(prefix, options)
   local root = (vim.fs.root(0, options.project_root_marker) or vim.fn.getcwd())
   table.insert(cmd, root)
 
-  return cmd
+  local command = setmetatable({
+    command = cmd,
+    root = root,
+  }, RipgrepCommand)
+
+  return command
 end
 
--- Change the command from `get_command` to a string that can be executed in a
--- shell
----@param cmd string[]
-function RipgrepCommand.debugify_for_shell(cmd)
+-- Print the command to :messages for debugging purposes.
+function RipgrepCommand:debugify_for_shell()
   -- print the command to :messages for hacky debugging, but don't show it
   -- in the ui so that it doesn't interrupt the user's work
-  local debug_cmd = vim.deepcopy(cmd)
+  local debug_cmd = vim.deepcopy(self.command)
 
   -- The pattern is not compatible with shell syntax, so escape it
   -- separately. The user should be able to copy paste it into their posix

@@ -48,6 +48,12 @@ export const MyTestDirectorySchema = z.object({
           extension: z.literal("lua"),
           stem: z.literal("don't_use_debug_mode."),
         }),
+        "set_ignore_paths.lua": z.object({
+          name: z.literal("set_ignore_paths.lua"),
+          type: z.literal("file"),
+          extension: z.literal("lua"),
+          stem: z.literal("set_ignore_paths."),
+        }),
         "use_case_sensitive_search.lua": z.object({
           name: z.literal("use_case_sensitive_search.lua"),
           type: z.literal("file"),
@@ -157,6 +163,7 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim",
   ".config",
   "config-modifications/don't_use_debug_mode.lua",
+  "config-modifications/set_ignore_paths.lua",
   "config-modifications/use_case_sensitive_search.lua",
   "config-modifications/use_manual_mode.lua",
   "config-modifications",
