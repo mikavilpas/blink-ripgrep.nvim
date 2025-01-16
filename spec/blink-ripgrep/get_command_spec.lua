@@ -18,8 +18,8 @@ describe("get_command", function()
 
     -- don't compare the last item (the directory) as that changes depending on
     -- the test environment (such as individual developers' machines or ci)
-    table.remove(cmd)
-    assert.are_same(cmd, {
+    table.remove(cmd.command)
+    assert.are_same(cmd.command, {
       "rg",
       "--no-config",
       "--json",
@@ -39,8 +39,8 @@ describe("get_command", function()
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
 
-    table.remove(cmd)
-    assert.are_same(cmd, {
+    table.remove(cmd.command)
+    assert.are_same(cmd.command, {
       "rg",
       "--no-config",
       "--json",
@@ -58,8 +58,8 @@ describe("get_command", function()
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
 
-    table.remove(cmd)
-    assert.are_same(cmd, {
+    table.remove(cmd.command)
+    assert.are_same(cmd.command, {
       "rg",
       "--no-config",
       "--json",
@@ -77,8 +77,8 @@ describe("get_command", function()
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
 
-    table.remove(cmd)
-    assert.are_same(cmd, {
+    table.remove(cmd.command)
+    assert.are_same(cmd.command, {
       "rg",
       "--no-config",
       "--json",
