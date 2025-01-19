@@ -42,6 +42,12 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("config-modifications/"),
       type: z.literal("directory"),
       contents: z.object({
+        "disable_project_root_fallback.lua": z.object({
+          name: z.literal("disable_project_root_fallback.lua"),
+          type: z.literal("file"),
+          extension: z.literal("lua"),
+          stem: z.literal("disable_project_root_fallback."),
+        }),
         "don't_use_debug_mode.lua": z.object({
           name: z.literal("don't_use_debug_mode.lua"),
           type: z.literal("file"),
@@ -65,6 +71,12 @@ export const MyTestDirectorySchema = z.object({
           type: z.literal("file"),
           extension: z.literal("lua"),
           stem: z.literal("use_manual_mode."),
+        }),
+        "use_not_found_project_root.lua": z.object({
+          name: z.literal("use_not_found_project_root.lua"),
+          type: z.literal("file"),
+          extension: z.literal("lua"),
+          stem: z.literal("use_not_found_project_root."),
         }),
       }),
     }),
@@ -162,10 +174,12 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim/prepare.lua",
   ".config/nvim",
   ".config",
+  "config-modifications/disable_project_root_fallback.lua",
   "config-modifications/don't_use_debug_mode.lua",
   "config-modifications/set_ignore_paths.lua",
   "config-modifications/use_case_sensitive_search.lua",
   "config-modifications/use_manual_mode.lua",
+  "config-modifications/use_not_found_project_root.lua",
   "config-modifications",
   "initial-file.txt",
   "limited/dir with spaces/file with spaces.txt",

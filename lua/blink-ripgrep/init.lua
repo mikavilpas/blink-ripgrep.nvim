@@ -2,7 +2,7 @@
 
 ---@class blink-ripgrep.Options
 ---@field prefix_min_len? number # The minimum length of the current word to start searching (if the word is shorter than this, the search will not start)
----@field get_command? fun(context: blink.cmp.Context, prefix: string): string[] # Changing this might break things - if you need some customization, please open an issue 🙂
+---@field get_command? fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil # Changing this might break things - if you need some customization, please open an issue 🙂
 ---@field get_prefix? fun(context: blink.cmp.Context): string
 ---@field context_size? number # The number of lines to show around each match in the preview (documentation) window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
 ---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
@@ -10,11 +10,12 @@
 ---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 ---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
 ---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
+---@field project_root_fallback? boolean # Enable fallback to neovim cwd if project_root_marker is not found. Default: `true`, which means to use the cwd.
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
 ---@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
----@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand
+---@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil
 ---@field get_prefix fun(context: blink.cmp.Context): string
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
@@ -57,6 +58,7 @@ RgSource.config = {
   fallback_to_regex_highlighting = true,
   project_root_marker = ".git",
   ignore_paths = {},
+  project_root_fallback = true,
 }
 
 -- set up default options so that they are used by the next search
@@ -167,7 +169,7 @@ function RgSource:get_completions(context, resolve)
     return
   end
 
-  ---@type blink-ripgrep.RipgrepCommand
+  ---@type blink-ripgrep.RipgrepCommand | nil
   local cmd
   if self.get_command then
     -- custom command provided by the user
@@ -176,6 +178,25 @@ function RgSource:get_completions(context, resolve)
     -- builtin default command
     local command_module = require("blink-ripgrep.ripgrep_command")
     cmd = command_module.get_command(prefix, RgSource.config)
+  end
+
+  if cmd == nil then
+    if RgSource.config.debug then
+      vim.api.nvim_exec2(
+        "echomsg 'no command returned, skipping the search'",
+        {}
+      )
+      -- selene: allow(global_usage)
+      _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
+      -- selene: allow(global_usage)
+      table.insert(
+        _G.blink_ripgrep_invocations,
+        { "ignored-because-no-command" }
+      )
+    end
+
+    resolve()
+    return
   end
 
   if vim.tbl_contains(RgSource.config.ignore_paths, cmd.root) then
