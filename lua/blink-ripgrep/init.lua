@@ -213,8 +213,9 @@ function RgSource:get_completions(context, resolve)
       _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
       -- selene: allow(global_usage)
       table.insert(_G.blink_ripgrep_invocations, { "ignored", cmd.root })
-      return
     end
+
+    return
   end
 
   if RgSource.config.debug then
