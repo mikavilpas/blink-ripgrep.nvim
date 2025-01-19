@@ -1,5 +1,8 @@
 local M = {}
 
+--- In the blink documentation window, when the context for the match is being
+--- shown, highlight the match so that the user can easily see where the match
+--- is.
 ---@param bufnr number
 ---@param match blink-ripgrep.RipgrepMatch
 ---@param highlight_ns_id number

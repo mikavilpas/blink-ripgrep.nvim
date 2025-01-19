@@ -8,6 +8,8 @@ vim.api.nvim_set_hl(
   { link = "Search", default = true }
 )
 
+-- Temporarily flash the search prefix so that the user can see what searches
+-- are being performed. Should be called in debug mode only.
 ---@param prefix string
 function visualization.flash_search_prefix(prefix)
   vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
