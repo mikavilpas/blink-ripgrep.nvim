@@ -86,6 +86,10 @@ return {
             -- - { ".git", "package.json", ".root" }
             project_root_marker = ".git",
 
+            -- Enable fallback to neovim cwd if project_root_marker is not
+            -- found. Default: `true`, which means to use the cwd.
+            project_root_fallback = true,
+
             -- The casing to use for the search in a format that ripgrep
             -- accepts. Defaults to "--ignore-case". See `rg --help` for all the
             -- available options ripgrep supports, but you can try

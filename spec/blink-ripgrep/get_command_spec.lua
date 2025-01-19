@@ -15,6 +15,7 @@ describe("get_command", function()
     })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
+    assert(cmd)
 
     -- don't compare the last item (the directory) as that changes depending on
     -- the test environment (such as individual developers' machines or ci)
@@ -38,6 +39,7 @@ describe("get_command", function()
     local plugin = blink_ripgrep.new({ context_size = 9 })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
+    assert(cmd)
 
     table.remove(cmd.command)
     assert.are_same(cmd.command, {
@@ -57,6 +59,7 @@ describe("get_command", function()
     local plugin = blink_ripgrep.new({ max_filesize = "2M" })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
+    assert(cmd)
 
     table.remove(cmd.command)
     assert.are_same(cmd.command, {
@@ -76,6 +79,7 @@ describe("get_command", function()
     local plugin = blink_ripgrep.new({ search_casing = "--smart-case" })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
+    assert(cmd)
 
     table.remove(cmd.command)
     assert.are_same(cmd.command, {
@@ -90,4 +94,22 @@ describe("get_command", function()
       "hello[\\w_-]+",
     })
   end)
+
+  it(
+    "allows disabling completion when project_root_fallback is disabled",
+    function()
+      local plugin = blink_ripgrep.new({
+        project_root_fallback = false,
+        project_root_marker = { ".notfound" },
+      })
+      ---@diagnostic disable-next-line: missing-fields
+      local cmd, error_message =
+        RipgrepCommand.get_command("hello", plugin.config)
+      assert.are_same(cmd, nil)
+      assert.are_same(
+        error_message,
+        "Could not find project root, and project_root_fallback is disabled."
+      )
+    end
+  )
 end)

@@ -7,7 +7,7 @@ RipgrepCommand.__index = RipgrepCommand
 
 ---@param prefix string
 ---@param options blink-ripgrep.Options
----@return blink-ripgrep.RipgrepCommand
+---@return blink-ripgrep.RipgrepCommand | nil, string? # The command to run, or an error message.
 ---@nodiscard
 function RipgrepCommand.get_command(prefix, options)
   local cmd = {
@@ -27,7 +27,15 @@ function RipgrepCommand.get_command(prefix, options)
   table.insert(cmd, "--")
   table.insert(cmd, prefix .. "[\\w_-]+")
 
-  local root = (vim.fs.root(0, options.project_root_marker) or vim.fn.getcwd())
+  local root = vim.fs.root(0, options.project_root_marker)
+  if options.project_root_fallback then
+    root = root or vim.fn.getcwd()
+  end
+  if root == nil then
+    return nil,
+      "Could not find project root, and project_root_fallback is disabled."
+  end
+
   table.insert(cmd, root)
 
   local command = setmetatable({
