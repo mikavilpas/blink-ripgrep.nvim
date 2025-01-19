@@ -182,17 +182,9 @@ function RgSource:get_completions(context, resolve)
 
   if cmd == nil then
     if RgSource.config.debug then
-      vim.api.nvim_exec2(
-        "echomsg 'no command returned, skipping the search'",
-        {}
-      )
-      -- selene: allow(global_usage)
-      _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
-      -- selene: allow(global_usage)
-      table.insert(
-        _G.blink_ripgrep_invocations,
-        { "ignored-because-no-command" }
-      )
+      local debug = require("blink-ripgrep.debug")
+      debug.add_debug_message("no command returned, skipping the search")
+      debug.add_debug_invocation({ "ignored-because-no-command" })
     end
 
     resolve()
@@ -201,19 +193,11 @@ function RgSource:get_completions(context, resolve)
 
   if vim.tbl_contains(RgSource.config.ignore_paths, cmd.root) then
     if RgSource.config.debug then
-      vim.api.nvim_exec2(
-        string.format("echomsg 'skipping search in ignored path %s'", cmd.root),
-        {}
-      )
+      local debug = require("blink-ripgrep.debug")
+      debug.add_debug_message("skipping search in ignored path" .. cmd.root)
+      debug.add_debug_invocation({ "ignored", cmd.root })
     end
     resolve()
-
-    if RgSource.config.debug then
-      -- selene: allow(global_usage)
-      _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
-      -- selene: allow(global_usage)
-      table.insert(_G.blink_ripgrep_invocations, { "ignored", cmd.root })
-    end
 
     return
   end
@@ -224,10 +208,7 @@ function RgSource:get_completions(context, resolve)
     end
 
     require("blink-ripgrep.visualization").flash_search_prefix(prefix)
-    -- selene: allow(global_usage)
-    _G.blink_ripgrep_invocations = _G.blink_ripgrep_invocations or {}
-    -- selene: allow(global_usage)
-    table.insert(_G.blink_ripgrep_invocations, cmd)
+    require("blink-ripgrep.debug").add_debug_invocation(cmd)
   end
 
   local rg = vim.system(cmd.command, nil, function(result)
@@ -294,7 +275,9 @@ function RgSource:get_completions(context, resolve)
   return function()
     rg:kill(9)
     if RgSource.config.debug then
-      vim.api.nvim_exec2("echomsg 'killed previous invocation'", {})
+      require("blink-ripgrep.debug").add_debug_message(
+        "killed previous invocation"
+      )
     end
   end
 end
