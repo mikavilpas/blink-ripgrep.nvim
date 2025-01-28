@@ -25,14 +25,10 @@ export const MyTestDirectorySchema = z.object({
             "init.lua": z.object({
               name: z.literal("init.lua"),
               type: z.literal("file"),
-              extension: z.literal("lua"),
-              stem: z.literal("init."),
             }),
             "prepare.lua": z.object({
               name: z.literal("prepare.lua"),
               type: z.literal("file"),
-              extension: z.literal("lua"),
-              stem: z.literal("prepare."),
             }),
           }),
         }),
@@ -45,46 +41,32 @@ export const MyTestDirectorySchema = z.object({
         "disable_project_root_fallback.lua": z.object({
           name: z.literal("disable_project_root_fallback.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("disable_project_root_fallback."),
         }),
         "don't_use_debug_mode.lua": z.object({
           name: z.literal("don't_use_debug_mode.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("don't_use_debug_mode."),
         }),
         "set_ignore_paths.lua": z.object({
           name: z.literal("set_ignore_paths.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("set_ignore_paths."),
         }),
         "use_case_sensitive_search.lua": z.object({
           name: z.literal("use_case_sensitive_search.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("use_case_sensitive_search."),
         }),
         "use_manual_mode.lua": z.object({
           name: z.literal("use_manual_mode.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("use_manual_mode."),
         }),
         "use_not_found_project_root.lua": z.object({
           name: z.literal("use_not_found_project_root.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("use_not_found_project_root."),
         }),
       }),
     }),
     "initial-file.txt": z.object({
       name: z.literal("initial-file.txt"),
       type: z.literal("file"),
-      extension: z.literal("txt"),
-      stem: z.literal("initial-file."),
     }),
     limited: z.object({
       name: z.literal("limited/"),
@@ -97,22 +79,16 @@ export const MyTestDirectorySchema = z.object({
             "file with spaces.txt": z.object({
               name: z.literal("file with spaces.txt"),
               type: z.literal("file"),
-              extension: z.literal("txt"),
-              stem: z.literal("file with spaces."),
             }),
             "other file with spaces.txt": z.object({
               name: z.literal("other file with spaces.txt"),
               type: z.literal("file"),
-              extension: z.literal("txt"),
-              stem: z.literal("other file with spaces."),
             }),
           }),
         }),
         "main-project-file.lua": z.object({
           name: z.literal("main-project-file.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("main-project-file."),
         }),
         subproject: z.object({
           name: z.literal("subproject/"),
@@ -121,26 +97,18 @@ export const MyTestDirectorySchema = z.object({
             "example.clj": z.object({
               name: z.literal("example.clj"),
               type: z.literal("file"),
-              extension: z.literal("clj"),
-              stem: z.literal("example."),
             }),
             "file1.lua": z.object({
               name: z.literal("file1.lua"),
               type: z.literal("file"),
-              extension: z.literal("lua"),
-              stem: z.literal("file1."),
             }),
             "file2.lua": z.object({
               name: z.literal("file2.lua"),
               type: z.literal("file"),
-              extension: z.literal("lua"),
-              stem: z.literal("file2."),
             }),
             "file3.lua": z.object({
               name: z.literal("file3.lua"),
               type: z.literal("file"),
-              extension: z.literal("lua"),
-              stem: z.literal("file3."),
             }),
           }),
         }),
@@ -149,14 +117,10 @@ export const MyTestDirectorySchema = z.object({
     "line-file.lua": z.object({
       name: z.literal("line-file.lua"),
       type: z.literal("file"),
-      extension: z.literal("lua"),
-      stem: z.literal("line-file."),
     }),
     "other-file.lua": z.object({
       name: z.literal("other-file.lua"),
       type: z.literal("file"),
-      extension: z.literal("lua"),
-      stem: z.literal("other-file."),
     }),
   }),
 })

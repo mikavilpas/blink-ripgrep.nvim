@@ -37,8 +37,8 @@ importers:
         version: 3.24.1
     devDependencies:
       '@tui-sandbox/library':
-        specifier: 8.0.1
-        version: 8.0.1(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)
+        specifier: 9.0.1
+        version: 9.0.1(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)
       '@types/node':
         specifier: 22.10.3
         version: 22.10.3
@@ -359,22 +359,22 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@trpc/client@11.0.0-rc.695':
-    resolution: {integrity: sha512-PDLTGY4FYU0aJAHHJYGdmn6ePlkZcqX6FjyZodmpSlYrIZG8r21J6X4+nebFnsIUetxktmcmlJziUoEFYVH56g==}
+  '@trpc/client@11.0.0-rc.718':
+    resolution: {integrity: sha512-pTeMVFcNSw7akDz7XySsbBckfmoEYVSKLB4TCare4eAmJkFRnuPuFeKvs97hm2hxTQ43j9rrEOQGCRY84Vc4Ew==}
     peerDependencies:
-      '@trpc/server': 11.0.0-rc.695+01bdfa997
+      '@trpc/server': 11.0.0-rc.718+2018e3914
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.0.0-rc.695':
-    resolution: {integrity: sha512-r8e7shX/uoGWSDTRYoy6LmbgXYIlaWK6BDi9PyOCkoh67+ZNOVFSmb3c4XAwyhp3l2QhtjiCQXGxDPFetzP0mA==}
+  '@trpc/server@11.0.0-rc.718':
+    resolution: {integrity: sha512-u9xKci9yEVBjia3X6XhYG9Me3klf0HmyQUAPCzxPYUg8WNvwXEGfTJrIC1bBfst2pjvv3xmXsi16e3tGU16c6g==}
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@tui-sandbox/library@8.0.1':
-    resolution: {integrity: sha512-v7IYIKerkGfrKBqmBptgeu1ZV8RzFyy+JJ0dW6drk+iIBP7UN5gVv/lTgWhHvnKUvzrPqB7uU2H+Xhqkn1nhPA==}
+  '@tui-sandbox/library@9.0.1':
+    resolution: {integrity: sha512-qyyt1ItMXANQemaCwymlsM8QVojRimfXn4TfXePEriIWMG3gLk1FVpTHbP7sgZvqdRca2eA2wP7AMyGjtjOXIA==}
     hasBin: true
     peerDependencies:
-      cypress: ^13
+      cypress: ^13 || ^14
       prettier: '>= 3.3.3'
       type-fest: '>= 4.27.0'
       typescript: '>= 5.6.3'
@@ -2682,20 +2682,20 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@trpc/client@11.0.0-rc.695(@trpc/server@11.0.0-rc.695(typescript@5.7.2))(typescript@5.7.2)':
+  '@trpc/client@11.0.0-rc.718(@trpc/server@11.0.0-rc.718(typescript@5.7.2))(typescript@5.7.2)':
     dependencies:
-      '@trpc/server': 11.0.0-rc.695(typescript@5.7.2)
+      '@trpc/server': 11.0.0-rc.718(typescript@5.7.2)
       typescript: 5.7.2
 
-  '@trpc/server@11.0.0-rc.695(typescript@5.7.2)':
+  '@trpc/server@11.0.0-rc.718(typescript@5.7.2)':
     dependencies:
       typescript: 5.7.2
 
-  '@tui-sandbox/library@8.0.1(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)':
+  '@tui-sandbox/library@9.0.1(cypress@13.17.0)(prettier@3.4.2)(type-fest@4.31.0)(typescript@5.7.2)':
     dependencies:
       '@catppuccin/palette': 1.7.1
-      '@trpc/client': 11.0.0-rc.695(@trpc/server@11.0.0-rc.695(typescript@5.7.2))(typescript@5.7.2)
-      '@trpc/server': 11.0.0-rc.695(typescript@5.7.2)
+      '@trpc/client': 11.0.0-rc.718(@trpc/server@11.0.0-rc.718(typescript@5.7.2))(typescript@5.7.2)
+      '@trpc/server': 11.0.0-rc.718(typescript@5.7.2)
       '@xterm/addon-attach': 0.11.0(@xterm/xterm@5.5.0)
       '@xterm/addon-fit': 0.10.0(@xterm/xterm@5.5.0)
       '@xterm/xterm': 5.5.0
