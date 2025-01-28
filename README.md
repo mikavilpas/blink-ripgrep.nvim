@@ -118,6 +118,13 @@ return {
             -- look at `:messages`.
             ignore_paths = {},
 
+            -- Any additional paths to search in, in addition to the project
+            -- root. This can be useful if you want to include dictionary files
+            -- (/usr/share/dict/words), framework documentation, or any other
+            -- reference material that is not available within the project
+            -- root.
+            additional_paths = {},
+
             -- Show debug information in `:messages` that can help in
             -- diagnosing issues with the plugin.
             debug = false,

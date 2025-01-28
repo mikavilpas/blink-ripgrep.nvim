@@ -34,6 +34,16 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
+    "additional-words-dir": z.object({
+      name: z.literal("additional-words-dir/"),
+      type: z.literal("directory"),
+      contents: z.object({
+        "words.txt": z.object({
+          name: z.literal("words.txt"),
+          type: z.literal("file"),
+        }),
+      }),
+    }),
     "config-modifications": z.object({
       name: z.literal("config-modifications/"),
       type: z.literal("directory"),
@@ -48,6 +58,10 @@ export const MyTestDirectorySchema = z.object({
         }),
         "set_ignore_paths.lua": z.object({
           name: z.literal("set_ignore_paths.lua"),
+          type: z.literal("file"),
+        }),
+        "use_additional_paths.lua": z.object({
+          name: z.literal("use_additional_paths.lua"),
           type: z.literal("file"),
         }),
         "use_case_sensitive_search.lua": z.object({
@@ -138,9 +152,12 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim/prepare.lua",
   ".config/nvim",
   ".config",
+  "additional-words-dir/words.txt",
+  "additional-words-dir",
   "config-modifications/disable_project_root_fallback.lua",
   "config-modifications/don't_use_debug_mode.lua",
   "config-modifications/set_ignore_paths.lua",
+  "config-modifications/use_additional_paths.lua",
   "config-modifications/use_case_sensitive_search.lua",
   "config-modifications/use_manual_mode.lua",
   "config-modifications/use_not_found_project_root.lua",
