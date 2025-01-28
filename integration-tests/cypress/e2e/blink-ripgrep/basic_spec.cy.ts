@@ -363,6 +363,7 @@ describe("debug mode", () => {
     cy.startNeovim({
       // also test that the plugin can handle spaces in the file path
       filename: "limited/dir with spaces/file with spaces.txt",
+      startupScriptModifications: ["use_additional_paths.lua"],
     }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("this is file with spaces.txt")
@@ -401,6 +402,9 @@ describe("debug mode", () => {
         // Somewhere in the results, we should see the match, if the search was
         // successful.
         cy.contains(`spaceroni-macaroni`)
+
+        // additional_paths should be used
+        cy.contains("words.txt")
       })
     })
   })
@@ -531,6 +535,26 @@ describe("using .gitignore files to exclude files from searching", () => {
       cy.typeIntoTerminal("spaceroni")
       cy.contains("spaceroni-macaroni").should("not.exist")
     })
+  })
+})
+
+it("can use additional_paths to include additional files in the search", () => {
+  // By default, ripgrep allows using gitignore files to exclude files from
+  // the search. It works exactly like git does, and allows an intuitive way
+  // to exclude files.
+  cy.visit("/")
+  cy.startNeovim({
+    filename: "limited/dir with spaces/file with spaces.txt",
+    startupScriptModifications: ["use_additional_paths.lua"],
+  }).then(() => {
+    // wait until text on the start screen is visible
+    cy.contains("this is file with spaces.txt")
+    createFakeGitDirectoriesToLimitRipgrepScope()
+    cy.typeIntoTerminal("cc")
+
+    // search for something that will be found in the additional words.txt file
+    cy.typeIntoTerminal("abas")
+    cy.contains("abased")
   })
 })
 

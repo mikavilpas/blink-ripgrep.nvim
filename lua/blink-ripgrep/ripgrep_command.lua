@@ -1,6 +1,7 @@
 ---@class blink-ripgrep.RipgrepCommand
 ---@field command string[]
 ---@field root string
+---@field additional_roots string[]
 ---@field debugify_for_shell? fun(self):nil # Echo the command to the messages buffer for debugging purposes.
 local RipgrepCommand = {}
 RipgrepCommand.__index = RipgrepCommand
@@ -37,6 +38,9 @@ function RipgrepCommand.get_command(prefix, options)
   end
 
   table.insert(cmd, root)
+  for _, additional_root in ipairs(options.additional_paths or {}) do
+    table.insert(cmd, additional_root)
+  end
 
   local command = setmetatable({
     command = cmd,

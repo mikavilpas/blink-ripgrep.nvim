@@ -13,6 +13,7 @@
 ---@field project_root_fallback? boolean # Enable fallback to neovim cwd if project_root_marker is not found. Default: `true`, which means to use the cwd.
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
 ---@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.
+---@field additional_paths? string[] # Any additional paths to search in, in addition to the project root. This can be useful if you want to include dictionary files (/usr/share/dict/words), framework documentation, or any other reference material that is not available within the project root.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil
@@ -38,6 +39,7 @@ RgSource.config = {
   project_root_marker = ".git",
   ignore_paths = {},
   project_root_fallback = true,
+  additional_paths = {},
 }
 
 -- set up default options so that they are used by the next search
