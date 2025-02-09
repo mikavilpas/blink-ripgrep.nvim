@@ -14,6 +14,18 @@
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
 ---@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.
 ---@field additional_paths? string[] # Any additional paths to search in, in addition to the project root. This can be useful if you want to include dictionary files (/usr/share/dict/words), framework documentation, or any other reference material that is not available within the project root.
+---@field mode? blink-ripgrep.Mode # The mode to use for showing completions. Defaults to automatically showing suggestions.
+---@field future_features? blink-ripgrep.FutureFeatures # Features that are not yet stable and might change in the future. You can enable these to try them out beforehand, but be aware that they might change. Nothing is enabled by default.
+
+---@class blink-ripgrep.FutureFeatures
+---@field toggles? blink-ripgrep.ToggleKeymaps # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
+
+---@class blink-ripgrep.ToggleKeymaps
+---@field on_off? string # The keymap to toggle the plugin on and off from blink completion results. Example: "<leader>tg"
+
+---@alias blink-ripgrep.Mode
+---| "on" # Show completions when triggered by blink
+---| "off" # Don't show completions at all
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil
@@ -40,12 +52,44 @@ RgSource.config = {
   ignore_paths = {},
   project_root_fallback = true,
   additional_paths = {},
+  mode = "on",
+  future_features = { toggles = nil },
 }
 
 -- set up default options so that they are used by the next search
 ---@param options? blink-ripgrep.Options
 function RgSource.setup(options)
   RgSource.config = vim.tbl_deep_extend("force", RgSource.config, options or {})
+
+  if not RgSource.config.future_features.toggles then
+    if RgSource.config.debug then
+      require("blink-ripgrep.debug").add_debug_message(
+        "not enabling toggles because the feature is not enabled"
+      )
+    end
+
+    return
+  end
+
+  local on_off = RgSource.config.future_features.toggles.on_off
+  if on_off then
+    require("snacks.toggle")
+      .new({
+        id = "blink-ripgrep-manual-mode",
+        name = "blink-ripgrep",
+        get = function()
+          return RgSource.config.mode == "on"
+        end,
+        set = function(state)
+          if state then
+            RgSource.config.mode = "on"
+          else
+            RgSource.config.mode = "off"
+          end
+        end,
+      })
+      :map(on_off, { mode = { "n" } })
+  end
 end
 
 ---@param input_opts blink-ripgrep.Options
@@ -126,6 +170,16 @@ local function render_item_documentation(opts, file, match)
 end
 
 function RgSource:get_completions(context, resolve)
+  if RgSource.config.mode ~= "on" then
+    if RgSource.config.debug then
+      local debug = require("blink-ripgrep.debug")
+      debug.add_debug_message("mode is off, skipping the search")
+      debug.add_debug_invocation({ "ignored-because-mode-is-off" })
+    end
+    resolve()
+    return
+  end
+
   local prefix = self.get_prefix(context)
 
   if string.len(prefix) < RgSource.config.prefix_min_len then
