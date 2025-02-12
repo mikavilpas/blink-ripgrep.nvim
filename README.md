@@ -38,6 +38,10 @@ return {
   dependencies = {
     "mikavilpas/blink-ripgrep.nvim",
     -- 👆🏻👆🏻 add the dependency here
+
+    -- optional dependency used for toggling features on/off
+    -- https://github.com/folke/snacks.nvim
+    "folke/snacks.nvim",
   },
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
@@ -124,6 +128,20 @@ return {
             -- reference material that is not available within the project
             -- root.
             additional_paths = {},
+
+            -- Features that are not yet stable and might change in the future.
+            -- You can enable these to try them out beforehand, but be aware
+            -- that they might change. Nothing is enabled by default.
+            future_features = {
+              -- Keymaps to toggle features on/off. This can be used to alter
+              -- the behavior of the plugin without restarting Neovim. Nothing
+              -- is enabled by default.
+              toggles = {
+                -- The keymap to toggle the plugin on and off from blink
+                -- completion results. Example: "<leader>tg"
+                on_off = "<leader>tg",
+              },
+            },
 
             -- Show debug information in `:messages` that can help in
             -- diagnosing issues with the plugin.
