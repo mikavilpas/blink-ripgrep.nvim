@@ -69,26 +69,8 @@ function RgSource.setup(options)
     end
 
     return
-  end
-
-  local on_off = RgSource.config.future_features.toggles.on_off
-  if on_off then
-    require("snacks.toggle")
-      .new({
-        id = "blink-ripgrep-manual-mode",
-        name = "blink-ripgrep",
-        get = function()
-          return RgSource.config.mode == "on"
-        end,
-        set = function(state)
-          if state then
-            RgSource.config.mode = "on"
-          else
-            RgSource.config.mode = "off"
-          end
-        end,
-      })
-      :map(on_off, { mode = { "n" } })
+  else
+    require("blink-ripgrep.toggles").init_once(RgSource.config)
   end
 end
 
@@ -96,8 +78,7 @@ end
 function RgSource.new(input_opts)
   local self = setmetatable({}, RgSource)
 
-  RgSource.config =
-    vim.tbl_deep_extend("force", RgSource.config, input_opts or {})
+  RgSource.setup(input_opts)
 
   self.get_prefix = RgSource.config.get_prefix
     or require("blink-ripgrep.search_prefix").default_get_prefix

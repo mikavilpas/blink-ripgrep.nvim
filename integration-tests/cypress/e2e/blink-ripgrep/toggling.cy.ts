@@ -9,7 +9,6 @@ describe("toggling features on/off", () => {
     cy.visit("/")
     cy.startNeovim({
       filename: "limited/main-project-file.lua",
-      startupScriptModifications: ["enable_toggling.lua"],
     }).then((nvim) => {
       // when completing from a file in a superproject, the search may descend
       // to subprojects
