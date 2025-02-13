@@ -56,10 +56,6 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("don't_use_debug_mode.lua"),
           type: z.literal("file"),
         }),
-        "enable_toggling.lua": z.object({
-          name: z.literal("enable_toggling.lua"),
-          type: z.literal("file"),
-        }),
         "set_ignore_paths.lua": z.object({
           name: z.literal("set_ignore_paths.lua"),
           type: z.literal("file"),
@@ -160,7 +156,6 @@ export const testDirectoryFiles = z.enum([
   "additional-words-dir",
   "config-modifications/disable_project_root_fallback.lua",
   "config-modifications/don't_use_debug_mode.lua",
-  "config-modifications/enable_toggling.lua",
   "config-modifications/set_ignore_paths.lua",
   "config-modifications/use_additional_paths.lua",
   "config-modifications/use_case_sensitive_search.lua",
