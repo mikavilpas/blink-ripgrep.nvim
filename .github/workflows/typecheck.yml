@@ -1,0 +1,23 @@
+---
+name: Type check
+on:
+  pull_request: ~
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Type check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: stevearc/nvim-typecheck-action@v2
+        with:
+          path: lua
+          level: Information
+          libraries:
+            # space separated
+            https://github.com/folke/snacks.nvim
+            https://github.com/Saghen/blink.cmp
