@@ -107,7 +107,7 @@ function RgSource.new(input_opts)
   return self
 end
 
----@param opts blink.cmp.SourceRenderDocumentationOpts
+---@param opts blink.cmp.CompletionDocumentationDrawOpts
 ---@param file blink-ripgrep.RipgrepFile
 ---@param match blink-ripgrep.RipgrepMatch
 local function render_item_documentation(opts, file, match)
@@ -261,14 +261,19 @@ function RgSource:get_completions(context, resolve)
               docstring = docstring .. line.text .. "\n"
             end
 
+            local draw_docs = function(opts)
+              render_item_documentation(opts, file, match)
+            end
+
             ---@diagnostic disable-next-line: missing-fields
             items[matchkey] = {
               documentation = {
                 kind = "markdown",
                 value = docstring,
-                render = function(opts)
-                  render_item_documentation(opts, file, match)
-                end,
+                draw = draw_docs,
+                -- legacy, will be removed in a future release of blink
+                -- https://github.com/Saghen/blink.cmp/issues/1113
+                render = draw_docs,
               },
               source_id = "blink-ripgrep",
               kind = kinds.Text,
