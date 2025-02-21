@@ -64,6 +64,27 @@ describe("the basics", () => {
     })
   })
 
+  it("can use an underscore (_) ca be used to trigger blink completions", () => {
+    cy.visit("/")
+    cy.startNeovim({}).then(() => {
+      // wait until text on the start screen is visible
+      cy.contains("If you see this text, Neovim is ready!")
+      createFakeGitDirectoriesToLimitRipgrepScope()
+
+      // clear the current line and enter insert mode
+      cy.typeIntoTerminal("cc")
+      cy.typeIntoTerminal("foo")
+      // verify that a suggestion shows up, then cancel it with escape
+      cy.contains("foo_bar")
+      cy.typeIntoTerminal("{esc}")
+      cy.contains("foo_bar").should("not.exist")
+
+      // verify that the suggestion can be shown again by adding an underscore
+      cy.typeIntoTerminal("a_")
+      cy.contains("foo_bar")
+    })
+  })
+
   it("does not search in ignore_paths", () => {
     // By default, the paths ignored via git and ripgrep are also automatically
     // ignored by blink-ripgrep.nvim, without any extra features (this is a
