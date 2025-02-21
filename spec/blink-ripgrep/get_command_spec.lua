@@ -1,6 +1,6 @@
 local assert = require("luassert")
 local blink_ripgrep = require("blink-ripgrep")
-local RipgrepCommand = require("blink-ripgrep.ripgrep_command")
+local RipgrepCommand = require("blink-ripgrep.backends.ripgrep.ripgrep_command")
 
 describe("get_command", function()
   local default_config = vim.tbl_deep_extend("error", {}, blink_ripgrep.config)

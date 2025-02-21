@@ -27,18 +27,15 @@
 ---| "on" # Show completions when triggered by blink
 ---| "off" # Don't show completions at all
 
+---@class blink-ripgrep.Backend # a backend defines how to get matches from the project's files for a search
+---@field get_matches fun(self: blink-ripgrep.Backend, prefix: string, context: blink.cmp.Context, resolve: fun(response: blink.cmp.CompletionResponse | nil)): nil | fun(): nil # start a search process. Return an optional cancellation function that kills the search in case the user has canceled the completion.
+
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil
 ---@field get_prefix fun(context: blink.cmp.Context): string
 ---@field get_completions? fun(self: blink.cmp.Source, context: blink.cmp.Context, callback: fun(response: blink.cmp.CompletionResponse | nil)):  nil
 local RgSource = {}
 RgSource.__index = RgSource
-
-local highlight_ns_id = 0
-pcall(function()
-  highlight_ns_id = require("blink.cmp.config").appearance.highlight_ns
-end)
-vim.api.nvim_set_hl(0, "BlinkRipgrepMatch", { link = "Search", default = true })
 
 ---@type blink-ripgrep.Options
 RgSource.config = {
@@ -88,202 +85,13 @@ function RgSource.new(input_opts)
   return self
 end
 
----@param opts blink.cmp.CompletionDocumentationDrawOpts
----@param file blink-ripgrep.RipgrepFile
----@param match blink-ripgrep.RipgrepMatch
-local function render_item_documentation(opts, file, match)
-  local bufnr = opts.window:get_buf()
-  ---@type string[]
-  local text = {
-    file.relative_to_cwd,
-    string.rep(
-      "─",
-      -- TODO account for the width of the scrollbar if it's visible
-      opts.window:get_width()
-        - opts.window:get_border_size().horizontal
-        - 1
-    ),
-  }
-  for _, data in ipairs(match.context_preview) do
-    table.insert(text, data.text)
-  end
-
-  -- TODO add extmark highlighting for the divider line like in blink
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, text)
-
-  local filetype = vim.filetype.match({ filename = file.relative_to_cwd })
-  local parser_name = vim.treesitter.language.get_lang(filetype or "")
-  local parser_installed = parser_name
-    and pcall(function()
-      return vim.treesitter.get_parser(nil, file.language, {})
-    end)
-
-  if
-    not parser_installed and RgSource.config.fallback_to_regex_highlighting
-  then
-    -- Can't show highlighted text because no treesitter parser
-    -- has been installed for this language.
-    --
-    -- Fall back to regex based highlighting that is bundled in
-    -- neovim. It might not be perfect but it's much better
-    -- than no colors at all
-    vim.schedule(function()
-      vim.api.nvim_set_option_value("filetype", file.language, { buf = bufnr })
-      vim.api.nvim_buf_call(bufnr, function()
-        vim.cmd("syntax on")
-      end)
-    end)
-  else
-    assert(parser_name, "missing parser") -- lua-language-server should narrow this but can't
-    require("blink.cmp.lib.window.docs").highlight_with_treesitter(
-      bufnr,
-      parser_name,
-      2,
-      #text
-    )
-  end
-
-  require("blink-ripgrep.highlighting").highlight_match_in_doc_window(
-    bufnr,
-    match,
-    highlight_ns_id
-  )
-end
-
 function RgSource:get_completions(context, resolve)
-  if RgSource.config.mode ~= "on" then
-    if RgSource.config.debug then
-      local debug = require("blink-ripgrep.debug")
-      debug.add_debug_message("mode is off, skipping the search")
-      debug.add_debug_invocation({ "ignored-because-mode-is-off" })
-    end
-    resolve()
-    return
-  end
-
+  local ripgrep =
+    require("blink-ripgrep.backends.ripgrep.ripgrep").new(RgSource.config)
   local prefix = self.get_prefix(context)
+  local cancellation_function = ripgrep:get_matches(prefix, context, resolve)
 
-  if string.len(prefix) < RgSource.config.prefix_min_len then
-    resolve()
-    return
-  end
-
-  ---@type blink-ripgrep.RipgrepCommand | nil
-  local cmd
-  if self.get_command then
-    -- custom command provided by the user
-    cmd = self.get_command(context, prefix)
-  else
-    -- builtin default command
-    local command_module = require("blink-ripgrep.ripgrep_command")
-    cmd = command_module.get_command(prefix, RgSource.config)
-  end
-
-  if cmd == nil then
-    if RgSource.config.debug then
-      local debug = require("blink-ripgrep.debug")
-      debug.add_debug_message("no command returned, skipping the search")
-      debug.add_debug_invocation({ "ignored-because-no-command" })
-    end
-
-    resolve()
-    return
-  end
-
-  if vim.tbl_contains(RgSource.config.ignore_paths, cmd.root) then
-    if RgSource.config.debug then
-      local debug = require("blink-ripgrep.debug")
-      debug.add_debug_message("skipping search in ignored path" .. cmd.root)
-      debug.add_debug_invocation({ "ignored", cmd.root })
-    end
-    resolve()
-
-    return
-  end
-
-  if RgSource.config.debug then
-    if cmd.debugify_for_shell then
-      cmd:debugify_for_shell()
-    end
-
-    require("blink-ripgrep.visualization").flash_search_prefix(prefix)
-    require("blink-ripgrep.debug").add_debug_invocation(cmd)
-  end
-
-  local rg = vim.system(cmd.command, nil, function(result)
-    vim.schedule(function()
-      if result.code ~= 0 then
-        resolve()
-        return
-      end
-
-      local lines = vim.split(result.stdout, "\n")
-      local cwd = vim.uv.cwd() or ""
-
-      local parsed = require("blink-ripgrep.ripgrep_parser").parse(
-        lines,
-        cwd,
-        RgSource.config.context_size
-      )
-      local kinds = require("blink.cmp.types").CompletionItemKind
-
-      ---@type table<string, blink.cmp.CompletionItem>
-      local items = {}
-      for _, file in pairs(parsed.files) do
-        for _, match in pairs(file.matches) do
-          local matchkey = match.match.text
-
-          -- PERF: only register the match once - right now there is no useful
-          -- way to display the same match multiple times
-          if not items[matchkey] then
-            local label = match.match.text
-            local docstring = ""
-            for _, line in ipairs(match.context_preview) do
-              docstring = docstring .. line.text .. "\n"
-            end
-
-            local draw_docs = function(opts)
-              render_item_documentation(opts, file, match)
-            end
-
-            ---@diagnostic disable-next-line: missing-fields
-            items[matchkey] = {
-              documentation = {
-                kind = "markdown",
-                value = docstring,
-                draw = draw_docs,
-                -- legacy, will be removed in a future release of blink
-                -- https://github.com/Saghen/blink.cmp/issues/1113
-                render = draw_docs,
-              },
-              source_id = "blink-ripgrep",
-              kind = kinds.Text,
-              label = label,
-              insertText = matchkey,
-            }
-          end
-        end
-      end
-
-      vim.schedule(function()
-        resolve({
-          is_incomplete_forward = false,
-          is_incomplete_backward = false,
-          items = vim.tbl_values(items),
-          context = context,
-        })
-      end)
-    end)
-  end)
-
-  return function()
-    rg:kill(9)
-    if RgSource.config.debug then
-      require("blink-ripgrep.debug").add_debug_message(
-        "killed previous invocation"
-      )
-    end
-  end
+  return cancellation_function
 end
 
 return RgSource

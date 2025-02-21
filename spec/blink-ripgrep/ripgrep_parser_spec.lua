@@ -1,4 +1,4 @@
-local ripgrep_parser = require("blink-ripgrep.ripgrep_parser")
+local ripgrep_parser = require("blink-ripgrep.backends.ripgrep.ripgrep_parser")
 local assert = require("luassert")
 
 describe("ripgrep_parser", function()
