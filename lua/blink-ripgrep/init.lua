@@ -28,6 +28,7 @@
 ---| "off" # Don't show completions at all
 
 ---@class blink-ripgrep.Backend # a backend defines how to get matches from the project's files for a search
+---@field config blink-ripgrep.Options
 ---@field get_matches fun(self: blink-ripgrep.Backend, prefix: string, context: blink.cmp.Context, resolve: fun(response: blink.cmp.CompletionResponse | nil)): nil | fun(): nil # start a search process. Return an optional cancellation function that kills the search in case the user has canceled the completion.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
@@ -86,9 +87,25 @@ function RgSource.new(input_opts)
 end
 
 function RgSource:get_completions(context, resolve)
+  if self.config.mode ~= "on" then
+    if self.config.debug then
+      local debug = require("blink-ripgrep.debug")
+      debug.add_debug_message("mode is off, skipping the search")
+      debug.add_debug_invocation({ "ignored-because-mode-is-off" })
+    end
+    resolve()
+    return
+  end
+
   local ripgrep =
     require("blink-ripgrep.backends.ripgrep.ripgrep").new(RgSource.config)
   local prefix = self.get_prefix(context)
+
+  if string.len(prefix) < self.config.prefix_min_len then
+    resolve()
+    return
+  end
+
   local cancellation_function = ripgrep:get_matches(prefix, context, resolve)
 
   return cancellation_function
