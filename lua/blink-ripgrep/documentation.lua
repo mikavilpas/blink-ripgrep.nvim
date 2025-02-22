@@ -1,3 +1,5 @@
+---@module "blink-ripgrep.backends.git_grep.git_grep_parser"
+
 local documentation = {}
 
 local highlight_ns_id = 0
@@ -10,8 +12,8 @@ vim.api.nvim_set_hl(0, "BlinkRipgrepMatch", { link = "Search", default = true })
 
 ---@param config blink-ripgrep.Options
 ---@param draw_opts blink.cmp.CompletionDocumentationDrawOpts
----@param file blink-ripgrep.RipgrepFile
----@param match blink-ripgrep.RipgrepMatch
+---@param file blink-ripgrep.RipgrepFile | blink-ripgrep.GitgrepFile
+---@param match blink-ripgrep.Match | blink-ripgrep.Match
 function documentation.render_item_documentation(config, draw_opts, file, match)
   local bufnr = draw_opts.window:get_buf()
   ---@type string[]

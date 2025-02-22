@@ -19,6 +19,11 @@
 
 ---@class blink-ripgrep.FutureFeatures
 ---@field toggles? blink-ripgrep.ToggleKeymaps # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
+---@field backend? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.
+
+---@alias blink-ripgrep.BackendSelection
+---| "ripgrep" # Use ripgrep (rg) for searching. Works in most cases.
+---| "gitgrep" # Use git grep for searching. This is faster but only works in git repositories.
 
 ---@class blink-ripgrep.ToggleKeymaps
 ---@field on_off? string # The keymap to toggle the plugin on and off from blink completion results. Example: "<leader>tg"
@@ -51,7 +56,10 @@ RgSource.config = {
   project_root_fallback = true,
   additional_paths = {},
   mode = "on",
-  future_features = { toggles = nil },
+  future_features = {
+    toggles = nil,
+    backend = "ripgrep",
+  },
 }
 
 -- set up default options so that they are used by the next search
@@ -97,8 +105,22 @@ function RgSource:get_completions(context, resolve)
     return
   end
 
-  local ripgrep =
-    require("blink-ripgrep.backends.ripgrep.ripgrep").new(RgSource.config)
+  ---@type blink-ripgrep.Backend | nil
+  local backend
+  do
+    local be = (self.config.future_features or {}).backend
+
+    if be == "gitgrep" then
+      backend =
+        require("blink-ripgrep.backends.git_grep.git_grep").new(RgSource.config)
+    elseif be == "ripgrep" then
+      backend =
+        require("blink-ripgrep.backends.ripgrep.ripgrep").new(RgSource.config)
+    end
+
+    assert(backend, "Invalid backend " .. vim.inspect(be))
+  end
+
   local prefix = self.get_prefix(context)
 
   if string.len(prefix) < self.config.prefix_min_len then
@@ -106,7 +128,7 @@ function RgSource:get_completions(context, resolve)
     return
   end
 
-  local cancellation_function = ripgrep:get_matches(prefix, context, resolve)
+  local cancellation_function = backend:get_matches(prefix, context, resolve)
 
   return cancellation_function
 end
