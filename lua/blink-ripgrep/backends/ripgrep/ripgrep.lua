@@ -1,5 +1,4 @@
 ---@class blink-ripgrep.Backend
----@field config blink-ripgrep.Options
 local RipgrepBackend = {}
 
 ---@param config table
@@ -10,21 +9,6 @@ function RipgrepBackend.new(config)
 end
 
 function RipgrepBackend:get_matches(prefix, context, resolve)
-  if self.config.mode ~= "on" then
-    if self.config.debug then
-      local debug = require("blink-ripgrep.debug")
-      debug.add_debug_message("mode is off, skipping the search")
-      debug.add_debug_invocation({ "ignored-because-mode-is-off" })
-    end
-    resolve()
-    return
-  end
-
-  if string.len(prefix) < self.config.prefix_min_len then
-    resolve()
-    return
-  end
-
   -- builtin default command
   local command_module =
     require("blink-ripgrep.backends.ripgrep.ripgrep_command")
@@ -122,6 +106,8 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
         end
       end
 
+      -- Had some issues with E550, might be fixed upstream nowadays. See
+      -- https://github.com/mikavilpas/blink-ripgrep.nvim/issues/53
       vim.schedule(function()
         resolve({
           is_incomplete_forward = false,
