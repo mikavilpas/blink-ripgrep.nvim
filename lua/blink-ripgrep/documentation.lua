@@ -6,6 +6,8 @@ pcall(function()
 end)
 vim.api.nvim_set_hl(0, "BlinkRipgrepMatch", { link = "Search", default = true })
 
+---@alias blink-ripgrep.NumberedLine {line_number: number, text: string}
+
 ---@param config blink-ripgrep.Options
 ---@param draw_opts blink.cmp.CompletionDocumentationDrawOpts
 ---@param file blink-ripgrep.RipgrepFile
@@ -23,8 +25,14 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
         - 1
     ),
   }
-  for _, data in ipairs(match.context_preview) do
-    table.insert(text, data.text)
+
+  local context_preview = documentation.get_match_context(
+    config.context_size,
+    match.line_number,
+    file.relative_to_cwd
+  )
+  for _, line in ipairs(context_preview) do
+    table.insert(text, line.text)
   end
 
   -- TODO add extmark highlighting for the divider line like in blink
@@ -63,8 +71,34 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
   require("blink-ripgrep.highlighting").highlight_match_in_doc_window(
     bufnr,
     match,
-    highlight_ns_id
+    highlight_ns_id,
+    context_preview
   )
+end
+
+---@param context_size number
+---@param match_line number # the line number the match was found on
+---@param file_path string
+function documentation.get_match_context(context_size, match_line, file_path)
+  local start_line = math.max(1, match_line - context_size)
+  local end_line = match_line + context_size
+
+  local text = vim.fn.readfile(file_path, "", end_line)
+  assert(type(text) == "table", "expected table from readfile")
+  ---@cast text string[]
+
+  ---@type blink-ripgrep.NumberedLine[]
+  local context = {}
+  for i, line in ipairs(text) do
+    if i >= start_line then
+      table.insert(context, {
+        line_number = i,
+        text = line,
+      } --[[@as blink-ripgrep.NumberedLine]])
+    end
+  end
+
+  return context
 end
 
 return documentation

@@ -58,8 +58,7 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
       local parsed =
         require("blink-ripgrep.backends.ripgrep.ripgrep_parser").parse(
           lines,
-          cwd,
-          self.config.context_size
+          cwd
         )
       local kinds = require("blink.cmp.types").CompletionItemKind
 
@@ -73,10 +72,6 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
           -- way to display the same match multiple times
           if not items[matchkey] then
             local label = match.match.text
-            local docstring = ""
-            for _, line in ipairs(match.context_preview) do
-              docstring = docstring .. line.text .. "\n"
-            end
 
             local draw_docs = function(draw_opts)
               require("blink-ripgrep.documentation").render_item_documentation(
@@ -91,7 +86,6 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
             items[matchkey] = {
               documentation = {
                 kind = "markdown",
-                value = docstring,
                 draw = draw_docs,
                 -- legacy, will be removed in a future release of blink
                 -- https://github.com/Saghen/blink.cmp/issues/1113

@@ -5,7 +5,6 @@ local M = {}
 
 ---@class blink-ripgrep.RipgrepFile
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
----@field lines table<number, string> the context preview, shared for all the matches in this file so that they can display a subset
 ---@field matches table<string,blink-ripgrep.RipgrepMatch>
 ---@field relative_to_cwd string the relative path of the file to the current working directory
 
@@ -14,7 +13,6 @@ local M = {}
 ---@field start_col number
 ---@field end_col number
 ---@field match {text: string} the matched text
----@field context_preview blink-ripgrep.NumberedLine[] the preview of this match. Each key is the line number in the original file, and each value is the line of context (text)
 
 ---@param json unknown
 ---@param output blink-ripgrep.RipgrepOutput
@@ -23,8 +21,6 @@ local function get_file_context(json, output)
   local filename = json.data.path.text
   local file = output.files[filename]
   local line_number = json.data.line_number
-  -- assert(line_number)
-  -- assert(not file.lines[line_number])
 
   return file, line_number
 end
@@ -36,8 +32,7 @@ end
 --
 ---@param ripgrep_output string[] ripgrep output in jsonl format
 ---@param cwd string the current working directory
----@param context_size number the number of lines of context to include in the output
-function M.parse(ripgrep_output, cwd, context_size)
+function M.parse(ripgrep_output, cwd)
   ---@type blink-ripgrep.RipgrepOutput
   local output = { files = {} }
 
@@ -63,16 +58,11 @@ function M.parse(ripgrep_output, cwd, context_size)
 
         output.files[filename] = {
           language = language,
-          lines = {},
           matches = {},
           relative_to_cwd = relative_filename,
         }
-      elseif json.type == "context" then
-        local file, line_number = get_file_context(json, output)
-        file.lines[line_number] = json.data.lines.text
       elseif json.type == "match" then
         local file, line_number = get_file_context(json, output)
-        file.lines[line_number] = json.data.lines.text
 
         local text = json.data.submatches[1].match.text
 
@@ -82,51 +72,12 @@ function M.parse(ripgrep_output, cwd, context_size)
             end_col = json.data.submatches[1]["end"],
             match = { text = text },
             line_number = line_number,
-            context_preview = {},
           }
         end
-      elseif json.type == "end" then
-        -- Right now, we have collected the necessary lines for the context in
-        -- previous steps. Get the context preview for each match.
-        local filename = json.data.path.text
-        local file = output.files[filename]
-
-        for _, match in pairs(file.matches) do
-          match.context_preview =
-            M.get_context_preview(file.lines, match.line_number, context_size)
-        end
-
-        -- clear the lines to save memory
-        file.lines = {}
       end
     end
   end
   return output
-end
-
----@alias blink-ripgrep.NumberedLine {line_number: number, text: string}
-
----@param lines table<number, string>
----@param matched_line number the line number the match was found on
----@param context_size number how many lines of context to include before and after the match
----@return blink-ripgrep.NumberedLine[]
-function M.get_context_preview(lines, matched_line, context_size)
-  ---@type blink-ripgrep.NumberedLine[]
-  local context_preview = {}
-
-  local start_line = math.max(1, matched_line - context_size)
-  local end_line = matched_line + context_size
-
-  for i = start_line, end_line do
-    local line = lines[i]
-
-    if line then
-      local data = { line_number = i, text = line:gsub("%s*$", "") }
-      context_preview[#context_preview + 1] = data
-    end
-  end
-
-  return context_preview
 end
 
 return M
