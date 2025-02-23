@@ -14,7 +14,6 @@ function RipgrepCommand.get_command(prefix, options)
     "rg",
     "--no-config",
     "--json",
-    "--context=" .. options.context_size,
     "--word-regexp",
     "--max-filesize=" .. options.max_filesize,
     options.search_casing,
@@ -54,17 +53,17 @@ function RipgrepCommand:debugify_for_shell()
   -- print the command to :messages for hacky debugging, but don't show it
   -- in the ui so that it doesn't interrupt the user's work
   local debug_cmd = vim.deepcopy(self.command)
-  assert(#debug_cmd >= 10)
+  assert(#debug_cmd >= 9)
 
   -- The pattern is not compatible with shell syntax, so escape it
   -- separately. The user should be able to copy paste it into their posix
   -- compatible terminal.
-  local pattern = debug_cmd[9]
+  local pattern = debug_cmd[8]
   assert(pattern)
-  debug_cmd[9] = "'" .. pattern .. "'"
+  debug_cmd[8] = "'" .. pattern .. "'"
 
-  assert(debug_cmd[10])
-  debug_cmd[10] = vim.fn.fnameescape(debug_cmd[10])
+  assert(debug_cmd[9])
+  debug_cmd[9] = vim.fn.fnameescape(debug_cmd[9])
 
   local things = table.concat(debug_cmd, " ")
   vim.api.nvim_exec2("echomsg " .. vim.fn.string(things), {})
