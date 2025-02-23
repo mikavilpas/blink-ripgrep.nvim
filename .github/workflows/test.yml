@@ -26,6 +26,11 @@ jobs:
           }
           echo "Ripgrep version: $(rg --version)"
 
+          which git || {
+            sudo apt-get install git
+          }
+          echo "git version: $(git --version)"
+
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@v1.1.0
         with:

@@ -1,0 +1,6 @@
+[user]
+  email=john.doe@example.com
+  name=John Doe
+[init]
+  defaultBranch=main
+# vim: set ft=gitconfig:

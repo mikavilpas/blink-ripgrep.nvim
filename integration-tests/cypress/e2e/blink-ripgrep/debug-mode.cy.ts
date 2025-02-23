@@ -1,6 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { createFakeGitDirectoriesToLimitRipgrepScope } from "./createFakeGitDirectoriesToLimitRipgrepScope"
+import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
 
 describe("debug mode", () => {
   it("can execute the debug command in a shell", () => {
@@ -59,7 +59,7 @@ describe("debug mode", () => {
     cy.startNeovim({}).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
@@ -116,7 +116,7 @@ describe("debug mode", () => {
     cy.startNeovim({}).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
