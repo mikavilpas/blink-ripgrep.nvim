@@ -1,11 +1,11 @@
----@class blink-ripgrep.Backend
+---@class blink-ripgrep.RipgrepBackend : blink-ripgrep.Backend
 local RipgrepBackend = {}
 
 ---@param config table
 function RipgrepBackend.new(config)
   local self = setmetatable({}, { __index = RipgrepBackend })
   self.config = config
-  return self --[[@as blink-ripgrep.Backend]]
+  return self --[[@as blink-ripgrep.RipgrepBackend]]
 end
 
 function RipgrepBackend:get_matches(prefix, context, resolve)
@@ -66,13 +66,11 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
       local items = {}
       for _, file in pairs(parsed.files) do
         for _, match in pairs(file.matches) do
-          local matchkey = match.match.text
+          local match_text = match.match.text
 
           -- PERF: only register the match once - right now there is no useful
           -- way to display the same match multiple times
-          if not items[matchkey] then
-            local label = match.match.text
-
+          if not items[match_text] then
             local draw_docs = function(draw_opts)
               require("blink-ripgrep.documentation").render_item_documentation(
                 self.config,
@@ -83,7 +81,7 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
             end
 
             ---@diagnostic disable-next-line: missing-fields
-            items[matchkey] = {
+            items[match_text] = {
               documentation = {
                 kind = "markdown",
                 draw = draw_docs,
@@ -93,8 +91,8 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
               },
               source_id = "blink-ripgrep",
               kind = kinds.Text,
-              label = label,
-              insertText = matchkey,
+              label = match_text,
+              insertText = match_text,
             }
           end
         end
@@ -117,7 +115,7 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
     rg:kill(9)
     if self.config.debug then
       require("blink-ripgrep.debug").add_debug_message(
-        "killed previous invocation"
+        "killed previous RipgrepBackend invocation"
       )
     end
   end

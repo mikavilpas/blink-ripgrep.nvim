@@ -141,6 +141,10 @@ return {
                 -- completion results. Example: "<leader>tg"
                 on_off = "<leader>tg",
               },
+
+              -- The backend to use for searching. Defaults to "ripgrep".
+              -- "gitgrep" is available as a preview right now.
+              backend = "ripgrep",
             },
 
             -- Show debug information in `:messages` that can help in

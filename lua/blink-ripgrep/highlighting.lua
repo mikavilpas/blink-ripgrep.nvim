@@ -4,7 +4,7 @@ local M = {}
 --- shown, highlight the match so that the user can easily see where the match
 --- is.
 ---@param bufnr number
----@param match blink-ripgrep.RipgrepMatch
+---@param match blink-ripgrep.Match
 ---@param highlight_ns_id number
 ---@param context_preview blink-ripgrep.NumberedLine[]
 function M.highlight_match_in_doc_window(

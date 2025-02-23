@@ -5,10 +5,10 @@ local M = {}
 
 ---@class blink-ripgrep.RipgrepFile
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
----@field matches table<string,blink-ripgrep.RipgrepMatch>
+---@field matches table<string,blink-ripgrep.Match>
 ---@field relative_to_cwd string the relative path of the file to the current working directory
 
----@class blink-ripgrep.RipgrepMatch
+---@class blink-ripgrep.Match
 ---@field line_number number
 ---@field start_col number
 ---@field end_col number
@@ -49,9 +49,8 @@ function M.parse(ripgrep_output, cwd)
           relative_filename = filename:sub(#cwd + 2)
         end
 
-        local ext = vim.fn.fnamemodify(filename, ":e")
-
         local ft = vim.filetype.match({ filename = filename })
+        local ext = vim.fn.fnamemodify(filename, ":e")
         local language = ft
           or vim.treesitter.language.get_lang(ext or "text")
           or ext

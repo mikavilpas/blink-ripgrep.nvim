@@ -2,7 +2,6 @@
 ---@field command string[]
 ---@field root string
 ---@field additional_roots string[]
----@field debugify_for_shell? fun(self):nil # Echo the command to the messages buffer for debugging purposes.
 local RipgrepCommand = {}
 RipgrepCommand.__index = RipgrepCommand
 
@@ -55,12 +54,16 @@ function RipgrepCommand:debugify_for_shell()
   -- print the command to :messages for hacky debugging, but don't show it
   -- in the ui so that it doesn't interrupt the user's work
   local debug_cmd = vim.deepcopy(self.command)
+  assert(#debug_cmd >= 10)
 
   -- The pattern is not compatible with shell syntax, so escape it
   -- separately. The user should be able to copy paste it into their posix
   -- compatible terminal.
   local pattern = debug_cmd[9]
+  assert(pattern)
   debug_cmd[9] = "'" .. pattern .. "'"
+
+  assert(debug_cmd[10])
   debug_cmd[10] = vim.fn.fnameescape(debug_cmd[10])
 
   local things = table.concat(debug_cmd, " ")
