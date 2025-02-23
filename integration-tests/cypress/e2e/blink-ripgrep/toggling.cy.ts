@@ -1,6 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { createFakeGitDirectoriesToLimitRipgrepScope } from "./createFakeGitDirectoriesToLimitRipgrepScope"
+import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
 
 describe("toggling features on/off", () => {
   // Some features can be toggled on/off without restarting Neovim. This can be
@@ -13,7 +13,7 @@ describe("toggling features on/off", () => {
       // when completing from a file in a superproject, the search may descend
       // to subprojects
       cy.contains("this text is from main-project-file")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       // first verify that the plugin is enabled
       cy.typeIntoTerminal("o")

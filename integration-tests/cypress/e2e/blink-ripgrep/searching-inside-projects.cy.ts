@@ -1,9 +1,9 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { createFakeGitDirectoriesToLimitRipgrepScope } from "./createFakeGitDirectoriesToLimitRipgrepScope"
+import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
 
-describe("searching inside projects", () => {
-  // NOTE: the tests setup fake git repositories in the test environment using
+describe("searching inside projects with the RipgrepBackend", () => {
+  // NOTE: the tests setup git repositories in the test environment using
   // ../../../server/server.ts
   //
   // This limits the search to the nearest .git directory above the current
@@ -14,7 +14,7 @@ describe("searching inside projects", () => {
       // when completing from a file in a superproject, the search may descend
       // to subprojects
       cy.contains("this text is from main-project-file")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
@@ -34,7 +34,7 @@ describe("searching inside projects", () => {
       // the nearest .git directory (only the files in the same project should
       // be searched)
       cy.contains("This is text from file1.lua")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
@@ -60,7 +60,7 @@ describe("searching inside projects", () => {
       // the nearest .git directory (only the files in the same project should
       // be searched)
       cy.contains("This is text from file1.lua")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       // make sure the preconditions for this case are met
       nvim.runLuaCode({
@@ -106,7 +106,7 @@ describe("searching inside projects", () => {
         filename: "limited/subproject/file1.lua",
       }).then((nvim) => {
         cy.contains("This is text from file1.lua")
-        createFakeGitDirectoriesToLimitRipgrepScope()
+        createGitReposToLimitSearchScope()
 
         // the default is to use --ignore-case. Let's make sure that works first
         cy.typeIntoTerminal("o")
@@ -141,7 +141,7 @@ describe("searching inside projects", () => {
       // This way the user can quickly get an idea of where the match was
       // found.
       cy.contains("This is text from file1.lua")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       cy.typeIntoTerminal("o")
       // match text inside ../../../test-environment/limited/subproject/example.clj
@@ -170,7 +170,7 @@ describe("searching inside projects", () => {
         // the nearest .git directory (only the files in the same project should
         // be searched)
         cy.contains("This is text from file1.lua")
-        createFakeGitDirectoriesToLimitRipgrepScope()
+        createGitReposToLimitSearchScope()
 
         cy.typeIntoTerminal("o")
         // match text inside ../../../test-environment/limited/subproject/example.clj
@@ -215,7 +215,7 @@ describe("searching inside projects", () => {
       }).then((nvim) => {
         // wait until text on the start screen is visible
         cy.contains("this is file with spaces.txt")
-        createFakeGitDirectoriesToLimitRipgrepScope()
+        createGitReposToLimitSearchScope()
         cy.typeIntoTerminal("cc")
 
         // first, make sure that a file is included (so we can make sure it can

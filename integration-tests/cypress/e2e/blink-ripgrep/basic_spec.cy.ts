@@ -1,6 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { createFakeGitDirectoriesToLimitRipgrepScope } from "./createFakeGitDirectoriesToLimitRipgrepScope"
+import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
 
 describe("the basics", () => {
   it("shows words in other files as suggestions", () => {
@@ -8,7 +8,7 @@ describe("the basics", () => {
     cy.startNeovim().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
@@ -48,7 +48,7 @@ describe("the basics", () => {
     }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
@@ -69,7 +69,7 @@ describe("the basics", () => {
     cy.startNeovim({}).then(() => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
@@ -97,7 +97,7 @@ describe("the basics", () => {
     }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("This is text from file1.lua")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
       const ignorePath = nvim.dir.rootPathAbsolute + "/limited"
       nvim.runLuaCode({
         luaCode: `_G.set_ignore_paths({ "${ignorePath}" })`,
@@ -137,7 +137,7 @@ describe("the basics", () => {
     cy.visit("/")
     cy.startNeovim().then(() => {
       cy.contains("If you see this text, Neovim is ready!")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
 
       cy.typeIntoTerminal("cc")
 
@@ -172,7 +172,7 @@ describe("the basics", () => {
     }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("this is file with spaces.txt")
-      createFakeGitDirectoriesToLimitRipgrepScope()
+      createGitReposToLimitSearchScope()
       cy.typeIntoTerminal("cc")
 
       // search for something that will be found in the additional words.txt file
