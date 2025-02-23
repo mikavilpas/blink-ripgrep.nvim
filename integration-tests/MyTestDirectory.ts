@@ -26,6 +26,10 @@ export const MyTestDirectorySchema = z.object({
               name: z.literal("config"),
               type: z.literal("file"),
             }),
+            ignore: z.object({
+              name: z.literal("ignore"),
+              type: z.literal("file"),
+            }),
           }),
         }),
         nvim: z.object({
@@ -159,6 +163,7 @@ export type MyTestDirectory = MyTestDirectoryContentsSchemaType["contents"]
 
 export const testDirectoryFiles = z.enum([
   ".config/git/config",
+  ".config/git/ignore",
   ".config/git",
   ".config/nvim/init.lua",
   ".config/nvim/prepare.lua",
