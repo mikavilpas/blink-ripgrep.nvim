@@ -39,7 +39,7 @@ jobs:
 
       # https://github.com/cypress-io/github-action?tab=readme-ov-file#pnpm-workspaces
       - uses: pnpm/action-setup@v4.1.0
-      - uses: actions/setup-node@v4.1.0
+      - uses: actions/setup-node@v4.2.0
         with:
           node-version-file: .nvmrc
           cache: "pnpm"
