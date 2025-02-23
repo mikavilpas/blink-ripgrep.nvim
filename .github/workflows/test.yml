@@ -38,7 +38,7 @@ jobs:
           luarocks_version: "3.11.1"
 
       # https://github.com/cypress-io/github-action?tab=readme-ov-file#pnpm-workspaces
-      - uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@v4.1.0
       - uses: actions/setup-node@v4.1.0
         with:
           node-version-file: .nvmrc
