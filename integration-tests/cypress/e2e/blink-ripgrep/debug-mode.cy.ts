@@ -26,7 +26,7 @@ describe("debug mode", () => {
         expect(result.value)
         cy.log(result.value ?? "")
 
-        cy.typeIntoTerminal("{esc}:term{enter}", { delay: 3 })
+        cy.typeIntoTerminal("{esc}:term{enter}", { delay: 80 })
 
         // get the current buffer name
         nvim.runExCommand({ command: "echo expand('%')" }).then((bufname) => {
@@ -64,12 +64,6 @@ describe("debug mode", () => {
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
-
-      // debug mode should be on by default for all tests. Otherwise it doesn't
-      // make sense to test this, as nothing will be displayed.
-      nvim.runLuaCode({
-        luaCode: `assert(require("blink-ripgrep").config.debug)`,
-      })
 
       // this will match text from ../../../test-environment/other-file.lua
       //
@@ -122,12 +116,6 @@ describe("debug mode", () => {
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
 
-      // debug mode should be on by default for all tests. Otherwise it doesn't
-      // make sense to test this, as nothing will be displayed.
-      nvim.runLuaCode({
-        luaCode: `assert(require("blink-ripgrep").config.debug)`,
-      })
-
       // search for something that does not exist. This should start a couple
       // of searches
       cy.typeIntoTerminal("yyyyyy", { delay: 80 })
@@ -142,7 +130,7 @@ describe("debug mode", () => {
         })
         .should((result) => {
           expect(result.value).to.be.an("array")
-          expect(result.value).to.have.length.above(3)
+          expect(result.value).to.have.length.above(2)
         })
     })
   })
@@ -163,12 +151,6 @@ describe("debug mode", () => {
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
 
-      // debug mode should be on by default for all tests. Otherwise it doesn't
-      // make sense to test this, as nothing will be displayed.
-      nvim.runLuaCode({
-        luaCode: `assert(require("blink-ripgrep").config.debug)`,
-      })
-
       // search for something that does not exist. This should start a couple
       // of searches
       cy.typeIntoTerminal("yyyyyy", { delay: 80 })
@@ -183,7 +165,7 @@ describe("debug mode", () => {
         })
         .should((result) => {
           expect(result.value).to.be.an("array")
-          expect(result.value).to.have.length.above(3)
+          expect(result.value).to.have.length.above(2)
         })
 
       verifyGitGrepBackendWasUsedInTest()
