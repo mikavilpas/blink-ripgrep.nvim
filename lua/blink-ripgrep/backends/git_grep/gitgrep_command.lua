@@ -22,6 +22,7 @@ function GitgrepCommand.get_command(prefix)
     -- use a null byte as the separator. This avoids issues with whitespace
     -- being padded in the line and column number output.
     "--null",
+    "--recurse-submodules",
     "--",
     prefix .. "[\\w_-]+",
   }
@@ -40,13 +41,13 @@ function GitgrepCommand:debugify_for_shell()
   -- print the command to :messages for hacky debugging, but don't show it
   -- in the ui so that it doesn't interrupt the user's work
   local debug_cmd = vim.deepcopy(self.command)
-  assert(#debug_cmd == 12, "unexpected command length")
+  assert(#debug_cmd == 13, "unexpected command length")
 
   -- The pattern is not compatible with shell syntax, so escape it
   -- separately. The user should be able to copy paste it into their posix
   -- compatible terminal.
-  local pattern = debug_cmd[12]
-  debug_cmd[12] = "'" .. pattern .. "'"
+  local pattern = debug_cmd[13]
+  debug_cmd[13] = "'" .. pattern .. "'"
 
   local things = table.concat(debug_cmd, " ")
   vim.api.nvim_exec2("echomsg " .. vim.fn.string(things), {})
