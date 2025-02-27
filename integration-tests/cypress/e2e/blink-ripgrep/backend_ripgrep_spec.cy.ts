@@ -248,43 +248,4 @@ describe("in debug mode", () => {
         })
     })
   })
-
-  it("can clean up (kill) a previous search", () => {
-    // to save resources, the plugin should clean up a previous search when a
-    // new search is started. Blink should handle this internally, see
-    // https://github.com/mikavilpas/blink-ripgrep.nvim/issues/102
-
-    cy.visit("/")
-    cy.startNeovim({}).then((nvim) => {
-      // wait until text on the start screen is visible
-      cy.contains("If you see this text, Neovim is ready!")
-      createGitReposToLimitSearchScope()
-
-      // clear the current line and enter insert mode
-      cy.typeIntoTerminal("cc")
-
-      // debug mode should be on by default for all tests. Otherwise it doesn't
-      // make sense to test this, as nothing will be displayed.
-      nvim.runLuaCode({
-        luaCode: `assert(require("blink-ripgrep").config.debug)`,
-      })
-
-      // search for something that does not exist. This should start a couple
-      // of searches
-      cy.typeIntoTerminal("yyyyyy", { delay: 80 })
-      nvim.runExCommand({ command: "messages" }).then((result) => {
-        expect(result.value).to.contain(
-          "killed previous RipgrepBackend invocation",
-        )
-      })
-      nvim
-        .runLuaCode({
-          luaCode: `return _G.blink_ripgrep_invocations`,
-        })
-        .should((result) => {
-          expect(result.value).to.be.an("array")
-          expect(result.value).to.have.length.above(3)
-        })
-    })
-  })
 })

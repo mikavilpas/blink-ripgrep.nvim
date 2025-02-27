@@ -247,9 +247,6 @@ describe("in debug mode", () => {
     })
   })
 
-  // TODO add a test for "can clean up (kill) a previous search". This is too
-  // fast and currently needs to be timing based (👎🏻).
-
   afterEach(() => {
     verifyGitGrepBackendWasUsedInTest()
   })
