@@ -22,6 +22,7 @@ function GitgrepCommand.get_command(prefix)
     -- use a null byte as the separator. This avoids issues with whitespace
     -- being padded in the line and column number output.
     "--null",
+    "--recurse-submodules",
     "--",
     prefix .. "[\\w_-]+",
   }
