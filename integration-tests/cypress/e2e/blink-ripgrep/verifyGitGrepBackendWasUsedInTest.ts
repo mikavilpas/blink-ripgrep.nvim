@@ -6,10 +6,12 @@ export function verifyGitGrepBackendWasUsedInTest(): void {
   }).then((result) => {
     assert(result.value)
     const config = z
-      .object({ future_features: z.object({ backend: z.string() }) })
+      .object({
+        future_features: z.object({ backend: z.object({ use: z.string() }) }),
+      })
       .safeParse(result.value)
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(config.error).to.be.undefined
-    expect(config.data?.future_features.backend).to.equal("gitgrep")
+    expect(config.data?.future_features.backend.use).to.equal("gitgrep")
   })
 }
