@@ -202,6 +202,9 @@ Generally performance is very good, but depending on the size of your project
 and your computer's specifications, the search can be fast or slow. Here are a
 few things you can do to improve performance:
 
+- Use the experimental git grep backend by setting the
+  `future_features.backend = "gitgrep"` option (see above). This can be faster
+  in medium/large projects.
 - Set the `prefix_min_len` option to a larger number avoid starting a search for
   very short words. This can prevent unnecessary searches and improve
   performance.
