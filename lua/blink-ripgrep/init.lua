@@ -19,7 +19,10 @@
 
 ---@class blink-ripgrep.FutureFeatures
 ---@field toggles? blink-ripgrep.ToggleKeymaps # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
----@field backend? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.
+---@field backend? blink-ripgrep.BackendConfig
+
+---@class blink-ripgrep.BackendConfig
+---@field use? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.
 
 ---@alias blink-ripgrep.BackendSelection
 ---| "ripgrep" # Use ripgrep (rg) for searching. Works in most cases.
@@ -58,7 +61,9 @@ RgSource.config = {
   mode = "on",
   future_features = {
     toggles = nil,
-    backend = "ripgrep",
+    backend = {
+      use = "ripgrep",
+    },
   },
 }
 
@@ -108,7 +113,7 @@ function RgSource:get_completions(context, resolve)
   ---@type blink-ripgrep.Backend | nil
   local backend
   do
-    local be = (self.config.future_features or {}).backend
+    local be = (self.config.future_features or {}).backend.use
 
     if be == "gitgrep" then
       backend =
