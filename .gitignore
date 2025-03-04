@@ -7,3 +7,4 @@ integration-tests/dist
 .luarocks
 lua_modules
 luarocks
+integration-tests/cypress/videos
