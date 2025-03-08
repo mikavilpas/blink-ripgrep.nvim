@@ -145,7 +145,7 @@ describe("the RipgrepBackend", () => {
 })
 
 describe("in debug mode", () => {
-  it("can execute the debug command in a shell", () => {
+  it("can execute the rg debug command in a shell", () => {
     cy.visit("/")
     cy.startNeovim({
       // also test that the plugin can handle spaces in the file path

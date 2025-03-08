@@ -150,7 +150,7 @@ describe("the GitGrepBackend", () => {
 })
 
 describe("in debug mode", () => {
-  it("can execute the debug command in a shell", () => {
+  it("can execute the git debug command in a shell", () => {
     cy.visit("/")
     startNeovimWithGitBackend({}).then((nvim) => {
       // wait until text on the start screen is visible
