@@ -40,6 +40,15 @@ function GitGrepBackend:get_matches(prefix, context, resolve)
   local gitgrep = vim.system(cmd.command, nil, function(result)
     vim.schedule(function()
       if result.code ~= 0 then
+        if self.config.debug then
+          require("blink-ripgrep.debug").add_debug_message(
+            string.format(
+              "GitGrepBackend: Failed to execute the command in %s, error code %d",
+              vim.inspect(cwd),
+              result.code
+            )
+          )
+        end
         resolve()
         return
       end
@@ -47,6 +56,12 @@ function GitGrepBackend:get_matches(prefix, context, resolve)
       local lines = vim.split(result.stdout, "\n")
       local parser = require("blink-ripgrep.backends.git_grep.git_grep_parser")
       local output = parser.parse_output(lines, cwd)
+
+      if self.config.debug then
+        require("blink-ripgrep.debug").add_debug_message(
+          string.format("GitGrepBackend: Parsed %d lines of output", #lines)
+        )
+      end
 
       ---@type table<string, blink.cmp.CompletionItem>
       local items = {}
