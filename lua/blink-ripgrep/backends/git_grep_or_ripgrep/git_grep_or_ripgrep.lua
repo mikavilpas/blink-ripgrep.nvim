@@ -21,16 +21,12 @@ function GitGrepOrRipgrepBackend:get_matches(prefix, context, resolve)
     )
   end
 
-  -- use git to check if the current directory is a git repository
-  local backend
-  local job = vim.system({
-    -- git allows checking if the current directory is a git repository this way
-    "git",
-    "rev-parse",
-    "--is-inside-work-tree",
-  }, {
-    cwd = cwd,
-  }, function(result)
+  local git_task = self:is_git_available(cwd)
+
+  ---@param result vim.SystemCompleted
+  git_task:map(function(result)
+    -- use git to check if the current directory is a git repository
+    local backend
     if result.code == 0 then
       backend =
         require("blink-ripgrep.backends.git_grep.git_grep").new(self.config)
@@ -60,16 +56,65 @@ function GitGrepOrRipgrepBackend:get_matches(prefix, context, resolve)
         end)
       end
     end
+
+    assert(
+      backend,
+      "GitGrepOrRipgrepBackend: Was unable to find the backend in " .. cwd
+    )
+
+    GitGrepOrRipgrepBackend.schedule_if_needed(function()
+      local cancellation_function =
+        backend:get_matches(prefix, context, resolve)
+      if cancellation_function then
+        git_task:on_cancel(cancellation_function)
+      end
+    end)
   end)
-  job:wait(1000)
 
-  assert(
-    backend,
-    "GitGrepOrRipgrepBackend: Was unable to find the backend in " .. cwd
-  )
+  return function()
+    git_task:cancel()
+  end
+end
 
-  local cancellation_function = backend:get_matches(prefix, context, resolve)
-  return cancellation_function
+---@param cwd string
+---@return blink.cmp.Task
+function GitGrepOrRipgrepBackend:is_git_available(cwd)
+  local task = require("blink.cmp.lib.async").task
+
+  ---@type vim.SystemObj
+  local job
+  local gitjob = task.new(function(resolve)
+    job = vim.system({
+      -- git allows checking if the current directory is a git repository this way
+      "git",
+      "rev-parse",
+      "--is-inside-work-tree",
+    }, {
+      cwd = cwd,
+    }, resolve)
+  end)
+  gitjob:on_cancel(function()
+    job:kill(9)
+    if self.config.debug then
+      require("blink-ripgrep.debug").add_debug_message(
+        string.format(
+          "GitGrepOrRipgrepBackend: Git job %s was cancelled",
+          job.pid
+        )
+      )
+    end
+  end)
+
+  return gitjob
+end
+
+-- from blink, lua/blink/cmp/lib/utils.lua
+function GitGrepOrRipgrepBackend.schedule_if_needed(fn)
+  if vim.in_fast_event() then
+    vim.schedule(fn)
+  else
+    fn()
+  end
 end
 
 return GitGrepOrRipgrepBackend
