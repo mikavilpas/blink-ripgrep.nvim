@@ -143,7 +143,10 @@ return {
               },
 
               -- The backend to use for searching. Defaults to "ripgrep".
-              -- "gitgrep" is available as a preview right now.
+              -- Available options:
+              -- - "ripgrep", always use ripgrep
+              -- - "gitgrep", always use git grep
+              -- - "gitgrep-or-ripgrep", use git grep if possible, otherwise ripgrep
               backend = "ripgrep",
             },
 
