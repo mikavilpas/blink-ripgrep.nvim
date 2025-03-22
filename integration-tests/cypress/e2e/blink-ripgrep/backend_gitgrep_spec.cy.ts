@@ -2,7 +2,7 @@ import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import type { NeovimContext } from "cypress/support/tui-sandbox"
 import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
-import { verifyGitGrepBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
+import { verifyCorrectBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
 
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
@@ -11,10 +11,13 @@ function startNeovimWithGitBackend(
 ): Cypress.Chainable<NeovimContext> {
   if (!options) options = {}
   options.startupScriptModifications = options.startupScriptModifications ?? []
-  if (!options.startupScriptModifications.includes("use_gitgrep_backend.lua")) {
-    options.startupScriptModifications.push("use_gitgrep_backend.lua")
+
+  const backend = "use_gitgrep_backend.lua"
+  if (!options.startupScriptModifications.includes(backend)) {
+    options.startupScriptModifications.push(backend)
   }
-  assert(options.startupScriptModifications.includes("use_gitgrep_backend.lua"))
+
+  assert(options.startupScriptModifications.includes(backend))
   return cy.startNeovim(options)
 }
 
@@ -145,7 +148,7 @@ describe("the GitGrepBackend", () => {
   }
 
   afterEach(() => {
-    verifyGitGrepBackendWasUsedInTest()
+    verifyCorrectBackendWasUsedInTest("gitgrep")
   })
 })
 
@@ -248,6 +251,6 @@ describe("in debug mode", () => {
   })
 
   afterEach(() => {
-    verifyGitGrepBackendWasUsedInTest()
+    verifyCorrectBackendWasUsedInTest("gitgrep")
   })
 })
