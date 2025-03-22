@@ -25,6 +25,7 @@
 ---@field use? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.
 
 ---@alias blink-ripgrep.BackendSelection
+---| "gitgrep-or-ripgrep" # Use git grep for searching if in a git repository, otherwise use ripgrep.
 ---| "ripgrep" # Use ripgrep (rg) for searching. Works in most cases.
 ---| "gitgrep" # Use git grep for searching. This is faster but only works in git repositories.
 
@@ -121,6 +122,10 @@ function RgSource:get_completions(context, resolve)
     elseif be == "ripgrep" then
       backend =
         require("blink-ripgrep.backends.ripgrep.ripgrep").new(RgSource.config)
+    elseif be == "gitgrep-or-ripgrep" then
+      backend = require(
+        "blink-ripgrep.backends.git_grep_or_ripgrep.git_grep_or_ripgrep"
+      ).new(RgSource.config)
     end
 
     assert(backend, "Invalid backend " .. vim.inspect(be))
@@ -134,7 +139,6 @@ function RgSource:get_completions(context, resolve)
   end
 
   local cancellation_function = backend:get_matches(prefix, context, resolve)
-
   return cancellation_function
 end
 

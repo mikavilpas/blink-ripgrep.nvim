@@ -86,6 +86,10 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("use_gitgrep_backend.lua"),
           type: z.literal("file"),
         }),
+        "use_gitgrep_or_ripgrep_backend.lua": z.object({
+          name: z.literal("use_gitgrep_or_ripgrep_backend.lua"),
+          type: z.literal("file"),
+        }),
         "use_manual_mode.lua": z.object({
           name: z.literal("use_manual_mode.lua"),
           type: z.literal("file"),
@@ -181,6 +185,7 @@ export const testDirectoryFiles = z.enum([
   "config-modifications/use_additional_paths.lua",
   "config-modifications/use_case_sensitive_search.lua",
   "config-modifications/use_gitgrep_backend.lua",
+  "config-modifications/use_gitgrep_or_ripgrep_backend.lua",
   "config-modifications/use_manual_mode.lua",
   "config-modifications/use_not_found_project_root.lua",
   "config-modifications",

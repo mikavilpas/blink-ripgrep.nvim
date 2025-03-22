@@ -1,7 +1,7 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
-import { verifyGitGrepBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
+import { verifyCorrectBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
 
 describe("debug mode", () => {
   it("can execute the debug command in a shell", () => {
@@ -168,7 +168,7 @@ describe("debug mode", () => {
           expect(result.value).to.have.length.above(2)
         })
 
-      verifyGitGrepBackendWasUsedInTest()
+      verifyCorrectBackendWasUsedInTest("gitgrep")
     })
   })
 })

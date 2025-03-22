@@ -1,6 +1,8 @@
 import z from "zod"
 
-export function verifyGitGrepBackendWasUsedInTest(): void {
+export function verifyCorrectBackendWasUsedInTest(
+  backend: "gitgrep" | "ripgrep" | "gitgrep-or-ripgrep",
+): void {
   cy.nvim_runLuaCode({
     luaCode: `return require("blink-ripgrep").config`,
   }).then((result) => {
@@ -12,6 +14,6 @@ export function verifyGitGrepBackendWasUsedInTest(): void {
       .safeParse(result.value)
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(config.error).to.be.undefined
-    expect(config.data?.future_features.backend.use).to.equal("gitgrep")
+    expect(config.data?.future_features.backend.use).to.equal(backend)
   })
 }
