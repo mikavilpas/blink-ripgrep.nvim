@@ -1,0 +1,25 @@
+--- The format for options that was used before separate backend configurations
+--- were introduced
+---@class blink-ripgrep.LegacyOptions
+---@field prefix_min_len? number # The minimum length of the current word to start searching (if the word is shorter than this, the search will not start)
+---@field get_command? fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil # Changing this might break things - if you need some customization, please open an issue 🙂
+---@field get_prefix? fun(context: blink.cmp.Context): string
+---@field context_size? number # The number of lines to show around each match in the preview (documentation) window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
+---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
+---@field search_casing? string # The casing to use for the search in a format that ripgrep accepts. Defaults to "--ignore-case". See `rg --help` for all the available options ripgrep supports, but you can try "--case-sensitive" or "--smart-case".
+---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
+---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
+---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
+---@field project_root_fallback? boolean # Enable fallback to neovim cwd if project_root_marker is not found. Default: `true`, which means to use the cwd.
+---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
+---@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.
+---@field additional_paths? string[] # Any additional paths to search in, in addition to the project root. This can be useful if you want to include dictionary files (/usr/share/dict/words), framework documentation, or any other reference material that is not available within the project root.
+---@field mode? blink-ripgrep.Mode # The mode to use for showing completions. Defaults to automatically showing suggestions.
+---@field future_features? blink-ripgrep.LegacyFutureFeatures # Features that are not yet stable and might change in the future. You can enable these to try them out beforehand, but be aware that they might change. Nothing is enabled by default.
+
+---@class blink-ripgrep.LegacyFutureFeatures
+---@field backend? blink-ripgrep.LegacyBackendConfig
+
+---@class blink-ripgrep.LegacyBackendConfig
+---@field customize_icon_highlight? boolean # Whether to set up custom highlight-groups for the icons used in the completion items. Defaults to `true`, which means this is enabled.
+---@field use? string # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.

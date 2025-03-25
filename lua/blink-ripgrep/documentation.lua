@@ -29,7 +29,7 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
   }
 
   local context_preview = documentation.get_match_context(
-    config.context_size,
+    config.backend.context_size,
     match.line_number,
     file.relative_to_cwd
   )

@@ -15,11 +15,11 @@ function RipgrepCommand.get_command(prefix, options)
     "--no-config",
     "--json",
     "--word-regexp",
-    "--max-filesize=" .. options.max_filesize,
-    options.search_casing,
+    "--max-filesize=" .. options.backend.ripgrep.max_filesize,
+    options.backend.ripgrep.search_casing,
   }
 
-  for _, option in ipairs(options.additional_rg_options) do
+  for _, option in ipairs(options.backend.ripgrep.additional_rg_options) do
     table.insert(cmd, option)
   end
 
@@ -27,7 +27,7 @@ function RipgrepCommand.get_command(prefix, options)
   table.insert(cmd, prefix .. "[\\w_-]+")
 
   local root = vim.fs.root(0, options.project_root_marker)
-  if options.project_root_fallback then
+  if options.backend.ripgrep.project_root_fallback then
     root = root or vim.fn.getcwd()
   end
   if root == nil then
@@ -36,7 +36,9 @@ function RipgrepCommand.get_command(prefix, options)
   end
 
   table.insert(cmd, root)
-  for _, additional_root in ipairs(options.additional_paths or {}) do
+  for _, additional_root in
+    ipairs(options.backend.ripgrep.additional_paths or {})
+  do
     table.insert(cmd, additional_root)
   end
 

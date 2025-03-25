@@ -1,17 +1,35 @@
 local assert = require("luassert")
+local stub = require("luassert.stub")
 local blink_ripgrep = require("blink-ripgrep")
 local RipgrepCommand = require("blink-ripgrep.backends.ripgrep.ripgrep_command")
 
 describe("get_command", function()
+  local snapshot
+  stub(vim, "cmd")
+
   local default_config = vim.tbl_deep_extend("error", {}, blink_ripgrep.config)
 
   before_each(function()
     blink_ripgrep.config = default_config
+    snapshot = assert:snapshot()
+
+    -- notify_once is used to alert the user that the config needs to be
+    -- migrated manually. It logs to the console in the tests, which is not
+    -- useful, so we stub it out.
+    stub(vim, "notify_once")
+  end)
+
+  after_each(function()
+    snapshot:revert()
   end)
 
   it("allows passing additional_rg_options", function()
     local plugin = blink_ripgrep.new({
-      additional_rg_options = { "--foo", "--bar" },
+      backend = {
+        ripgrep = {
+          additional_rg_options = { "--foo", "--bar" },
+        },
+      },
     })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
@@ -54,7 +72,11 @@ describe("get_command", function()
   end)
 
   it("allows configuring the max_filesize", function()
-    local plugin = blink_ripgrep.new({ max_filesize = "2M" })
+    local plugin = blink_ripgrep.new({
+      backend = {
+        ripgrep = { max_filesize = "2M" },
+      },
+    })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
     assert(cmd)
@@ -73,7 +95,13 @@ describe("get_command", function()
   end)
 
   it("allows configuring the casing", function()
-    local plugin = blink_ripgrep.new({ search_casing = "--smart-case" })
+    local plugin = blink_ripgrep.new({
+      backend = {
+        ripgrep = {
+          search_casing = "--smart-case",
+        },
+      },
+    })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
     assert(cmd)

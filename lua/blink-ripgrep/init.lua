@@ -1,34 +1,37 @@
 ---@module "blink.cmp"
 
 ---@class blink-ripgrep.Options
+---@field backend? blink-ripgrep.BackendConfig
 ---@field prefix_min_len? number # The minimum length of the current word to start searching (if the word is shorter than this, the search will not start)
 ---@field get_command? fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil # Changing this might break things - if you need some customization, please open an issue 🙂
 ---@field get_prefix? fun(context: blink.cmp.Context): string
----@field context_size? number # The number of lines to show around each match in the preview (documentation) window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
----@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
----@field search_casing? string # The casing to use for the search in a format that ripgrep accepts. Defaults to "--ignore-case". See `rg --help` for all the available options ripgrep supports, but you can try "--case-sensitive" or "--smart-case".
----@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 ---@field fallback_to_regex_highlighting? boolean # (default: true) When a result is found for a file whose filetype does not have a treesitter parser installed, fall back to regex based highlighting that is bundled in Neovim.
 ---@field project_root_marker? unknown # Specifies how to find the root of the project where the ripgrep search will start from. Accepts the same options as the marker given to `:h vim.fs.root()` which offers many possibilities for configuration. Defaults to ".git".
----@field project_root_fallback? boolean # Enable fallback to neovim cwd if project_root_marker is not found. Default: `true`, which means to use the cwd.
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
----@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.
----@field additional_paths? string[] # Any additional paths to search in, in addition to the project root. This can be useful if you want to include dictionary files (/usr/share/dict/words), framework documentation, or any other reference material that is not available within the project root.
 ---@field mode? blink-ripgrep.Mode # The mode to use for showing completions. Defaults to automatically showing suggestions.
----@field future_features? blink-ripgrep.FutureFeatures # Features that are not yet stable and might change in the future. You can enable these to try them out beforehand, but be aware that they might change. Nothing is enabled by default.
 ---@field toggles? blink-ripgrep.ToggleKeymaps # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
 
----@class blink-ripgrep.FutureFeatures
----@field backend? blink-ripgrep.BackendConfig
-
 ---@class blink-ripgrep.BackendConfig
----@field use? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.
+---@field use? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep".
+---@field gitgrep? blink-ripgrep.GitGrepBackendOptions
+---@field ripgrep? blink-ripgrep.RipGrepBackendOptions
 ---@field customize_icon_highlight? boolean # Whether to set up custom highlight-groups for the icons used in the completion items. Defaults to `true`, which means this is enabled.
+---@field context_size? number # The number of lines to show around each match in the preview (documentation) window. For example, 5 means to show 5 lines before, then the match, and another 5 lines after the match.
 
 ---@alias blink-ripgrep.BackendSelection
 ---| "gitgrep-or-ripgrep" # Use git grep for searching if in a git repository, otherwise use ripgrep.
 ---| "ripgrep" # Use ripgrep (rg) for searching. Works in most cases.
 ---| "gitgrep" # Use git grep for searching. This is faster but only works in git repositories.
+
+---@class blink-ripgrep.GitGrepBackendOptions
+
+---@class blink-ripgrep.RipGrepBackendOptions
+---@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.
+---@field project_root_fallback? boolean # Enable fallback to neovim cwd if project_root_marker is not found. Default: `true`, which means to use the cwd.
+---@field additional_paths? string[] # Any additional paths to search in, in addition to the project root. This can be useful if you want to include dictionary files (/usr/share/dict/words), framework documentation, or any other reference material that is not available within the project root.
+---@field search_casing? string # The casing to use for the search in a format that ripgrep accepts. Defaults to "--ignore-case". See `rg --help` for all the available options ripgrep supports, but you can try "--case-sensitive" or "--smart-case".
+---@field max_filesize? string # The maximum file size that ripgrep should include in its search. Examples: "1024" (bytes by default), "200K", "1M", "1G"
+---@field additional_rg_options? string[] # (advanced) Any options you want to give to ripgrep. See `rg -h` for a list of all available options.
 
 ---@class blink-ripgrep.ToggleKeymaps
 ---@field on_off? string # The keymap to toggle the plugin on and off from blink completion results. Example: "<leader>tg" ("toggle grep")
@@ -48,23 +51,20 @@ RgSource.__index = RgSource
 ---@type blink-ripgrep.Options
 RgSource.config = {
   prefix_min_len = 3,
-  context_size = 5,
-  max_filesize = "1M",
-  additional_rg_options = {},
-  search_casing = "--ignore-case",
   fallback_to_regex_highlighting = true,
   project_root_marker = ".git",
-  ignore_paths = {},
-  project_root_fallback = true,
-  additional_paths = {},
-  toggles = {
-    on_off = nil,
-  },
   mode = "on",
-  future_features = {
-    backend = {
-      use = "ripgrep",
-      customize_icon_highlight = true,
+  backend = {
+    use = "ripgrep",
+    customize_icon_highlight = true,
+    context_size = 5,
+    ripgrep = {
+      ignore_paths = {},
+      additional_paths = {},
+      project_root_fallback = true,
+      search_casing = "--ignore-case",
+      max_filesize = "1M",
+      additional_rg_options = {},
     },
   },
 }
@@ -73,6 +73,24 @@ RgSource.config = {
 ---@param options? blink-ripgrep.Options
 function RgSource.setup(options)
   RgSource.config = vim.tbl_deep_extend("force", RgSource.config, options or {})
+
+  do
+    local opts, migrations =
+      require("blink-ripgrep.migrate_config").migrate_config(
+        RgSource.config,
+        options
+      )
+    if vim.tbl_count(migrations) > 0 then
+      vim.notify_once(
+        string.format(
+          "blink-ripgrep.nvim: The configuration format has changed. An automatic migration will be done for some time. Please migrate your blink-ripgrep config to the new config format (oldkey -> newkey): %s",
+          vim.inspect(migrations)
+        )
+      )
+    end
+
+    RgSource.config = opts
+  end
 
   if not RgSource.config.toggles then
     if RgSource.config.debug then
@@ -120,7 +138,7 @@ function RgSource:get_completions(context, resolve)
   ---@type blink-ripgrep.Backend | nil
   local backend
   do
-    local be = (self.config.future_features or {}).backend.use
+    local be = (self.config or {}).backend.use
 
     if be == "gitgrep" then
       backend =

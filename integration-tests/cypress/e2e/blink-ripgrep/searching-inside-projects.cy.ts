@@ -64,7 +64,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
       // make sure the preconditions for this case are met
       nvim.waitForLuaCode({
-        luaAssertion: `assert(require("blink-ripgrep").config.project_root_fallback == false)`,
+        luaAssertion: `assert(require("blink-ripgrep").config.backend.ripgrep.project_root_fallback == false)`,
       })
 
       // search for something that was found in the previous test (so we know

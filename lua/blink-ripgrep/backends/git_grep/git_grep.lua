@@ -105,7 +105,7 @@ function GitGrepBackend:get_matches(prefix, _, resolve)
             insertText = match.match.text,
           }
 
-          if self.config.future_features.backend.customize_icon_highlight then
+          if self.config.backend.customize_icon_highlight then
             items[match.match.text].kind_icon = "" -- git logo
             items[match.match.text].kind_hl = GitGrepBackend.hl_group_name
             items[match.match.text].kind_name = GitGrepBackend.kind_name

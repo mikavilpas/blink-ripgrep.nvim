@@ -86,7 +86,7 @@ describe("the GitGrepBackend", () => {
     })
   })
 
-  it("can use an underscore (_) ca be used to trigger blink completions", () => {
+  it("can use an underscore (_) to trigger blink completions", () => {
     cy.visit("/")
     startNeovimWithGitBackend({}).then(() => {
       // wait until text on the start screen is visible

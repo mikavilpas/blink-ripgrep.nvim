@@ -1,6 +1,5 @@
 function Enable_customization()
-  require("blink-ripgrep").config.future_features.backend.customize_icon_highlight =
-    true
+  require("blink-ripgrep").config.backend.customize_icon_highlight = true
 end
 
 function Customize_highlights()
