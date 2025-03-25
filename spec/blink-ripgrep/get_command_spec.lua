@@ -11,7 +11,13 @@ describe("get_command", function()
 
   it("allows passing additional_rg_options", function()
     local plugin = blink_ripgrep.new({
-      additional_rg_options = { "--foo", "--bar" },
+      future_features = {
+        backend = {
+          ripgrep = {
+            additional_rg_options = { "--foo", "--bar" },
+          },
+        },
+      },
     })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
@@ -54,7 +60,13 @@ describe("get_command", function()
   end)
 
   it("allows configuring the max_filesize", function()
-    local plugin = blink_ripgrep.new({ max_filesize = "2M" })
+    local plugin = blink_ripgrep.new({
+      future_features = {
+        backend = {
+          ripgrep = { max_filesize = "2M" },
+        },
+      },
+    })
     ---@diagnostic disable-next-line: missing-fields
     local cmd = RipgrepCommand.get_command("hello", plugin.config)
     assert(cmd)
