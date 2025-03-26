@@ -16,9 +16,9 @@
 ---@field additional_paths? string[] # Any additional paths to search in, in addition to the project root. This can be useful if you want to include dictionary files (/usr/share/dict/words), framework documentation, or any other reference material that is not available within the project root.
 ---@field mode? blink-ripgrep.Mode # The mode to use for showing completions. Defaults to automatically showing suggestions.
 ---@field future_features? blink-ripgrep.FutureFeatures # Features that are not yet stable and might change in the future. You can enable these to try them out beforehand, but be aware that they might change. Nothing is enabled by default.
+---@field toggles? blink-ripgrep.ToggleKeymaps # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
 
 ---@class blink-ripgrep.FutureFeatures
----@field toggles? blink-ripgrep.ToggleKeymaps # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
 ---@field backend? blink-ripgrep.BackendConfig
 ---@field issue185_workaround? boolean # Workaround for https://github.com/mikavilpas/blink-ripgrep.nvim/issues/185. This is a temporary fix and will be removed in the future.
 
@@ -60,9 +60,11 @@ RgSource.config = {
   ignore_paths = {},
   project_root_fallback = true,
   additional_paths = {},
+  toggles = {
+    on_off = nil,
+  },
   mode = "on",
   future_features = {
-    toggles = nil,
     backend = {
       use = "ripgrep",
     },
@@ -75,7 +77,7 @@ RgSource.config = {
 function RgSource.setup(options)
   RgSource.config = vim.tbl_deep_extend("force", RgSource.config, options or {})
 
-  if not RgSource.config.future_features.toggles then
+  if not RgSource.config.toggles then
     if RgSource.config.debug then
       require("blink-ripgrep.debug").add_debug_message(
         "not enabling toggles because the feature is not enabled"
