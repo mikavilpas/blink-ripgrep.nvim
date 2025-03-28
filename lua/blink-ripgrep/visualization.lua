@@ -17,6 +17,7 @@ function visualization.flash_search_prefix(prefix)
 
   local hlstart = cursor[2] - #prefix
   local hlend = cursor[2]
+  ---@diagnostic disable-next-line: deprecated
   vim.api.nvim_buf_add_highlight(
     0,
     ns_id,
