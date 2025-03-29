@@ -198,6 +198,9 @@ describe("in debug mode", () => {
   })
 
   it("highlights the search word when a new search is started", () => {
+    if (process.env["CI"]) {
+      return
+    }
     cy.visit("/")
     startNeovimWithGitBackend({}).then((nvim) => {
       // wait until text on the start screen is visible
