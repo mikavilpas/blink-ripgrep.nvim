@@ -5,6 +5,11 @@ export default defineConfig({
     baseUrl: "http://localhost:3000",
     // video: true,
     experimentalRunAllSpecs: true,
+    env: {
+      // make the CI environment variable available to cypress
+      // https://docs.cypress.io/app/references/environment-variables#Option-1-configuration-file
+      CI: process.env.CI,
+    },
     retries: {
       runMode: 5,
       openMode: 0,
