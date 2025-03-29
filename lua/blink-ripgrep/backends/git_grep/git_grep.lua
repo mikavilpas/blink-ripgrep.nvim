@@ -90,6 +90,12 @@ function GitGrepBackend:get_matches(prefix, context, resolve)
             label = match.match.text,
             insertText = match.match.text,
           }
+
+          if self.config.future_features.issue185_workaround then
+            items[match.match.text].documentation.draw = nil
+            ---@diagnostic disable-next-line: inject-field
+            items[match.match.text].documentation.render = nil
+          end
         end
       end
 
