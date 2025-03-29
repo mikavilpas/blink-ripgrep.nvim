@@ -147,12 +147,15 @@ return {
                 on_off = "<leader>tg",
               },
 
-              -- The backend to use for searching. Defaults to "ripgrep".
-              -- Available options:
-              -- - "ripgrep", always use ripgrep
-              -- - "gitgrep", always use git grep
-              -- - "gitgrep-or-ripgrep", use git grep if possible, otherwise ripgrep
-              backend = "ripgrep",
+              backend = {
+                -- The backend to use for searching. Defaults to "ripgrep".
+                -- Available options:
+                -- - "ripgrep", always use ripgrep
+                -- - "gitgrep", always use git grep
+                -- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
+                --   ripgrep
+                use = "ripgrep",
+              },
             },
 
             -- Show debug information in `:messages` that can help in
