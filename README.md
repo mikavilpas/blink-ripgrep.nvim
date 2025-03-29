@@ -133,6 +133,11 @@ return {
             -- You can enable these to try them out beforehand, but be aware
             -- that they might change. Nothing is enabled by default.
             future_features = {
+              -- Workaround for
+              -- https://github.com/mikavilpas/blink-ripgrep.nvim/issues/185. This
+              -- is a temporary fix and will be removed in the future.
+              issue185_workaround = false,
+
               -- Keymaps to toggle features on/off. This can be used to alter
               -- the behavior of the plugin without restarting Neovim. Nothing
               -- is enabled by default.
