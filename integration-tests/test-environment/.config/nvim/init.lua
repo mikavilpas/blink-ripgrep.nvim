@@ -71,10 +71,8 @@ local plugins = {
             ---@type blink-ripgrep.Options
             opts = {
               debug = true,
-              future_features = {
-                toggles = {
-                  on_off = "<leader>tg",
-                },
+              toggles = {
+                on_off = "<leader>tg",
               },
             },
           },

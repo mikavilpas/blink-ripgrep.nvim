@@ -129,6 +129,15 @@ return {
             -- root.
             additional_paths = {},
 
+            -- Keymaps to toggle features on/off. This can be used to alter
+            -- the behavior of the plugin without restarting Neovim. Nothing
+            -- is enabled by default. Requires folke/snacks.nvim.
+            toggles = {
+              -- The keymap to toggle the plugin on and off from blink
+              -- completion results. Example: "<leader>tg"
+              on_off = nil,
+            },
+
             -- Features that are not yet stable and might change in the future.
             -- You can enable these to try them out beforehand, but be aware
             -- that they might change. Nothing is enabled by default.
@@ -137,15 +146,6 @@ return {
               -- https://github.com/mikavilpas/blink-ripgrep.nvim/issues/185. This
               -- is a temporary fix and will be removed in the future.
               issue185_workaround = false,
-
-              -- Keymaps to toggle features on/off. This can be used to alter
-              -- the behavior of the plugin without restarting Neovim. Nothing
-              -- is enabled by default.
-              toggles = {
-                -- The keymap to toggle the plugin on and off from blink
-                -- completion results. Example: "<leader>tg"
-                on_off = "<leader>tg",
-              },
 
               backend = {
                 -- The backend to use for searching. Defaults to "ripgrep".

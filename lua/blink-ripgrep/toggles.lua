@@ -7,9 +7,9 @@ function toggles.init_once(config)
   if toggles.initialized then
     return
   end
-  assert(config.future_features.toggles)
+  assert(config.toggles)
 
-  local on_off = config.future_features.toggles.on_off
+  local on_off = config.toggles.on_off
   if not on_off then
     return
   end
