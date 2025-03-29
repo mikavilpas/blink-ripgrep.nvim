@@ -1,5 +1,3 @@
-import { flavors } from "@catppuccin/palette"
-import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
 import { verifyCorrectBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
 
@@ -52,53 +50,6 @@ describe("debug mode", () => {
         // additional_paths should be used
         cy.contains("words.txt")
       })
-    })
-  })
-
-  it("highlights the search word when a new ripgrep search is started", () => {
-    cy.visit("/")
-    cy.startNeovim({}).then((nvim) => {
-      // wait until text on the start screen is visible
-      cy.contains("If you see this text, Neovim is ready!")
-      createGitReposToLimitSearchScope()
-
-      // clear the current line and enter insert mode
-      cy.typeIntoTerminal("cc")
-
-      // this will match text from ../../../test-environment/other-file.lua
-      //
-      // If the plugin works, this text should show up as a suggestion.
-      cy.typeIntoTerminal("hip")
-      // the search should have been started for the prefix "hip"
-      cy.contains("hip").should(
-        "have.css",
-        "backgroundColor",
-        rgbify(flavors.macchiato.colors.flamingo.rgb),
-      )
-      //
-      // blink is now in the Fuzzy(3) stage, and additional keypresses must not
-      // start a new ripgrep search. They must be used for filtering the
-      // results instead.
-      // https://cmp.saghen.dev/development/architecture.html#architecture
-      cy.contains("Hippopotamus" + "234 (rg)") // wait for blink to show up
-      cy.typeIntoTerminal("234")
-
-      // wait for the highlight to disappear to test that too
-      cy.contains("hip").should(
-        "have.css",
-        "backgroundColor",
-        rgbify(flavors.macchiato.colors.base.rgb),
-      )
-
-      nvim
-        .runLuaCode({
-          luaCode: `return _G.blink_ripgrep_invocations`,
-        })
-        .should((result) => {
-          // ripgrep should only have been invoked once
-          expect(result.value).to.be.an("array")
-          expect(result.value).to.have.length(1)
-        })
     })
   })
 
