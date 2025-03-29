@@ -57,12 +57,6 @@ function GitGrepBackend:get_matches(prefix, context, resolve)
       local parser = require("blink-ripgrep.backends.git_grep.git_grep_parser")
       local output = parser.parse_output(lines, cwd)
 
-      if self.config.debug then
-        require("blink-ripgrep.debug").add_debug_message(
-          string.format("GitGrepBackend: Parsed %d lines of output", #lines)
-        )
-      end
-
       ---@type table<string, blink.cmp.CompletionItem>
       local items = {}
       for _, file in pairs(output.files) do
