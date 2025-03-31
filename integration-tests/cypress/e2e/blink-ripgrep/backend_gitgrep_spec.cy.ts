@@ -194,7 +194,7 @@ describe("in debug mode", () => {
     })
   })
 
-  it.only("highlights the search word when a new search is started", () => {
+  it("highlights the search word when a new search is started", () => {
     if (Cypress.env("CI")) {
       cy.log("Skipping test in CI")
       return
