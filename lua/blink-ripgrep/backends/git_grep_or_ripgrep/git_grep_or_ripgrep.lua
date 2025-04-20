@@ -69,6 +69,8 @@ function GitGrepOrRipgrepBackend:get_matches(prefix, context, resolve)
         git_task:on_cancel(cancellation_function)
       end
     end)
+
+    return nil
   end)
 
   return function()
