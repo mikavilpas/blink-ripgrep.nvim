@@ -20,7 +20,6 @@
 
 ---@class blink-ripgrep.FutureFeatures
 ---@field backend? blink-ripgrep.BackendConfig
----@field issue185_workaround? boolean # Workaround for https://github.com/mikavilpas/blink-ripgrep.nvim/issues/185. This is a temporary fix and will be removed in the future.
 
 ---@class blink-ripgrep.BackendConfig
 ---@field use? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.
@@ -68,7 +67,6 @@ RgSource.config = {
     backend = {
       use = "ripgrep",
     },
-    issue185_workaround = false,
   },
 }
 
