@@ -102,16 +102,21 @@ function RgSource.new(input_opts)
   return self
 end
 
-function RgSource:get_completions(context, resolve)
+function RgSource:enabled()
   if self.config.mode ~= "on" then
     if self.config.debug then
       local debug = require("blink-ripgrep.debug")
       debug.add_debug_message("mode is off, skipping the search")
       debug.add_debug_invocation({ "ignored-because-mode-is-off" })
     end
-    resolve()
-    return
+    return false
   end
+
+  return true
+end
+
+function RgSource:get_completions(context, resolve)
+  assert(self.config.mode ~= "off")
 
   ---@type blink-ripgrep.Backend | nil
   local backend
