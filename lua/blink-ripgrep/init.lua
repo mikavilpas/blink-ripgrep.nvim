@@ -36,10 +36,6 @@
 ---| "on" # Show completions when triggered by blink
 ---| "off" # Don't show completions at all
 
----@class blink-ripgrep.Backend # a backend defines how to get matches from the project's files for a search
----@field config blink-ripgrep.Options
----@field get_matches fun(self: blink-ripgrep.Backend, prefix: string, context: blink.cmp.Context, resolve: fun(response: blink.cmp.CompletionResponse | nil)): nil | fun(): nil # start a search process. Return an optional cancellation function that kills the search in case the user has canceled the completion.
-
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil
 ---@field get_prefix fun(context: blink.cmp.Context): string
