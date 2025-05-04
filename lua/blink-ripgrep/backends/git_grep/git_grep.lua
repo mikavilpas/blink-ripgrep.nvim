@@ -10,7 +10,7 @@ function GitGrepBackend.new(config)
   return self --[[@as blink-ripgrep.GitGrepBackend]]
 end
 
-function GitGrepBackend:get_matches(prefix, context, resolve)
+function GitGrepBackend:get_matches(prefix, _, resolve)
   local command_module =
     require("blink-ripgrep.backends.git_grep.gitgrep_command")
 
@@ -89,7 +89,6 @@ function GitGrepBackend:get_matches(prefix, context, resolve)
           is_incomplete_forward = false,
           is_incomplete_backward = false,
           items = vim.tbl_values(items),
-          context = context,
         })
       end)
     end)
