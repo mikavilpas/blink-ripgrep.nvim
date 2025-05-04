@@ -8,7 +8,7 @@ function RipgrepBackend.new(config)
   return self --[[@as blink-ripgrep.RipgrepBackend]]
 end
 
-function RipgrepBackend:get_matches(prefix, context, resolve)
+function RipgrepBackend:get_matches(prefix, _, resolve)
   -- builtin default command
   local command_module =
     require("blink-ripgrep.backends.ripgrep.ripgrep_command")
@@ -100,7 +100,6 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
           is_incomplete_forward = false,
           is_incomplete_backward = false,
           items = vim.tbl_values(items),
-          context = context,
         })
       end)
     end)
