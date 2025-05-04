@@ -61,23 +61,18 @@ function GitGrepBackend:get_matches(prefix, context, resolve)
       local items = {}
       for _, file in pairs(output.files) do
         for _, match in pairs(file.matches) do
-          local draw_docs = function(draw_opts)
-            require("blink-ripgrep.documentation").render_item_documentation(
-              self.config,
-              draw_opts,
-              file,
-              match
-            )
-          end
-
           ---@diagnostic disable-next-line: missing-fields
           items[match.match.text] = {
             documentation = {
               kind = "markdown",
-              draw = draw_docs,
-              -- legacy, will be removed in a future release of blink
-              -- https://github.com/Saghen/blink.cmp/issues/1113
-              render = draw_docs,
+              draw = function(draw_opts)
+                require("blink-ripgrep.documentation").render_item_documentation(
+                  self.config,
+                  draw_opts,
+                  file,
+                  match
+                )
+              end,
             },
             source_id = "blink-ripgrep",
             kind = 1,

@@ -71,23 +71,18 @@ function RipgrepBackend:get_matches(prefix, context, resolve)
           -- PERF: only register the match once - right now there is no useful
           -- way to display the same match multiple times
           if not items[match_text] then
-            local draw_docs = function(draw_opts)
-              require("blink-ripgrep.documentation").render_item_documentation(
-                self.config,
-                draw_opts,
-                file,
-                match
-              )
-            end
-
             ---@diagnostic disable-next-line: missing-fields
             items[match_text] = {
               documentation = {
                 kind = "markdown",
-                draw = draw_docs,
-                -- legacy, will be removed in a future release of blink
-                -- https://github.com/Saghen/blink.cmp/issues/1113
-                render = draw_docs,
+                draw = function(draw_opts)
+                  require("blink-ripgrep.documentation").render_item_documentation(
+                    self.config,
+                    draw_opts,
+                    file,
+                    match
+                  )
+                end,
               },
               source_id = "blink-ripgrep",
               kind = kinds.Text,
