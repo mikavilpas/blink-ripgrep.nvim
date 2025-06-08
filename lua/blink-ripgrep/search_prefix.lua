@@ -1,3 +1,5 @@
+---@module "blink.cmp"
+
 local M = {}
 
 --- The pattern that is used to match the prefix of a search query. The prefix
