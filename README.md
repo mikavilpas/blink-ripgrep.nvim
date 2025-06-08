@@ -134,8 +134,11 @@ return {
             -- is enabled by default. Requires folke/snacks.nvim.
             toggles = {
               -- The keymap to toggle the plugin on and off from blink
-              -- completion results. Example: "<leader>tg"
+              -- completion results. Example: "<leader>tg" ("toggle grep")
               on_off = nil,
+
+              -- The keymap to toggle debug mode on/off. Example: "<leader>td" ("toggle debug")
+              debug = nil,
             },
 
             -- Features that are not yet stable and might change in the future.

@@ -9,27 +9,47 @@ function toggles.init_once(config)
   end
   assert(config.toggles)
 
-  local on_off = config.toggles.on_off
-  if not on_off then
-    return
+  local on_off_keymap = config.toggles.on_off
+  local debug_keymap = config.toggles.debug
+
+  if on_off_keymap then
+    require("snacks.toggle")
+      .new({
+        id = "blink-ripgrep-manual-mode",
+        name = "blink-ripgrep",
+        get = function()
+          return config.mode == "on"
+        end,
+        set = function(state)
+          if state then
+            config.mode = "on"
+          else
+            config.mode = "off"
+          end
+        end,
+      })
+      :map(on_off_keymap, { mode = { "n" } })
   end
 
-  require("snacks.toggle")
-    .new({
-      id = "blink-ripgrep-manual-mode",
-      name = "blink-ripgrep",
-      get = function()
-        return config.mode == "on"
-      end,
-      set = function(state)
-        if state then
-          config.mode = "on"
-        else
-          config.mode = "off"
-        end
-      end,
-    })
-    :map(on_off, { mode = { "n" } })
+  if debug_keymap then
+    require("snacks.toggle")
+      .new({
+        id = "blink-ripgrep-debug",
+        name = "blink-ripgrep-debug",
+        get = function()
+          return config.debug
+        end,
+        set = function(state)
+          if state then
+            config.debug = true
+          else
+            config.debug = false
+          end
+        end,
+      })
+      :map(debug_keymap, { mode = { "n" } })
+  end
+
   toggles.initialized = true
 end
 
