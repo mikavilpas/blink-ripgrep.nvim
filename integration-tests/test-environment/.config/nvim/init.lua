@@ -73,6 +73,7 @@ local plugins = {
               debug = true,
               toggles = {
                 on_off = "<leader>tg",
+                debug = "<leader>td",
               },
             },
           },

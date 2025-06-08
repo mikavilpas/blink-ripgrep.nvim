@@ -30,7 +30,8 @@
 ---| "gitgrep" # Use git grep for searching. This is faster but only works in git repositories.
 
 ---@class blink-ripgrep.ToggleKeymaps
----@field on_off? string # The keymap to toggle the plugin on and off from blink completion results. Example: "<leader>tg"
+---@field on_off? string # The keymap to toggle the plugin on and off from blink completion results. Example: "<leader>tg" ("toggle grep")
+---@field debug? string # The keymap to toggle debug mode on/off. Example: "<leader>td" ("toggle debug")
 
 ---@alias blink-ripgrep.Mode
 ---| "on" # Show completions when triggered by blink

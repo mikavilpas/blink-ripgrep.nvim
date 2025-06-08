@@ -63,4 +63,61 @@ describe("toggling features on/off", () => {
       )
     })
   })
+
+  it("can toggle debug mode on/off", () => {
+    cy.visit("/")
+    cy.startNeovim({
+      filename: "limited/main-project-file.lua",
+    }).then((nvim) => {
+      // when completing from a file in a superproject, the search may descend
+      // to subprojects
+      cy.contains("this text is from main-project-file")
+      createGitReposToLimitSearchScope()
+
+      // initialize the first completion to set the plugin up
+      cy.typeIntoTerminal("o")
+      cy.typeIntoTerminal("some")
+      cy.contains("here").should(
+        "have.css",
+        "color",
+        rgbify(flavors.macchiato.colors.green.rgb),
+      )
+
+      // first verify that debug is on (it's on in the test environment by
+      // default)
+      nvim
+        .runLuaCode({
+          luaCode: `return require("blink-ripgrep").config.debug`,
+        })
+        .should((result) => {
+          assert(result.value === true, "Debug should be on")
+        })
+
+      // toggle debug and wait for confirmation
+      cy.typeIntoTerminal("{esc}")
+      cy.typeIntoTerminal(" td")
+      cy.contains("Disabled **blink-ripgrep-debug**")
+
+      // debug should now be off
+      nvim
+        .runLuaCode({
+          luaCode: `return require("blink-ripgrep").config.debug`,
+        })
+        .should((result) => {
+          assert(result.value === false, "Debug should be off")
+        })
+
+      // put it back on
+      cy.typeIntoTerminal("{esc}")
+      cy.typeIntoTerminal(" td")
+      cy.contains("Enabled **blink-ripgrep-debug**")
+      nvim
+        .runLuaCode({
+          luaCode: `return require("blink-ripgrep").config.debug`,
+        })
+        .should((result) => {
+          assert(result.value === true, "Debug should be on")
+        })
+    })
+  })
 })
