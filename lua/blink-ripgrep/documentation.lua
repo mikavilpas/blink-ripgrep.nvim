@@ -74,7 +74,8 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
     bufnr,
     match,
     highlight_ns_id,
-    context_preview
+    context_preview,
+    config.debug
   )
 end
 
