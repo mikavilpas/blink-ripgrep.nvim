@@ -225,7 +225,6 @@ few things you can do to improve performance:
   try to figure out why the search is slow.
 - Use ripgrep's extensive options to exclude/include files
   ([ripgrep docs](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#automatic-filtering))
-
   - ripgrep supports global as well as project/directory specific ignore files.
     By default, it uses `.gitignore`, `.git/info/exclude`, `.ignore`, and
     `.rgignore` files.
