@@ -1,6 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("toggling features on/off", () => {
   // Some features can be toggled on/off without restarting Neovim. This can be

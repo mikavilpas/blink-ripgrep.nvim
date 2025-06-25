@@ -1,6 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("searching inside projects with the RipgrepBackend", () => {
   // NOTE: the tests setup git repositories in the test environment using

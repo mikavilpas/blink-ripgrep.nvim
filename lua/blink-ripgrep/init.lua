@@ -23,6 +23,7 @@
 
 ---@class blink-ripgrep.BackendConfig
 ---@field use? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep". "gitgrep" is available as a preview right now.
+---@field customize_icon_highlight? boolean # Whether to set up custom highlight-groups for the icons used in the completion items. Defaults to `true`, which means this is enabled.
 
 ---@alias blink-ripgrep.BackendSelection
 ---| "gitgrep-or-ripgrep" # Use git grep for searching if in a git repository, otherwise use ripgrep.
@@ -63,6 +64,7 @@ RgSource.config = {
   future_features = {
     backend = {
       use = "ripgrep",
+      customize_icon_highlight = true,
     },
   },
 }

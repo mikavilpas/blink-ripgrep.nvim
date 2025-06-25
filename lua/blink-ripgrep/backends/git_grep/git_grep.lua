@@ -3,10 +3,35 @@
 ---@class blink-ripgrep.GitGrepBackend : blink-ripgrep.Backend
 local GitGrepBackend = {}
 
----@param config table
+GitGrepBackend.kind_name = "RipgrepGit"
+GitGrepBackend.hl_group_name = "BlinkCmpKindRipgrepGit"
+
+-- https://cmp.saghen.dev/configuration/appearance.html#highlight-groups
+
+---@param config blink-ripgrep.Options
 function GitGrepBackend.new(config)
   local self = setmetatable({}, { __index = GitGrepBackend })
   self.config = config
+
+  vim.schedule(function()
+    local success, err = pcall(function()
+      vim.api.nvim_set_hl(
+        0,
+        GitGrepBackend.hl_group_name,
+        { link = "BlinkCmpKindText", default = true }
+      )
+    end)
+
+    if not success then
+      if config.debug then
+        require("blink-ripgrep.debug").add_debug_message(
+          "Failed to set highlight group: "
+            .. GitGrepBackend.hl_group_name
+            .. vim.inspect(err)
+        )
+      end
+    end
+  end)
   return self --[[@as blink-ripgrep.GitGrepBackend]]
 end
 
@@ -79,6 +104,12 @@ function GitGrepBackend:get_matches(prefix, _, resolve)
             label = match.match.text,
             insertText = match.match.text,
           }
+
+          if self.config.future_features.backend.customize_icon_highlight then
+            items[match.match.text].kind_icon = "" -- git logo
+            items[match.match.text].kind_hl = GitGrepBackend.hl_group_name
+            items[match.match.text].kind_name = GitGrepBackend.kind_name
+          end
         end
       end
 

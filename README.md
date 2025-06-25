@@ -153,6 +153,10 @@ return {
                 -- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
                 --   ripgrep
                 use = "ripgrep",
+                -- Whether to set up custom highlight-groups for the icons used
+                -- in the completion items. Defaults to `true`, which means
+                -- this is enabled.
+                customize_icon_highlight = true,
               },
             },
 
@@ -263,3 +267,10 @@ return {
 If you prefer to start the search manually, you can use a keymap to invoke the
 search. The example configuration includes a keymap that invokes the search when
 pressing `Ctrl+g`.
+
+## Highlight groups
+
+The plugin uses the following highlight groups to style the results:
+
+- `BlinkCmpKindRipgrepRipgrep` - the color of the icon used for ripgrep results
+- `BlinkCmpKindRipgrepGit` - the color of the icon used for git grep results

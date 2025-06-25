@@ -1,5 +1,5 @@
-import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
-import { verifyCorrectBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
+import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
 
 describe("debug mode", () => {
   it("can execute the debug command in a shell", () => {

@@ -36,15 +36,15 @@ importers:
         specifier: 8.0.3
         version: 8.0.3
       zod:
-        specifier: 3.25.67
-        version: 3.25.67
+        specifier: 4.0.0-beta.20250505T195954
+        version: 4.0.0-beta.20250505T195954
     devDependencies:
       '@eslint/js':
         specifier: 9.29.0
         version: 9.29.0
       '@tui-sandbox/library':
-        specifier: 10.6.1
-        version: 10.6.1(cypress@14.5.0)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.8.3)(zod@3.25.67)
+        specifier: 10.7.0
+        version: 10.7.0(cypress@14.5.0)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.8.3)(zod@4.0.0-beta.20250505T195954)
       '@types/node':
         specifier: 24.0.4
         version: 24.0.4
@@ -385,8 +385,8 @@ packages:
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@tui-sandbox/library@10.6.1':
-    resolution: {integrity: sha512-u/S6ttvLD4/77bhAdJG35MXO3ofI9Ypu138Msx7zoOJU+tNvTgZ9D8qj6R90cvyDOWM7hJfyLI11qE3WaHzniw==}
+  '@tui-sandbox/library@10.7.0':
+    resolution: {integrity: sha512-rdlNFp8S3O10DP+OPZvV6hAcHqneO4TBWkUqwGN3TwkEp8t2Ob3QOdtGsic+kmLV8DnviPai/SmK1etcyfxqUg==}
     hasBin: true
     peerDependencies:
       cypress: ^13 || ^14
@@ -512,6 +512,9 @@ packages:
 
   '@xterm/xterm@5.5.0':
     resolution: {integrity: sha512-hqJHYaQb5OptNunnyAnkHyM8aCjZ1MEIDTQu1iIbbTD/xops91NB5yq1ZK/dC2JDbVWtF23zUtl9JE2NqwT87A==}
+
+  '@zod/core@0.11.6':
+    resolution: {integrity: sha512-03Bv82fFSfjDAvMfdHHdGSS6SOJs0iCcJlWJv1kJHRtoTT02hZpyip/2Lk6oo4l4FtjuwTrsEQTwg/LD8I7dJA==}
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -2505,6 +2508,9 @@ packages:
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
+  zod@4.0.0-beta.20250505T195954:
+    resolution: {integrity: sha512-iB8WvxkobVIXMARvQu20fKvbS7mUTiYRpcD8OQV1xjRhxO0EEpYIRJBk6yfBzHAHEdOSDh3SxDITr5Eajr2vtg==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -2763,7 +2769,7 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
-  '@tui-sandbox/library@10.6.1(cypress@14.5.0)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.8.3)(zod@3.25.67)':
+  '@tui-sandbox/library@10.7.0(cypress@14.5.0)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.8.3)(zod@4.0.0-beta.20250505T195954)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.4.2(@trpc/server@11.4.2(typescript@5.8.3))(typescript@5.8.3)
@@ -2784,7 +2790,7 @@ snapshots:
       type-fest: 4.41.0
       typescript: 5.8.3
       winston: 3.17.0
-      zod: 3.25.67
+      zod: 4.0.0-beta.20250505T195954
     transitivePeerDependencies:
       - supports-color
 
@@ -2949,6 +2955,8 @@ snapshots:
       '@xterm/xterm': 5.5.0
 
   '@xterm/xterm@5.5.0': {}
+
+  '@zod/core@0.11.6': {}
 
   accepts@2.0.0:
     dependencies:
@@ -5257,5 +5265,9 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zod@3.25.67: {}
+
+  zod@4.0.0-beta.20250505T195954:
+    dependencies:
+      '@zod/core': 0.11.6
 
   zwitch@2.0.4: {}
