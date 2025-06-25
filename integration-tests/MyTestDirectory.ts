@@ -62,6 +62,10 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("config-modifications/"),
       type: z.literal("directory"),
       contents: z.object({
+        "apply_highlight_customization.lua": z.object({
+          name: z.literal("apply_highlight_customization.lua"),
+          type: z.literal("file"),
+        }),
         "disable_project_root_fallback.lua": z.object({
           name: z.literal("disable_project_root_fallback.lua"),
           type: z.literal("file"),
@@ -179,6 +183,7 @@ export const testDirectoryFiles = z.enum([
   ".config",
   "additional-words-dir/words.txt",
   "additional-words-dir",
+  "config-modifications/apply_highlight_customization.lua",
   "config-modifications/disable_project_root_fallback.lua",
   "config-modifications/don't_use_debug_mode.lua",
   "config-modifications/set_ignore_paths.lua",

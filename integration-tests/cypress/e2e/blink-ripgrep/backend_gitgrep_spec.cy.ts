@@ -1,8 +1,11 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import type { NeovimContext } from "cypress/support/tui-sandbox"
-import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
-import { verifyCorrectBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
+import { textIsVisibleWithColor } from "./utils/textIsVisibleWithColor"
+import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
+
+export type CatppuccinRgb = (typeof flavors.macchiato.colors)["surface0"]["rgb"]
 
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
@@ -146,6 +149,50 @@ describe("the GitGrepBackend", () => {
       rgbify(color ?? flavors.macchiato.colors.green.rgb),
     )
   }
+
+  it("can customize the icon in the completion results", () => {
+    cy.visit("/")
+    startNeovimWithGitBackend({
+      startupScriptModifications: ["apply_highlight_customization.lua"],
+    }).then((nvim) => {
+      // wait until text on the start screen is visible
+      cy.contains("If you see this text, Neovim is ready!")
+      createGitReposToLimitSearchScope()
+      cy.typeIntoTerminal("cc")
+
+      // search for something to bring up the completions
+      cy.typeIntoTerminal("hip")
+      cy.contains("Hippopotamus123")
+
+      {
+        // initially the customization has not been applied in this test, so
+        // the default icon should be visible
+        const defaultIcon = "󰉿"
+        cy.contains(defaultIcon).should(
+          "have.css",
+          "color",
+          rgbify(flavors.macchiato.colors.green.rgb),
+        )
+      }
+
+      // now Enable_customization. This will change the icon on the next
+      // invocation.
+      nvim.runLuaCode({ luaCode: `Enable_customization()` })
+      cy.typeIntoTerminal("{esc}cc")
+      cy.contains("Hippopotamus123").should("not.exist")
+      cy.typeIntoTerminal("hip")
+      cy.contains("Hippopotamus123")
+
+      // verify that the icon is BlinkCmpKindText (currently green) by default
+      const icon = ""
+      textIsVisibleWithColor(icon, flavors.macchiato.colors.green.rgb)
+
+      // apply_highlight_customization. Neovim is able to change this without
+      // closing the blink completion menu, which is great.
+      nvim.runLuaCode({ luaCode: `Customize_highlights()` })
+      textIsVisibleWithColor(icon, flavors.macchiato.colors.flamingo.rgb)
+    })
+  })
 
   afterEach(() => {
     verifyCorrectBackendWasUsedInTest("gitgrep")

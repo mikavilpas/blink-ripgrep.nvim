@@ -1,10 +1,34 @@
 ---@class blink-ripgrep.RipgrepBackend : blink-ripgrep.Backend
 local RipgrepBackend = {}
 
----@param config table
+RipgrepBackend.kind_name = "RipgrepRipgrep"
+RipgrepBackend.hl_group_name = "BlinkCmpKindRipgrepRipgrep"
+
+---@param config blink-ripgrep.Options
 function RipgrepBackend.new(config)
   local self = setmetatable({}, { __index = RipgrepBackend })
   self.config = config
+
+  vim.schedule(function()
+    local success, err = pcall(function()
+      -- https://cmp.saghen.dev/configuration/appearance.html#highlight-groups
+      vim.api.nvim_set_hl(
+        0,
+        RipgrepBackend.hl_group_name,
+        { link = "BlinkCmpKindText", default = true }
+      )
+    end)
+
+    if not success then
+      if self.config.debug then
+        require("blink-ripgrep.debug").add_debug_message(
+          "Failed to set highlight group: "
+            .. RipgrepBackend.hl_group_name
+            .. vim.inspect(err)
+        )
+      end
+    end
+  end)
   return self --[[@as blink-ripgrep.RipgrepBackend]]
 end
 
@@ -89,6 +113,12 @@ function RipgrepBackend:get_matches(prefix, _, resolve)
               label = match_text,
               insertText = match_text,
             }
+
+            if self.config.future_features.backend.customize_icon_highlight then
+              items[match_text].kind_icon = "" -- magnifying glass icon
+              items[match_text].kind_hl = RipgrepBackend.hl_group_name
+              items[match_text].kind_name = RipgrepBackend.kind_name
+            end
           end
         end
       end

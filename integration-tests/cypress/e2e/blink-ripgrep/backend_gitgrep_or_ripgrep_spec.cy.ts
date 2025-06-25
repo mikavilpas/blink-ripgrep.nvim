@@ -1,6 +1,6 @@
 import type { NeovimContext } from "cypress/support/tui-sandbox"
-import { createGitReposToLimitSearchScope } from "./createGitReposToLimitSearchScope"
-import { verifyCorrectBackendWasUsedInTest } from "./verifyGitGrepBackendWasUsedInTest"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
+import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
 
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
