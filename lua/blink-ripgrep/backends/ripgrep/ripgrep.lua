@@ -49,7 +49,12 @@ function RipgrepBackend:get_matches(prefix, _, resolve)
     return
   end
 
-  if vim.tbl_contains(self.config.ignore_paths, cmd.root) then
+  if
+    vim.tbl_contains(
+      self.config.future_features.backend.ripgrep.ignore_paths,
+      cmd.root
+    )
+  then
     if self.config.debug then
       local debug = require("blink-ripgrep.debug")
       debug.add_debug_message("skipping search in ignored path" .. cmd.root)
