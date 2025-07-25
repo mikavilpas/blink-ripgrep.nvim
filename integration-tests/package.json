@@ -13,16 +13,16 @@
   "dependencies": {
     "@catppuccin/palette": "1.7.1",
     "cypress": "14.5.2",
-    "wait-on": "8.0.3",
-    "zod": "4.0.5"
+    "wait-on": "8.0.4",
+    "zod": "4.0.10"
   },
   "devDependencies": {
-    "@eslint/js": "9.31.0",
+    "@eslint/js": "9.32.0",
     "@tui-sandbox/library": "11.1.0",
     "@types/node": "24.1.0",
     "@types/tinycolor2": "1.4.6",
     "concurrently": "9.2.0",
-    "eslint": "9.31.0",
+    "eslint": "9.32.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
     "tinycolor2": "1.6.0",
