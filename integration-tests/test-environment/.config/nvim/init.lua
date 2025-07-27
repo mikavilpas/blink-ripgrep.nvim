@@ -75,10 +75,8 @@ local plugins = {
                 on_off = "<leader>tg",
                 debug = "<leader>td",
               },
-              future_features = {
-                backend = {
-                  customize_icon_highlight = false,
-                },
+              backend = {
+                customize_icon_highlight = false,
               },
             },
           },

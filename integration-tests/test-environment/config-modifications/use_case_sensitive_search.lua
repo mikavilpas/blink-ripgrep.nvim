@@ -1,3 +1,7 @@
 require("blink-ripgrep").setup({
-  search_casing = "--smart-case",
+  backend = {
+    ripgrep = {
+      search_casing = "--smart-case",
+    },
+  },
 })

@@ -49,7 +49,7 @@ function RipgrepBackend:get_matches(prefix, _, resolve)
     return
   end
 
-  if vim.tbl_contains(self.config.ignore_paths, cmd.root) then
+  if vim.tbl_contains(self.config.backend.ripgrep.ignore_paths, cmd.root) then
     if self.config.debug then
       local debug = require("blink-ripgrep.debug")
       debug.add_debug_message("skipping search in ignored path" .. cmd.root)
@@ -114,7 +114,7 @@ function RipgrepBackend:get_matches(prefix, _, resolve)
               insertText = match_text,
             }
 
-            if self.config.future_features.backend.customize_icon_highlight then
+            if self.config.backend.customize_icon_highlight then
               items[match_text].kind_icon = "" -- magnifying glass icon
               items[match_text].kind_hl = RipgrepBackend.hl_group_name
               items[match_text].kind_name = RipgrepBackend.kind_name
