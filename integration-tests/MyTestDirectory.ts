@@ -66,25 +66,31 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("apply_highlight_customization.lua"),
           type: z.literal("file"),
         }),
-        "disable_project_root_fallback.lua": z.object({
-          name: z.literal("disable_project_root_fallback.lua"),
-          type: z.literal("file"),
-        }),
         "don't_use_debug_mode.lua": z.object({
           name: z.literal("don't_use_debug_mode.lua"),
           type: z.literal("file"),
         }),
-        "set_ignore_paths.lua": z.object({
-          name: z.literal("set_ignore_paths.lua"),
-          type: z.literal("file"),
-        }),
-        "use_additional_paths.lua": z.object({
-          name: z.literal("use_additional_paths.lua"),
-          type: z.literal("file"),
-        }),
-        "use_case_sensitive_search.lua": z.object({
-          name: z.literal("use_case_sensitive_search.lua"),
-          type: z.literal("file"),
+        ripgrep: z.object({
+          name: z.literal("ripgrep/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "disable_project_root_fallback.lua": z.object({
+              name: z.literal("disable_project_root_fallback.lua"),
+              type: z.literal("file"),
+            }),
+            "set_ignore_paths.lua": z.object({
+              name: z.literal("set_ignore_paths.lua"),
+              type: z.literal("file"),
+            }),
+            "use_additional_paths.lua": z.object({
+              name: z.literal("use_additional_paths.lua"),
+              type: z.literal("file"),
+            }),
+            "use_case_sensitive_search.lua": z.object({
+              name: z.literal("use_case_sensitive_search.lua"),
+              type: z.literal("file"),
+            }),
+          }),
         }),
         "use_gitgrep_backend.lua": z.object({
           name: z.literal("use_gitgrep_backend.lua"),
@@ -184,11 +190,12 @@ export const testDirectoryFiles = z.enum([
   "additional-words-dir/words.txt",
   "additional-words-dir",
   "config-modifications/apply_highlight_customization.lua",
-  "config-modifications/disable_project_root_fallback.lua",
   "config-modifications/don't_use_debug_mode.lua",
-  "config-modifications/set_ignore_paths.lua",
-  "config-modifications/use_additional_paths.lua",
-  "config-modifications/use_case_sensitive_search.lua",
+  "config-modifications/ripgrep/disable_project_root_fallback.lua",
+  "config-modifications/ripgrep/set_ignore_paths.lua",
+  "config-modifications/ripgrep/use_additional_paths.lua",
+  "config-modifications/ripgrep/use_case_sensitive_search.lua",
+  "config-modifications/ripgrep",
   "config-modifications/use_gitgrep_backend.lua",
   "config-modifications/use_gitgrep_or_ripgrep_backend.lua",
   "config-modifications/use_manual_mode.lua",

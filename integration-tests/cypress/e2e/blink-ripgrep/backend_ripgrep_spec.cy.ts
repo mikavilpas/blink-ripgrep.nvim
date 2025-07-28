@@ -45,7 +45,7 @@ describe("the RipgrepBackend", () => {
     cy.visit("/")
     cy.startNeovim({
       filename: "limited/subproject/file1.lua",
-      startupScriptModifications: ["set_ignore_paths.lua"],
+      startupScriptModifications: ["ripgrep/set_ignore_paths.lua"],
     }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("This is text from file1.lua")
@@ -120,7 +120,7 @@ describe("the RipgrepBackend", () => {
     cy.visit("/")
     cy.startNeovim({
       filename: "limited/dir with spaces/file with spaces.txt",
-      startupScriptModifications: ["use_additional_paths.lua"],
+      startupScriptModifications: ["ripgrep/use_additional_paths.lua"],
     }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("this is file with spaces.txt")
@@ -195,7 +195,7 @@ describe("in debug mode", () => {
     cy.startNeovim({
       // also test that the plugin can handle spaces in the file path
       filename: "limited/dir with spaces/file with spaces.txt",
-      startupScriptModifications: ["use_additional_paths.lua"],
+      startupScriptModifications: ["ripgrep/use_additional_paths.lua"],
     }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("this is file with spaces.txt")

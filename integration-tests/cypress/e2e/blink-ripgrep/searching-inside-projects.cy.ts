@@ -1,5 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
+import type { MyTestDirectoryFile } from "MyTestDirectory"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("searching inside projects with the RipgrepBackend", () => {
@@ -53,7 +54,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       filename: "limited/subproject/file1.lua",
       startupScriptModifications: [
         "use_not_found_project_root.lua",
-        "disable_project_root_fallback.lua",
+        "ripgrep/disable_project_root_fallback.lua",
       ],
     }).then((nvim) => {
       // when opening a file from a subproject, the search should be limited to
@@ -119,7 +120,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
         // now switch to using --smart-case, which should be case sensitive
         // when uppercase letters are used
         nvim.runLuaCode({
-          luaCode: `vim.cmd("luafile config-modifications/use_case_sensitive_search.lua")`,
+          luaCode: `vim.cmd("luafile ${"config-modifications/ripgrep/use_case_sensitive_search.lua" satisfies MyTestDirectoryFile}")`,
         })
         cy.typeIntoTerminal("{esc}cc")
         // type something that does not match
