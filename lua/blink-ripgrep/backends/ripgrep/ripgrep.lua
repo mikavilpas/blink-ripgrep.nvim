@@ -1,7 +1,7 @@
 ---@class blink-ripgrep.RipgrepBackend : blink-ripgrep.Backend
 local RipgrepBackend = {}
 
-RipgrepBackend.kind_name = "RipgrepRipgrep"
+RipgrepBackend.kind_name = "Ripgrep"
 RipgrepBackend.hl_group_name = "BlinkCmpKindRipgrepRipgrep"
 
 ---@param config blink-ripgrep.Options

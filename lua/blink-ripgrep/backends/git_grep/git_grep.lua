@@ -3,7 +3,7 @@
 ---@class blink-ripgrep.GitGrepBackend : blink-ripgrep.Backend
 local GitGrepBackend = {}
 
-GitGrepBackend.kind_name = "RipgrepGit"
+GitGrepBackend.kind_name = "Git"
 GitGrepBackend.hl_group_name = "BlinkCmpKindRipgrepGit"
 
 -- https://cmp.saghen.dev/configuration/appearance.html#highlight-groups
