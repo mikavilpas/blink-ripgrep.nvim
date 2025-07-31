@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # neovim_version: ["nightly", "stable"]
-        # TODO stable does not seem to support treesitter
-        neovim_version: ["nightly"]
+        neovim_version: ["nightly", "stable"]
 
     steps:
       - uses: actions/checkout@v4.2.2
