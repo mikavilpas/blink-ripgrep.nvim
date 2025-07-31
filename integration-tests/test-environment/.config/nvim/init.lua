@@ -101,6 +101,14 @@ local plugins = {
         ---@diagnostic disable-next-line: missing-fields
         menu = {
           max_height = 25,
+
+          draw = {
+            columns = {
+              { "kind_icon", "label", "label_description", gap = 1 },
+              { "kind", gap = 6 },
+              { "source_name", gap = 1 },
+            },
+          },
         },
       },
       keymap = {
