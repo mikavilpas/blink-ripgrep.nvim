@@ -14,7 +14,7 @@ export function textIsVisibleWithColor(
   color: CatppuccinRgb,
 ): Cypress.Chainable<JQuery> {
   return cy.get("div.xterm-rows span").and(($spans) => {
-    const matching = $spans.filter((_, el) => !!el.textContent?.includes(text))
+    const matching = $spans.filter((_, el) => !!el.textContent.includes(text))
 
     const colors = matching.map((_, el) => {
       return window.getComputedStyle(el).color

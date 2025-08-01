@@ -151,7 +151,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       // we should see the match highlighted with the configured color
       // somewhere on the page (in the documentation window)
       cy.get("span")
-        .filter((_, el) => el.textContent?.includes("Subtraction") ?? false)
+        .filter((_, el) => el.textContent.includes("Subtraction"))
         .then((elements) => {
           const matchingElements = elements.map((_, el) => {
             return window.getComputedStyle(el).backgroundColor
