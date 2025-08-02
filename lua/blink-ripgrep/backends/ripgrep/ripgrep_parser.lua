@@ -4,6 +4,8 @@ local M = {}
 ---@field files table<string, blink-ripgrep.RipgrepFile>
 
 ---@class blink-ripgrep.RipgrepFile
+---@field prefix string the prefix that started the search
+---@field type "ripgrep"
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
 ---@field matches table<string,blink-ripgrep.Match>
 ---@field relative_to_cwd string the relative path of the file to the current working directory
@@ -30,9 +32,10 @@ end
 -- surrounding each match.
 -- This function converts the jsonl stream into a table.
 --
+---@param prefix string
 ---@param ripgrep_output string[] ripgrep output in jsonl format
 ---@param cwd string the current working directory
-function M.parse(ripgrep_output, cwd)
+function M.parse(prefix, ripgrep_output, cwd)
   ---@type blink-ripgrep.RipgrepOutput
   local output = { files = {} }
 
@@ -56,6 +59,8 @@ function M.parse(ripgrep_output, cwd)
           or ext
 
         output.files[filename] = {
+          prefix = prefix,
+          type = "ripgrep",
           language = language,
           matches = {},
           relative_to_cwd = relative_filename,

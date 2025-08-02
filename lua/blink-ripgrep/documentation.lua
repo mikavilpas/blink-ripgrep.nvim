@@ -73,6 +73,7 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
   require("blink-ripgrep.highlighting").highlight_match_in_doc_window(
     bufnr,
     match,
+    file,
     highlight_ns_id,
     context_preview,
     config.debug
