@@ -5,7 +5,7 @@ import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendW
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
 function startNeovimWithThisBackend(
-  options: Partial<NeovimArguments>,
+  options?: Partial<NeovimArguments>,
 ): Cypress.Chainable<NeovimContext> {
   const backend = "use_gitgrep_or_ripgrep_backend.lua"
 
@@ -23,7 +23,7 @@ function startNeovimWithThisBackend(
 describe("the GitGrepOrRipgrepBackend", () => {
   it("shows words in other files as suggestions", () => {
     cy.visit("/")
-    startNeovimWithThisBackend({}).then((_) => {
+    startNeovimWithThisBackend().then((_) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -39,8 +39,8 @@ describe("the GitGrepOrRipgrepBackend", () => {
       cy.typeIntoTerminal("234")
     })
   })
+})
 
-  afterEach(() => {
-    verifyCorrectBackendWasUsedInTest("gitgrep-or-ripgrep")
-  })
+afterEach(() => {
+  verifyCorrectBackendWasUsedInTest("gitgrep-or-ripgrep")
 })
