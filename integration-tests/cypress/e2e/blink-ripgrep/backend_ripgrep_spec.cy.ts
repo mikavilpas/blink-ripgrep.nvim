@@ -1,5 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
+import { assertMatchVisible } from "./utils/assertMatchVisible"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 import { textIsVisibleWithColor } from "./utils/textIsVisibleWithColor"
 
@@ -132,17 +133,6 @@ describe("the RipgrepBackend", () => {
       cy.contains("abased")
     })
   })
-
-  function assertMatchVisible(
-    match: string,
-    color?: typeof flavors.macchiato.colors.green.rgb,
-  ) {
-    cy.contains(match).should(
-      "have.css",
-      "color",
-      rgbify(color ?? flavors.macchiato.colors.green.rgb),
-    )
-  }
 
   it("can customize the icon in the completion results", () => {
     cy.visit("/")
