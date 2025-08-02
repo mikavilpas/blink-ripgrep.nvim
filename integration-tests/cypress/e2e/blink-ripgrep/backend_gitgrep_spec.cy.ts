@@ -10,7 +10,7 @@ export type CatppuccinRgb = (typeof flavors.macchiato.colors)["surface0"]["rgb"]
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
 function startNeovimWithGitBackend(
-  options: Partial<NeovimArguments>,
+  options?: Partial<NeovimArguments>,
 ): Cypress.Chainable<NeovimContext> {
   if (!options) options = {}
   options.startupScriptModifications = options.startupScriptModifications ?? []
@@ -27,7 +27,7 @@ function startNeovimWithGitBackend(
 describe("the GitGrepBackend", () => {
   it("shows words in other files as suggestions", () => {
     cy.visit("/")
-    startNeovimWithGitBackend({}).then((nvim) => {
+    startNeovimWithGitBackend().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -88,7 +88,7 @@ describe("the GitGrepBackend", () => {
 
   it("can use an underscore (_) to trigger blink completions", () => {
     cy.visit("/")
-    startNeovimWithGitBackend({}).then(() => {
+    startNeovimWithGitBackend().then(() => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -113,7 +113,7 @@ describe("the GitGrepBackend", () => {
     // was found. Although we don't explicitly show all the matches in the
     // project, this can still be very useful.
     cy.visit("/")
-    startNeovimWithGitBackend({}).then(() => {
+    startNeovimWithGitBackend().then(() => {
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
 
@@ -152,9 +152,7 @@ describe("the GitGrepBackend", () => {
 
   it("can customize the icon in the completion results", () => {
     cy.visit("/")
-    startNeovimWithGitBackend({
-      // startupScriptModifications: ["apply_highlight_customization.lua"],
-    }).then((nvim) => {
+    startNeovimWithGitBackend().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -206,7 +204,7 @@ describe("the GitGrepBackend", () => {
 describe("in debug mode", () => {
   it("can execute the git debug command in a shell", () => {
     cy.visit("/")
-    startNeovimWithGitBackend({}).then((nvim) => {
+    startNeovimWithGitBackend().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -251,7 +249,7 @@ describe("in debug mode", () => {
       return
     } else {
       cy.visit("/")
-      startNeovimWithGitBackend({}).then((nvim) => {
+      startNeovimWithGitBackend().then((nvim) => {
         // wait until text on the start screen is visible
         cy.contains("If you see this text, Neovim is ready!")
         createGitReposToLimitSearchScope()
