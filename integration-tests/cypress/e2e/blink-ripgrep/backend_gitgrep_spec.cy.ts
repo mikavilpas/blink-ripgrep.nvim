@@ -301,3 +301,23 @@ describe("in debug mode", () => {
     })
   })
 })
+
+describe("in debug mode", () => {
+  it.only("can execute the git debug command in a shell", () => {
+    cy.visit("/")
+    startNeovimWithGitBackend({
+      startupScriptModifications: ["disable_buffer_words_source.lua"],
+    }).then((nvim) => {
+      // wait until text on the start screen is visible
+      cy.contains("If you see this text, Neovim is ready!")
+      createGitReposToLimitSearchScope()
+
+      // go to the end and start inserting on a new line
+      cy.typeIntoTerminal("Go")
+
+      cy.typeIntoTerminal("ban")
+      cy.contains("banana_with_text") // wait for blink to show up results
+      cy.typeIntoTerminal("w") // narrow down the results to banana_with_text only
+    })
+  })
+})
