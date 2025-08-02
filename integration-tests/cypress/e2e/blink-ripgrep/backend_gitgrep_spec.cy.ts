@@ -1,6 +1,7 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import type { NeovimContext } from "cypress/support/tui-sandbox"
+import { assertMatchVisible } from "./utils/assertMatchVisible"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 import { textIsVisibleWithColor } from "./utils/textIsVisibleWithColor"
 import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
@@ -138,17 +139,6 @@ describe("the GitGrepBackend", () => {
       cy.contains(`"This is line 13"`).should("not.exist")
     })
   })
-
-  function assertMatchVisible(
-    match: string,
-    color?: typeof flavors.macchiato.colors.green.rgb,
-  ) {
-    cy.contains(match).should(
-      "have.css",
-      "color",
-      rgbify(color ?? flavors.macchiato.colors.green.rgb),
-    )
-  }
 
   it("can customize the icon in the completion results", () => {
     cy.visit("/")
