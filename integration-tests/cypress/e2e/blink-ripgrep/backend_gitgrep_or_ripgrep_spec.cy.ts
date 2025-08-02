@@ -39,8 +39,8 @@ describe("the GitGrepOrRipgrepBackend", () => {
       cy.typeIntoTerminal("234")
     })
   })
-})
 
-afterEach(() => {
-  verifyCorrectBackendWasUsedInTest("gitgrep-or-ripgrep")
+  afterEach(() => {
+    verifyCorrectBackendWasUsedInTest("gitgrep-or-ripgrep")
+  })
 })
