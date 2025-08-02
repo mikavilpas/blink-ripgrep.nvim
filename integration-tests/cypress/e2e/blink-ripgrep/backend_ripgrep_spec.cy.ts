@@ -146,9 +146,7 @@ describe("the RipgrepBackend", () => {
 
   it("can customize the icon in the completion results", () => {
     cy.visit("/")
-    cy.startNeovim({
-      startupScriptModifications: ["apply_highlight_customization.lua"],
-    }).then((nvim) => {
+    cy.startNeovim().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -169,9 +167,11 @@ describe("the RipgrepBackend", () => {
         )
       }
 
-      // now Enable_customization. This will change the icon on the next
-      // invocation.
-      nvim.runLuaCode({ luaCode: `Enable_customization()` })
+      // now enable customize_highlight_colors. This will change the icon on
+      // the next invocation.
+      nvim.doFile({
+        luaFile: "config-modifications/enable_customize_icon_highlight.lua",
+      })
       cy.typeIntoTerminal("{esc}cc")
       cy.contains("Hippopotamus123").should("not.exist")
       cy.typeIntoTerminal("hip")
@@ -181,9 +181,11 @@ describe("the RipgrepBackend", () => {
       const icon = ""
       textIsVisibleWithColor(icon, flavors.macchiato.colors.green.rgb)
 
-      // apply_highlight_customization. Neovim is able to change this without
+      // customize_highlight_colors. Neovim is able to change this without
       // closing the blink completion menu, which is great.
-      nvim.runLuaCode({ luaCode: `Customize_highlights()` })
+      nvim.doFile({
+        luaFile: "config-modifications/customize_highlight_colors.lua",
+      })
       textIsVisibleWithColor(icon, flavors.macchiato.colors.flamingo.rgb)
     })
   })
