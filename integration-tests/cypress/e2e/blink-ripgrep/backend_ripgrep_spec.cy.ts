@@ -2,7 +2,10 @@ import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import { assertMatchVisible } from "./utils/assertMatchVisible"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
-import { textIsVisibleWithColor } from "./utils/textIsVisibleWithColor"
+import {
+  textIsVisibleWithBackgroundColor,
+  textIsVisibleWithColor,
+} from "./utils/textIsVisibleWithColor"
 
 describe("the RipgrepBackend", () => {
   it("shows words in other files as suggestions", () => {
@@ -258,10 +261,9 @@ describe("in debug mode", () => {
         // If the plugin works, this text should show up as a suggestion.
         cy.typeIntoTerminal("hip")
         // the search should have been started for the prefix "hip"
-        cy.contains("hip").should(
-          "have.css",
-          "backgroundColor",
-          rgbify(flavors.macchiato.colors.flamingo.rgb),
+        textIsVisibleWithBackgroundColor(
+          "hip",
+          flavors.macchiato.colors.flamingo.rgb,
         )
         //
         // blink is now in the Fuzzy(3) stage, and additional keypresses must not
@@ -272,10 +274,9 @@ describe("in debug mode", () => {
         cy.typeIntoTerminal("234")
 
         // wait for the highlight to disappear to test that too
-        cy.contains("hip").should(
-          "have.css",
-          "backgroundColor",
-          rgbify(flavors.macchiato.colors.base.rgb),
+        textIsVisibleWithBackgroundColor(
+          "hip",
+          flavors.macchiato.colors.base.rgb,
         )
 
         nvim
