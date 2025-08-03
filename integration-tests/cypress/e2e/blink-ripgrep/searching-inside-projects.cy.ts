@@ -1,5 +1,9 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
+import {
+  textIsVisibleWithBackgroundColor,
+  textIsVisibleWithColor,
+} from "@tui-sandbox/library/dist/src/client/cypress-assertions"
 import type { MyTestDirectoryFile } from "MyTestDirectory"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
@@ -20,11 +24,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
 
-      cy.contains("here").should(
-        "have.css",
-        "color",
-        rgbify(flavors.macchiato.colors.green.rgb),
-      )
+      textIsVisibleWithColor("here", rgbify(flavors.macchiato.colors.green.rgb))
     })
   })
 
@@ -40,11 +40,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
 
-      cy.contains("here").should(
-        "have.css",
-        "color",
-        rgbify(flavors.macchiato.colors.green.rgb),
-      )
+      textIsVisibleWithColor("here", rgbify(flavors.macchiato.colors.green.rgb))
     })
   })
 
@@ -150,16 +146,10 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
       // we should see the match highlighted with the configured color
       // somewhere on the page (in the documentation window)
-      cy.get("span")
-        .filter((_, el) => el.textContent.includes("Subtraction"))
-        .then((elements) => {
-          const matchingElements = elements.map((_, el) => {
-            return window.getComputedStyle(el).backgroundColor
-          })
-
-          return matchingElements.toArray()
-        })
-        .should("contain", rgbify(flavors.macchiato.colors.mauve.rgb))
+      textIsVisibleWithBackgroundColor(
+        "Subtraction",
+        rgbify(flavors.macchiato.colors.mauve.rgb),
+      )
     })
   })
 
@@ -179,14 +169,12 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
         // make sure the syntax is highlighted
         // (needs https://github.com/Saghen/blink.cmp/pull/462)
-        cy.contains("defn").should(
-          "have.css",
-          "color",
+        textIsVisibleWithColor(
+          "defn",
           rgbify(flavors.macchiato.colors.pink.rgb),
         )
-        cy.contains("Clojure Calculator").should(
-          "have.css",
-          "color",
+        textIsVisibleWithColor(
+          "Clojure Calculator",
           rgbify(flavors.macchiato.colors.green.rgb),
         )
 
@@ -196,9 +184,8 @@ describe("searching inside projects with the RipgrepBackend", () => {
         cy.contains("Clojure Calculator").should("not.exist")
 
         cy.typeIntoTerminal("{control} ")
-        cy.contains("Clojure Calculator").should(
-          "have.css",
-          "color",
+        textIsVisibleWithColor(
+          "Clojure Calculator",
           rgbify(flavors.macchiato.colors.green.rgb),
         )
       })

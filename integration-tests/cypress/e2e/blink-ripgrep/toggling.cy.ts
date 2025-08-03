@@ -1,5 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
+import { textIsVisibleWithColor } from "@tui-sandbox/library/dist/src/client/cypress-assertions"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("toggling features on/off", () => {
@@ -19,11 +20,7 @@ describe("toggling features on/off", () => {
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
 
-      cy.contains("here").should(
-        "have.css",
-        "color",
-        rgbify(flavors.macchiato.colors.green.rgb),
-      )
+      textIsVisibleWithColor("here", rgbify(flavors.macchiato.colors.green.rgb))
 
       cy.typeIntoTerminal("{esc}")
 
@@ -56,11 +53,7 @@ describe("toggling features on/off", () => {
       cy.typeIntoTerminal("ciw")
       cy.typeIntoTerminal("some")
 
-      cy.contains("here").should(
-        "have.css",
-        "color",
-        rgbify(flavors.macchiato.colors.green.rgb),
-      )
+      textIsVisibleWithColor("here", rgbify(flavors.macchiato.colors.green.rgb))
     })
   })
 
@@ -77,11 +70,7 @@ describe("toggling features on/off", () => {
       // initialize the first completion to set the plugin up
       cy.typeIntoTerminal("o")
       cy.typeIntoTerminal("some")
-      cy.contains("here").should(
-        "have.css",
-        "color",
-        rgbify(flavors.macchiato.colors.green.rgb),
-      )
+      textIsVisibleWithColor("here", rgbify(flavors.macchiato.colors.green.rgb))
 
       // first verify that debug is on (it's on in the test environment by
       // default)
