@@ -1,11 +1,11 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { assertMatchVisible } from "./utils/assertMatchVisible"
-import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 import {
   textIsVisibleWithBackgroundColor,
   textIsVisibleWithColor,
-} from "./utils/textIsVisibleWithColor"
+} from "@tui-sandbox/library/dist/src/client/cypress-assertions"
+import { assertMatchVisible } from "./utils/assertMatchVisible"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("the RipgrepBackend", () => {
   it("shows words in other files as suggestions", () => {
@@ -30,9 +30,8 @@ describe("the RipgrepBackend", () => {
       // should show the text for the matched line
       //
       // the text should also be syntax highlighted
-      cy.contains("was my previous password").should(
-        "have.css",
-        "color",
+      textIsVisibleWithColor(
+        "was my previous password",
         rgbify(flavors.macchiato.colors.green.rgb),
       )
 
@@ -153,9 +152,8 @@ describe("the RipgrepBackend", () => {
         // initially the customization has not been applied in this test, so
         // the default icon should be visible
         const defaultIcon = "󰉿"
-        cy.contains(defaultIcon).should(
-          "have.css",
-          "color",
+        textIsVisibleWithColor(
+          defaultIcon,
           rgbify(flavors.macchiato.colors.green.rgb),
         )
       }
@@ -172,14 +170,17 @@ describe("the RipgrepBackend", () => {
 
       // verify that the icon is BlinkCmpKindText (currently green) by default
       const icon = ""
-      textIsVisibleWithColor(icon, flavors.macchiato.colors.green.rgb)
+      textIsVisibleWithColor(icon, rgbify(flavors.macchiato.colors.green.rgb))
 
       // customize_highlight_colors. Neovim is able to change this without
       // closing the blink completion menu, which is great.
       nvim.doFile({
         luaFile: "config-modifications/customize_highlight_colors.lua",
       })
-      textIsVisibleWithColor(icon, flavors.macchiato.colors.flamingo.rgb)
+      textIsVisibleWithColor(
+        icon,
+        rgbify(flavors.macchiato.colors.flamingo.rgb),
+      )
     })
   })
 })
@@ -263,8 +264,9 @@ describe("in debug mode", () => {
         // the search should have been started for the prefix "hip"
         textIsVisibleWithBackgroundColor(
           "hip",
-          flavors.macchiato.colors.flamingo.rgb,
+          rgbify(flavors.macchiato.colors.flamingo.rgb),
         )
+
         //
         // blink is now in the Fuzzy(3) stage, and additional keypresses must not
         // start a new ripgrep search. They must be used for filtering the
@@ -276,7 +278,7 @@ describe("in debug mode", () => {
         // wait for the highlight to disappear to test that too
         textIsVisibleWithBackgroundColor(
           "hip",
-          flavors.macchiato.colors.base.rgb,
+          rgbify(flavors.macchiato.colors.base.rgb),
         )
 
         nvim
