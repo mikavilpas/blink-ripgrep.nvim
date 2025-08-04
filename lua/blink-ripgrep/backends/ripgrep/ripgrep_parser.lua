@@ -63,15 +63,16 @@ function M.parse(ripgrep_output, cwd)
       elseif json.type == "match" then
         local file, line_number = get_file_context(json, output)
 
-        local text = json.data.submatches[1].match.text
-
-        if not file.matches[text] then
-          file.matches[text] = {
-            start_col = json.data.submatches[1].start,
-            end_col = json.data.submatches[1]["end"],
-            match = { text = text },
-            line_number = line_number,
-          }
+        for _, submatch in ipairs(json.data.submatches) do
+          local text = submatch.match.text
+          if not file.matches[text] then
+            file.matches[text] = {
+              start_col = submatch.start,
+              end_col = submatch["end"],
+              match = { text = text },
+              line_number = line_number,
+            }
+          end
         end
       end
     end

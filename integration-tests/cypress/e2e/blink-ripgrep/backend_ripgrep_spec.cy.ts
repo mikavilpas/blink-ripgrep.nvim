@@ -5,6 +5,7 @@ import {
   textIsVisibleWithColor,
 } from "@tui-sandbox/library/dist/src/client/cypress-assertions"
 import { assertMatchVisible } from "./utils/assertMatchVisible"
+import { textIsVisibleWithColors } from "./utils/color-utils"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("the RipgrepBackend", () => {
@@ -180,6 +181,45 @@ describe("the RipgrepBackend", () => {
       textIsVisibleWithColor(
         icon,
         rgbify(flavors.macchiato.colors.flamingo.rgb),
+      )
+    })
+  })
+
+  it("highlights multiple matches on the same line correctly", () => {
+    // https://github.com/mikavilpas/blink-ripgrep.nvim/issues/228
+    cy.visit("/")
+    cy.startNeovim({
+      startupScriptModifications: ["disable_buffer_words_source.lua"],
+    }).then(() => {
+      // wait until text on the start screen is visible
+      cy.contains("If you see this text, Neovim is ready!")
+      createGitReposToLimitSearchScope()
+
+      // go to the end and start inserting on a new line
+      cy.typeIntoTerminal("Go")
+
+      // check the match "banana_with_text"
+      cy.typeIntoTerminal("ban")
+      cy.contains("banana_with_text") // wait for blink to show up results
+      cy.typeIntoTerminal("w") // narrow down the results to banana_with_text only
+
+      textIsVisibleWithColors(
+        "banana_with_text",
+        rgbify(flavors.macchiato.colors.base.rgb),
+        rgbify(flavors.macchiato.colors.mauve.rgb),
+      )
+
+      // check the other match, "banana"
+      cy.typeIntoTerminal("{backspace}ana")
+      textIsVisibleWithColors(
+        "banana",
+        rgbify(flavors.macchiato.colors.base.rgb),
+        rgbify(flavors.macchiato.colors.mauve.rgb),
+      )
+      textIsVisibleWithColors(
+        "banana_with_text",
+        rgbify(flavors.macchiato.colors.text.rgb),
+        rgbify(flavors.macchiato.colors.mantle.rgb),
       )
     })
   })
