@@ -66,6 +66,10 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("customize_highlight_colors.lua"),
           type: z.literal("file"),
         }),
+        "disable_buffer_words_source.lua": z.object({
+          name: z.literal("disable_buffer_words_source.lua"),
+          type: z.literal("file"),
+        }),
         "don't_use_debug_mode.lua": z.object({
           name: z.literal("don't_use_debug_mode.lua"),
           type: z.literal("file"),
@@ -172,6 +176,10 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("other-file.lua"),
       type: z.literal("file"),
     }),
+    "two-matches-on-same-line-file.txt": z.object({
+      name: z.literal("two-matches-on-same-line-file.txt"),
+      type: z.literal("file"),
+    }),
   }),
 })
 
@@ -194,6 +202,7 @@ export const testDirectoryFiles = z.enum([
   "additional-words-dir/words.txt",
   "additional-words-dir",
   "config-modifications/customize_highlight_colors.lua",
+  "config-modifications/disable_buffer_words_source.lua",
   "config-modifications/don't_use_debug_mode.lua",
   "config-modifications/enable_customize_icon_highlight.lua",
   "config-modifications/ripgrep/disable_project_root_fallback.lua",
@@ -219,6 +228,7 @@ export const testDirectoryFiles = z.enum([
   "limited",
   "line-file.lua",
   "other-file.lua",
+  "two-matches-on-same-line-file.txt",
   ".",
 ])
 export type MyTestDirectoryFile = z.infer<typeof testDirectoryFiles>
