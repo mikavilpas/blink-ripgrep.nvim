@@ -8,7 +8,8 @@
     "dev": "pnpm --filter ./integration-tests/ dev",
     "eslint": "pnpm --filter ./integration-tests/ eslint",
     "markdownlint": "markdownlint-cli2 README.md",
-    "prettier": "prettier --check ."
+    "prettier": "prettier --check .",
+    "tui": "pnpm --filter ./integration-tests/ exec tui"
   },
   "devDependencies": {
     "@umbrelladocs/linkspector": "0.4.7",
