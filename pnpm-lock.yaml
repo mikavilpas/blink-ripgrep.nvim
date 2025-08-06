@@ -36,24 +36,18 @@ importers:
         specifier: 8.0.4
         version: 8.0.4
       zod:
-        specifier: 4.0.14
-        version: 4.0.14
+        specifier: 4.0.15
+        version: 4.0.15
     devDependencies:
       '@eslint/js':
         specifier: 9.32.0
         version: 9.32.0
       '@tui-sandbox/library':
-        specifier: 11.5.0
-        version: 11.5.0(cypress@14.5.3)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.9.2)(zod@4.0.14)
+        specifier: 11.6.0
+        version: 11.6.0(cypress@14.5.3)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.9.2)(zod@4.0.15)
       '@types/node':
         specifier: 24.2.0
         version: 24.2.0
-      '@types/tinycolor2':
-        specifier: 1.4.6
-        version: 1.4.6
-      concurrently:
-        specifier: 9.2.0
-        version: 9.2.0
       eslint:
         specifier: 9.32.0
         version: 9.32.0
@@ -63,9 +57,6 @@ importers:
       eslint-plugin-no-only-tests:
         specifier: 3.3.0
         version: 3.3.0
-      tinycolor2:
-        specifier: 1.6.0
-        version: 1.6.0
       type-fest:
         specifier: 4.41.0
         version: 4.41.0
@@ -231,8 +222,8 @@ packages:
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@tui-sandbox/library@11.5.0':
-    resolution: {integrity: sha512-a0MuI94s0uiJvlO6CYuTyeuGE13bdlF4v2OXMUqNe82IYOgjP3L0dYxdAOBnLYdDNE5cnE9vT8NbjETK7/RENw==}
+  '@tui-sandbox/library@11.6.0':
+    resolution: {integrity: sha512-H6nmttFsDIJZzfFFjSGnf6VLRRGShGOSSD+un1tOYsEt2b/yT7rf2YxsYnVHau53FamwOY0eFQlUTwb/KSsSOQ==}
     engines: {node: '>=24.0.0'}
     hasBin: true
     peerDependencies:
@@ -268,9 +259,6 @@ packages:
 
   '@types/sizzle@2.3.9':
     resolution: {integrity: sha512-xzLEyKB50yqCUPUJkIsrVvoWNfFUbIZI+RspLWt8u+tIW/BetMBZtgV2LY/2o+tYH8dRvQ+eoPf3NdhQCcLE2w==}
-
-  '@types/tinycolor2@1.4.6':
-    resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
 
   '@types/triple-beam@1.3.5':
     resolution: {integrity: sha512-6WaYesThRMCl19iryMYP7/x2OVgCtbIVflDGFpWnb9irXI3UjYE4AzmYuiUKY1AJstGijoY+MgUszMgRxIYTYw==}
@@ -2095,9 +2083,6 @@ packages:
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
 
-  tinycolor2@1.6.0:
-    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
-
   tinyglobby@0.2.14:
     resolution: {integrity: sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==}
     engines: {node: '>=12.0.0'}
@@ -2322,8 +2307,8 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.0.14:
-    resolution: {integrity: sha512-nGFJTnJN6cM2v9kXL+SOBq3AtjQby3Mv5ySGFof5UGRHrRioSJ5iG680cYNjE/yWk671nROcpPj4hAS8nyLhSw==}
+  zod@4.0.15:
+    resolution: {integrity: sha512-2IVHb9h4Mt6+UXkyMs0XbfICUh1eUrlJJAOupBHUhLRnKkruawyDddYRCs0Eizt900ntIMk9/4RksYl+FgSpcQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -2504,7 +2489,7 @@ snapshots:
     dependencies:
       typescript: 5.9.2
 
-  '@tui-sandbox/library@11.5.0(cypress@14.5.3)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.9.2)(zod@4.0.14)':
+  '@tui-sandbox/library@11.6.0(cypress@14.5.3)(prettier@3.6.2)(type-fest@4.41.0)(typescript@5.9.2)(zod@4.0.15)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.4.4(@trpc/server@11.4.4(typescript@5.9.2))(typescript@5.9.2)
@@ -2512,6 +2497,7 @@ snapshots:
       '@xterm/addon-fit': 0.10.0(@xterm/xterm@5.5.0)
       '@xterm/addon-unicode11': 0.8.0(@xterm/xterm@5.5.0)
       '@xterm/xterm': 5.5.0
+      concurrently: 9.2.0
       cors: 2.8.5
       cypress: 14.5.3
       dree: 5.1.5
@@ -2522,7 +2508,7 @@ snapshots:
       type-fest: 4.41.0
       typescript: 5.9.2
       winston: 3.17.0
-      zod: 4.0.14
+      zod: 4.0.15
     transitivePeerDependencies:
       - supports-color
 
@@ -2549,8 +2535,6 @@ snapshots:
   '@types/sinonjs__fake-timers@8.1.1': {}
 
   '@types/sizzle@2.3.9': {}
-
-  '@types/tinycolor2@1.4.6': {}
 
   '@types/triple-beam@1.3.5': {}
 
@@ -4711,8 +4695,6 @@ snapshots:
 
   through@2.3.8: {}
 
-  tinycolor2@1.6.0: {}
-
   tinyglobby@0.2.14:
     dependencies:
       fdir: 6.4.6(picomatch@4.0.3)
@@ -4947,6 +4929,6 @@ snapshots:
 
   zod@3.25.76: {}
 
-  zod@4.0.14: {}
+  zod@4.0.15: {}
 
   zwitch@2.0.4: {}

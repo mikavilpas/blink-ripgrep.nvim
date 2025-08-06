@@ -50,7 +50,8 @@ jobs:
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
-      - run: pnpm cy:run
+      - run: pnpm tui run
+        name: Run end-to-end tests
 
       - uses: actions/upload-artifact@v4.6.2
         # add the line below to store screenshots only on failures
