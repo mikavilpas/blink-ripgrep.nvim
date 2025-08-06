@@ -81,7 +81,6 @@ function RipgrepBackend:get_matches(prefix, _, resolve)
 
       local parsed =
         require("blink-ripgrep.backends.ripgrep.ripgrep_parser").parse(
-          prefix,
           lines,
           cwd
         )
