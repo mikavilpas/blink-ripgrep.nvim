@@ -6,16 +6,14 @@ local GitGrepParser = {}
 ---@field files table<string, blink-ripgrep.GitgrepFile>
 
 ---@class(exact) blink-ripgrep.GitgrepFile
----@field prefix string the prefix that started the search
 ---@field type "gitgrep"
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
 ---@field matches table<string,blink-ripgrep.Match>
 ---@field relative_to_cwd string the relative path of the file to the current working directory
 
----@param prefix string
 ---@param lines string[]
 ---@param cwd string
-function GitGrepParser.parse_output(prefix, lines, cwd)
+function GitGrepParser.parse_output(lines, cwd)
   ---@type blink-ripgrep.GitgrepOutput
   local output = { files = {} }
 
@@ -47,7 +45,6 @@ function GitGrepParser.parse_output(prefix, lines, cwd)
           or ext
 
         file = {
-          prefix = prefix,
           type = "gitgrep",
           language = language,
           matches = {},

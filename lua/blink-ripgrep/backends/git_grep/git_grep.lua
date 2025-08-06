@@ -80,7 +80,7 @@ function GitGrepBackend:get_matches(prefix, _, resolve)
 
       local lines = vim.split(result.stdout, "\n")
       local parser = require("blink-ripgrep.backends.git_grep.git_grep_parser")
-      local output = parser.parse_output(prefix, lines, cwd)
+      local output = parser.parse_output(lines, cwd)
 
       ---@type table<string, blink.cmp.CompletionItem>
       local items = {}
