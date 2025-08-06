@@ -60,3 +60,4 @@ jobs:
           name: cypress-screenshots
           path: integration-tests/cypress/screenshots
           if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
+          overwrite: true # defaults to `false`, set to `true` to overwrite existing artifacts with the same name
