@@ -1,0 +1,22 @@
+on:
+  workflow_dispatch: # makes it possible to run the workflow manually
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4.2.0
+        id: release
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_ACCESS_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
