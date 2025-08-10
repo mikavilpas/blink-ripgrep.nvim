@@ -35,7 +35,55 @@ Forked here (mikavilpas/blink.cmp) for my own use from
 ## 📦 Installation
 
 The configuration of blink-ripgrep needs to be embedded into the configuration
-for blink. Example for [lazy.nvim](https://lazy.folke.io/):
+for blink.
+
+### Minimal config
+
+You can use this config to quickly get started with the defaults.
+
+Example for [lazy.nvim](https://lazy.folke.io/):
+
+```lua
+-- NOTE: you can leave out the type annotations if you don't want to use them
+
+---@module "lazy"
+---@type LazySpec
+return {
+  "saghen/blink.cmp",
+  dependencies = {
+    "mikavilpas/blink-ripgrep.nvim",
+    -- 👆🏻👆🏻 add the dependency here
+  },
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    sources = {
+      default = {
+        "buffer",
+        "ripgrep", -- 👈🏻 add "ripgrep" here
+      },
+      providers = {
+        -- 👇🏻👇🏻 add the ripgrep provider config below
+        ripgrep = {
+          module = "blink-ripgrep",
+          name = "Ripgrep",
+          -- see the full configuration below for all available options
+          ---@module "blink-ripgrep"
+          ---@type blink-ripgrep.Options
+          opts = {},
+        },
+      },
+    },
+  },
+}
+```
+
+### Full config
+
+<details>
+<summary>Click to expand the full config</summary>
+
+Example for [lazy.nvim](https://lazy.folke.io/):
 
 ```lua
 -- NOTE: you can leave out the type annotations if you don't want to use them
@@ -202,6 +250,8 @@ return {
   },
 }
 ```
+
+</details>
 
 ## 🤔 How it works
 
