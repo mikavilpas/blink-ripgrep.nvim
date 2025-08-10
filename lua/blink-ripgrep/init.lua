@@ -48,6 +48,8 @@
 local RgSource = {}
 RgSource.__index = RgSource
 
+RgSource.version = "1.0.0" -- x-release-please-version
+
 ---@type blink-ripgrep.Options
 RgSource.config = {
   prefix_min_len = 3,
