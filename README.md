@@ -7,10 +7,19 @@
   />
 </a>
 
-Ripgrep source for the [blink.cmp](https://github.com/Saghen/blink.cmp)
-completion plugin. Adding it to your configuration offers matching words from
-your entire project as completions. This can reduce the chance of typos as well
-as repetitive typing.
+Ripgrep / git grep source for the
+[blink.cmp](https://github.com/Saghen/blink.cmp) completion plugin. Adding it to
+your configuration offers matching words from your entire project as
+completions. This can reduce the chance of typos as well as repetitive typing.
+
+It offers two search backends:
+
+- **ripgrep** (`rg`): works out of the box for any project or directory
+- **git grep**: is faster than `rg`, and works only for projects that are
+  tracked by git
+  - only searches files that are tracked by git
+  - recommended: enable by setting `backend.use = "gitgrep-or-ripgrep"` (see
+    below)
 
 > [!NOTE]
 >
@@ -97,7 +106,7 @@ return {
               -- - "ripgrep", always use ripgrep
               -- - "gitgrep", always use git grep
               -- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
-              --   use ripgrep
+              --   use ripgrep. Uses the same options as the gitgrep backend
               use = "ripgrep",
 
               -- Whether to set up custom highlight-groups for the icons used
@@ -157,6 +166,10 @@ return {
                 -- available within the project root.
                 additional_paths = {},
               },
+            },
+
+            gitgrep = {
+              -- no options are currently available
             },
 
             -- Show debug information in `:messages` that can help in
