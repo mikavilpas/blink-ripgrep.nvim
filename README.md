@@ -51,7 +51,10 @@ Example for [lazy.nvim](https://lazy.folke.io/):
 return {
   "saghen/blink.cmp",
   dependencies = {
-    "mikavilpas/blink-ripgrep.nvim",
+    {
+      "mikavilpas/blink-ripgrep.nvim",
+      version = "*", -- use the latest stable version
+    }
     -- 👆🏻👆🏻 add the dependency here
   },
   ---@module 'blink.cmp'
