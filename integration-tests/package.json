@@ -18,13 +18,13 @@
   },
   "devDependencies": {
     "@eslint/js": "9.34.0",
-    "@tui-sandbox/library": "11.6.7",
+    "@tui-sandbox/library": "11.7.1",
     "@types/node": "24.3.0",
     "eslint": "9.34.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
     "type-fest": "4.41.0",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.41.0"
+    "typescript-eslint": "8.42.0"
   }
 }
