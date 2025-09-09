@@ -16,14 +16,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5.0.0
+
+      - uses: jdx/mise-action@v3.2.0
+
       - name: Set up dependencies
         run: |
-          # ripgrep is (of course) a dependency
-          which rg || {
-            sudo apt-get install ripgrep
-          }
-          echo "Ripgrep version: $(rg --version)"
-
           which git || {
             sudo apt-get install git
           }
