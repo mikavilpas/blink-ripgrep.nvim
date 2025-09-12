@@ -15,7 +15,7 @@ jobs:
           # selene arguments, should be the same as in ../../justfile
           args: --display-style=quiet ./lua/ ./spec/
           # selene version
-          version: 0.26.1
+          version: 0.29.0
 
   markdownlint:
     name: markdownlint
