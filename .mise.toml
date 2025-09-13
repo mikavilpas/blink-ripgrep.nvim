@@ -1,5 +1,5 @@
 [tools]
-rg = "14.1.1"
+ripgrep = "14.1.1"
 lua = "5.1"
 stylua = "2.1.0"
 
