@@ -1,7 +1,7 @@
 [tools]
-ripgrep = "14.1.1"
+"ubi:BurntSushi/ripgrep" = { version = "14.1.1", exe = "rg" }
 lua = "5.1"
-stylua = "2.1.0"
+"ubi:JohnnyMorganz/stylua" = "2.1.0"
 
 [tasks]
 test = "luarocks test --local"
