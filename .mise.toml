@@ -1,6 +1,6 @@
 [tools]
 "ubi:BurntSushi/ripgrep" = { version = "14.1.1", exe = "rg" }
-lua = "5.4.8"
+lua = "5.1"
 "ubi:JohnnyMorganz/stylua" = "2.1.0"
 
 [tasks]
