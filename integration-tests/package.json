@@ -10,21 +10,19 @@
     "dev": "pnpm tui neovim prepare && concurrently --kill-others --names 'app,cypress' --prefix-colors 'blue,yellow' 'pnpm tui start' 'pnpm cy:open --e2e --browser=electron > /dev/null 2>&1'",
     "eslint": "eslint --max-warnings=0 ."
   },
-  "dependencies": {
-    "@catppuccin/palette": "1.7.1",
-    "cypress": "15.2.0",
-    "wait-on": "8.0.5",
-    "zod": "4.1.8"
-  },
   "devDependencies": {
+    "@catppuccin/palette": "1.7.1",
     "@eslint/js": "9.35.0",
     "@tui-sandbox/library": "11.8.1",
     "@types/node": "24.3.3",
+    "cypress": "15.2.0",
     "eslint": "9.35.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
     "type-fest": "5.0.0",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.43.0"
+    "typescript-eslint": "8.43.0",
+    "wait-on": "8.0.5",
+    "zod": "4.1.8"
   }
 }
