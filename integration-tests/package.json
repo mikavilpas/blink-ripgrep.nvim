@@ -23,7 +23,7 @@
     "eslint": "9.35.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
-    "type-fest": "4.41.0",
+    "type-fest": "5.0.0",
     "typescript": "5.9.2",
     "typescript-eslint": "8.43.0"
   }
