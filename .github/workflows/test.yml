@@ -15,7 +15,7 @@ jobs:
         neovim_version: ["nightly", "stable"]
 
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Set up dependencies
         run: |
@@ -25,32 +25,32 @@ jobs:
           echo "git version: $(git --version)"
 
       - name: Run lua tests
-        uses: nvim-neorocks/nvim-busted-action@v1.1.0
+        uses: nvim-neorocks/nvim-busted-action@7aac8af2368e20955f4ba84ca5ed3a7ae85ef340 # v1.1.0
         with:
           nvim_version: ${{ matrix.neovim_version }}
           luarocks_version: "3.11.1"
 
       # https://github.com/cypress-io/github-action?tab=readme-ov-file#pnpm-workspaces
-      - uses: pnpm/action-setup@v4.1.0
-      - uses: actions/setup-node@v5.0.0
+      - uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version-file: .nvmrc
           cache: "pnpm"
-      - uses: actions/cache@v4
+      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: |
             ~/.cache/Cypress
           key: my-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install
 
-      - uses: jdx/mise-action@v3.2.0
+      - uses: jdx/mise-action@5ac50f778e26fac95da98d50503682459e86d566 # v3.2.0
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
       - run: pnpm tui run
         name: Run end-to-end tests
 
-      - uses: actions/upload-artifact@v4.6.2
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         # add the line below to store screenshots only on failures
         # if: failure()
         with:
