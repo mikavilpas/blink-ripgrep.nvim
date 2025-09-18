@@ -1,5 +1,6 @@
 name: Linting
-
+permissions:
+  contents: read
 on: [push, pull_request]
 
 jobs:
@@ -22,3 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: DavidAnson/markdownlint-cli2-action@992badcdf24e3b8eb7e87ff9287fe931bcb00c6e # v20.0.0
+
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - name: actionlint
+        uses: raven-actions/actionlint@3a24062651993d40fed1019b58ac6fbdfbf276cc # v2.0.1
