@@ -22,7 +22,7 @@
     "type-fest": "5.0.1",
     "typescript": "5.9.2",
     "typescript-eslint": "8.44.0",
-    "wait-on": "9.0.0",
+    "wait-on": "9.0.1",
     "zod": "4.1.11"
   }
 }
