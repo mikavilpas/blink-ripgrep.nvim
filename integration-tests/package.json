@@ -14,7 +14,7 @@
     "@catppuccin/palette": "1.7.1",
     "@eslint/js": "9.36.0",
     "@tui-sandbox/library": "11.8.4",
-    "@types/node": "24.6.1",
+    "@types/node": "24.6.2",
     "cypress": "15.3.0",
     "eslint": "9.36.0",
     "eslint-config-prettier": "10.1.8",
