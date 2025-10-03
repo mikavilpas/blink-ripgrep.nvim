@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v1.0.0...v1.0.1) (2025-10-03)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#323](https://github.com/mikavilpas/blink-ripgrep.nvim/issues/323)) ([a89eed1](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/a89eed1e48859bc59d9e0ba729727a885f24fb67))
+
 ## [1.0.0](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v1.0.0...v1.0.0) (2025-08-10)
 
 
