@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v1.0.0...v2.0.0) (2025-10-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* The configuration format has changed. Previously an automatic migration was done, but now the user must migrate their config manually.
+
+### Features
+
+* remove config migration and use new config format only ([#378](https://github.com/mikavilpas/blink-ripgrep.nvim/issues/378)) ([372fab1](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/372fab131330eb697c730e42d6e35a7c68167fbf))
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#323](https://github.com/mikavilpas/blink-ripgrep.nvim/issues/323)) ([a89eed1](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/a89eed1e48859bc59d9e0ba729727a885f24fb67))
+
 ## [1.0.0](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v1.0.0...v1.0.0) (2025-08-10)
 
 
