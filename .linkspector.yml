@@ -1,0 +1,9 @@
+dirs:
+  - .
+useGitIgnore: true
+ignorePatterns:
+  # these seem to fail due to timeouts anyway
+  # https://github.com/UmbrellaDocs/linkspector/issues/5
+  - pattern: "https://github.com/mikavilpas/blink-ripgrep.nvim/assets/.*"
+  # when creating a new release, the link to the compare page is not yet valid
+  - pattern: "https://github.com/mikavilpas/blink-ripgrep.nvim/compare/\\w+"
