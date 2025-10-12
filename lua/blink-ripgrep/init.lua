@@ -76,24 +76,6 @@ RgSource.config = {
 function RgSource.setup(options)
   RgSource.config = vim.tbl_deep_extend("force", RgSource.config, options or {})
 
-  do
-    local opts, migrations =
-      require("blink-ripgrep.migrate_config").migrate_config(
-        RgSource.config,
-        options
-      )
-    if vim.tbl_count(migrations) > 0 then
-      vim.notify_once(
-        string.format(
-          "blink-ripgrep.nvim: The configuration format has changed. An automatic migration will be done for some time. Please migrate your blink-ripgrep config to the new config format (oldkey -> newkey): %s",
-          vim.inspect(migrations)
-        )
-      )
-    end
-
-    RgSource.config = opts
-  end
-
   if not RgSource.config.toggles then
     if RgSource.config.debug then
       require("blink-ripgrep.debug").add_debug_message(
