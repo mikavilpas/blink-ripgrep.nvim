@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.0.0...v2.0.1) (2025-10-12)
+
+
+### Bug Fixes
+
+* bump version to 2.0.0 ([#379](https://github.com/mikavilpas/blink-ripgrep.nvim/issues/379)) ([2d26eb2](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/2d26eb252745d1670e64656657d9f34d158fd25f))
+
 ## [2.0.0](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v1.0.0...v2.0.0) (2025-10-12)
 
 
