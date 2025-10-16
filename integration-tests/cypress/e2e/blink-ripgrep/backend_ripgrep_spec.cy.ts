@@ -61,6 +61,7 @@ describe("the RipgrepBackend", () => {
 
       // clear the current line and enter insert mode
       cy.typeIntoTerminal("cc")
+      cy.contains("This is text from file1.lua").should("not.exist")
 
       // this will match text from ../../../test-environment/other-file.lua
       //
