@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: taiki-e/install-action@v2
+      - uses: taiki-e/install-action@0005e0116e92d8489d8d96fbff83f061c79ba95a # v2
         with:
           tool: ripgrep
 
