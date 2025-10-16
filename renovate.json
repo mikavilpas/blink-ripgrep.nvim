@@ -7,6 +7,14 @@
     {
       "matchDepNames": ["lua"],
       "allowedVersions": "<=5.1"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^.github/workflows/.*\\.yml/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=(?<datasource>.*?)( depName=(?<depName>.*?))?( versioning=(?<versioning>.*?))?( registryUrl=(?<registryUrl>.*?))?\\s.*\\s*[ :=]+\\s*[\"'](?<currentValue>.*)[\"']\\s"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ]
 }

@@ -1,7 +1,9 @@
 [tools]
-"ubi:BurntSushi/ripgrep" = { version = "15.0.0", exe = "rg" }
+# renovate: datasource=github-tags depName=BurntSushi/ripgrep/
+ripgrep = "15.0.0"
 lua = "5.1"
-"ubi:JohnnyMorganz/stylua" = "2.3.0"
+# renovate: datasource=github-tags depName=JohnnyMorganz/StyLua
+stylua = "2.3.0"
 
 [tasks]
 test = "luarocks test --local"
