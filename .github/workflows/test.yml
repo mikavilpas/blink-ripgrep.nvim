@@ -53,9 +53,9 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         # add the line below to store screenshots only on failures
         # if: failure()
+        if: failure()
         with:
           name: cypress-screenshots
           path: integration-tests/cypress/screenshots
           if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
-          overwrite: true # defaults to `false`, set to `true` to overwrite existing artifacts with the same name
 
