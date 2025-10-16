@@ -19,14 +19,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - uses: jdx/mise-action@e3d7b8d67a7958d1207f6ed871e83b1ea780e7b0 # v3.3.1
+        with:
+          install: false
       - id: versions
         run: |
           VERSION=$(grep 'ubi:BurntSushi/ripgrep' .mise.toml | sed -E 's/.*version = "([^"]+)".*/\1/')
-          echo "ripgrep_version=$VERSION" >> "$GITHUB_OUTPUT"
-
-      - uses: taiki-e/install-action@e79914c740f0acf092c59adfa2a61d3d2266b6bf # v2
-        with:
-          tool: "ripgrep@${{ steps.versions.outputs.ripgrep_version }}"
+          mise use "ripgrep@$VERSION"
 
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@d30f6d4d794c0e77b6edb530872205f98ae969c4 # v1.1.1
@@ -49,7 +49,10 @@ jobs:
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
-      - run: pnpm tui run
+      - run: |
+          # make sure nvim can access rg before starting. Mise has had some issues with this.
+          nvim --headless +"=vim.fn.system('rg --version')" +q
+          pnpm tui run
         name: Run end-to-end tests
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
