@@ -14,15 +14,14 @@ jobs:
       matrix:
         neovim_version: ["nightly", "stable"]
 
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-
-      - name: Set up dependencies
-        run: |
-          which git || {
-            sudo apt-get install git
-          }
-          echo "git version: $(git --version)"
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: ripgrep
 
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@d30f6d4d794c0e77b6edb530872205f98ae969c4 # v1.1.1
@@ -42,8 +41,6 @@ jobs:
             ~/.cache/Cypress
           key: my-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install
-
-      - uses: jdx/mise-action@e3d7b8d67a7958d1207f6ed871e83b1ea780e7b0 # v3.3.1
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
