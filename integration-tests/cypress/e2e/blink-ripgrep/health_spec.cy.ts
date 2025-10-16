@@ -6,6 +6,7 @@ describe("the healthcheck", () => {
       cy.contains("If you see this text, Neovim is ready!")
 
       cy.typeIntoTerminal(":checkhealth blink-ripgrep{enter}")
+      cy.contains("rg found:")
       cy.contains("OK blink-ripgrep")
       cy.contains("WARN").should("not.exist")
     })
