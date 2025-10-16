@@ -19,9 +19,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - id: versions
+        run: |
+          VERSION=$(grep 'ubi:BurntSushi/ripgrep' .mise.toml | sed -E 's/.*version = "([^"]+)".*/\1/')
+          echo "ripgrep_version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - uses: taiki-e/install-action@0005e0116e92d8489d8d96fbff83f061c79ba95a # v2
         with:
-          tool: ripgrep
+          tool: "ripgrep@${{ steps.versions.outputs.ripgrep_version }}"
 
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@d30f6d4d794c0e77b6edb530872205f98ae969c4 # v1.1.1
