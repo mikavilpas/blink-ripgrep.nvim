@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.0.1...v2.1.0) (2025-10-16)
+
+
+### Features
+
+* **health:** show ripgrep version in health check ([aea46a6](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/aea46a603d76b08c6dc0000ea2927a39cc6c36a3))
+
 ## [2.0.1](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.0.0...v2.0.1) (2025-10-12)
 
 
