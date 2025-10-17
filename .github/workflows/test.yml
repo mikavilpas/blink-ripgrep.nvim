@@ -24,7 +24,7 @@ jobs:
           VERSION=$(grep 'ubi:BurntSushi/ripgrep' .mise.toml | sed -E 's/.*version = "([^"]+)".*/\1/')
           echo "ripgrep_version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - uses: taiki-e/install-action@e79914c740f0acf092c59adfa2a61d3d2266b6bf # v2
+      - uses: taiki-e/install-action@e43a5023a747770bfcb71ae048541a681714b951 # v2
         with:
           tool: "ripgrep@${{ steps.versions.outputs.ripgrep_version }}"
 
