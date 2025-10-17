@@ -8,5 +8,17 @@
       "matchDepNames": ["lua"],
       "allowedVersions": "<=5.1"
     }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "datasourceTemplate": "github-releases",
+      "managerFilePatterns": [
+        "integration-tests/test-environment/.config/nvim/init.lua"
+      ],
+      "matchStrings": [
+        "--\\s*renovate:\\s*datasource=github-releases\\s+depName=(?<depName>\\S+)\\s*[\\r\\n]+[^=]+=\\s*(?<currentValue>[^,]+?),"
+      ]
+    }
   ]
 }
