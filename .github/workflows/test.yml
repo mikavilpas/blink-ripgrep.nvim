@@ -19,14 +19,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - id: versions
+      - name: Install tools with UBI
+        shell: bash
         run: |
-          VERSION=$(grep 'ubi:BurntSushi/ripgrep' .mise.toml | sed -E 's/.*version = "([^"]+)".*/\1/')
-          echo "ripgrep_version=$VERSION" >> "$GITHUB_OUTPUT"
+          mkdir -p "$HOME/.local/bin"
+          # make the tools available for subsequent steps
+          echo "$(pwd)/bin" >> "$GITHUB_PATH"
+          curl --silent --location \
+              https://raw.githubusercontent.com/houseabsolute/ubi/master/bootstrap/bootstrap-ubi.sh |
+              TARGET="$HOME/.local/bin" sh
 
-      - uses: taiki-e/install-action@e43a5023a747770bfcb71ae048541a681714b951 # v2
-        with:
-          tool: "ripgrep@${{ steps.versions.outputs.ripgrep_version }}"
+          ubi --project mikefarah/yq
+
+          VERSION=$(yq '.tools."ubi:BurntSushi/ripgrep".version' .mise.toml)
+          ubi --project BurntSushi/ripgrep --tag "$VERSION" --exe rg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@d30f6d4d794c0e77b6edb530872205f98ae969c4 # v1.1.1
@@ -49,8 +57,10 @@ jobs:
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
-      - run: pnpm tui run
-        name: Run end-to-end tests
+      - name: Run end-to-end tests
+        run: |
+          rg --version
+          pnpm tui run
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         # add the line below to store screenshots only on failures
