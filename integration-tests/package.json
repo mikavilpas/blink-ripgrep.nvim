@@ -16,7 +16,7 @@
     "@tui-sandbox/library": "11.9.1",
     "@types/node": "24.8.1",
     "concurrently": "9.2.1",
-    "cypress": "15.4.0",
+    "cypress": "15.5.0",
     "eslint": "9.38.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
