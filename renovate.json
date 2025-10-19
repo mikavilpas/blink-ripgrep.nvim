@@ -14,6 +14,18 @@
       "customType": "regex",
       "datasourceTemplate": "github-releases",
       "managerFilePatterns": [
+        ".github/workflows/test.yml",
+        ".github/workflows/style.yml",
+        ".github/workflows/lint.yml"
+      ],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=github-releases\\s+depName=(?<depName>\\S+)\\s*[\\r\\n]+[^:]+:\\s*(?<currentValue>\\S+)"
+      ]
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "github-releases",
+      "managerFilePatterns": [
         "integration-tests/test-environment/.config/nvim/init.lua"
       ],
       "matchStrings": [
