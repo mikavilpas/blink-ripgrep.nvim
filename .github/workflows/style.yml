@@ -32,4 +32,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           # CLI arguments
-          args: --color always --check lua/
+          args: --color always --check --allow-hidden .
