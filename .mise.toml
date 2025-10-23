@@ -1,5 +1,5 @@
 [tools]
-"ubi:BurntSushi/ripgrep" = { version = "15.0.0", exe = "rg" }
+"ubi:BurntSushi/ripgrep" = { version = "15.1.0", exe = "rg" }
 lua = "5.1"
 "ubi:JohnnyMorganz/stylua" = "2.3.0"
 
