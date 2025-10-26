@@ -1,0 +1,5 @@
+# ignore the following from blink-ripgrep by giving them a specific attribute
+# that we then ignore in the git grep command.
+#
+# The name of the attribute does not matter and can be chosen by the user.
+subproject/file2.lua blink-ripgrep-ignore

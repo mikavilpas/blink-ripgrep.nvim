@@ -24,6 +24,7 @@
 ---| "gitgrep" # Use git grep for searching. This is faster but only works in git repositories.
 
 ---@class blink-ripgrep.GitGrepBackendOptions
+---@field additional_gitgrep_options? string[] # Any extra options you want to give to git grep.
 
 ---@class blink-ripgrep.RipGrepBackendOptions
 ---@field ignore_paths? string[] # Absolute root paths where the rg command will not be executed. Usually you want to exclude paths using gitignore files or ripgrep specific ignore files, but this can be used to only ignore the paths in blink-ripgrep.nvim, maintaining the ability to use ripgrep for those paths on the command line. If you need to find out where the searches are executed, enable `debug` and look at `:messages`.

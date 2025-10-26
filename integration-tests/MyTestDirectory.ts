@@ -78,6 +78,16 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("enable_customize_icon_highlight.lua"),
           type: z.literal("file"),
         }),
+        gitgrep: z.object({
+          name: z.literal("gitgrep/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "ignore_files_with_gitattributes.lua": z.object({
+              name: z.literal("ignore_files_with_gitattributes.lua"),
+              type: z.literal("file"),
+            }),
+          }),
+        }),
         ripgrep: z.object({
           name: z.literal("ripgrep/"),
           type: z.literal("directory"),
@@ -126,6 +136,10 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("limited/"),
       type: z.literal("directory"),
       contents: z.object({
+        ".gitattributes": z.object({
+          name: z.literal(".gitattributes"),
+          type: z.literal("file"),
+        }),
         "dir with spaces": z.object({
           name: z.literal("dir with spaces/"),
           type: z.literal("directory"),
@@ -205,6 +219,8 @@ export const testDirectoryFiles = z.enum([
   "config-modifications/disable_buffer_words_source.lua",
   "config-modifications/don't_use_debug_mode.lua",
   "config-modifications/enable_customize_icon_highlight.lua",
+  "config-modifications/gitgrep/ignore_files_with_gitattributes.lua",
+  "config-modifications/gitgrep",
   "config-modifications/ripgrep/disable_project_root_fallback.lua",
   "config-modifications/ripgrep/set_ignore_paths.lua",
   "config-modifications/ripgrep/use_additional_paths.lua",
@@ -216,6 +232,7 @@ export const testDirectoryFiles = z.enum([
   "config-modifications/use_not_found_project_root.lua",
   "config-modifications",
   "initial-file.txt",
+  "limited/.gitattributes",
   "limited/dir with spaces/file with spaces.txt",
   "limited/dir with spaces/other file with spaces.txt",
   "limited/dir with spaces",
