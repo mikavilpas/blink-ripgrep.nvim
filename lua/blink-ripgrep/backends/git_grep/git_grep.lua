@@ -40,7 +40,7 @@ function GitGrepBackend:get_matches(prefix, _, resolve)
     require("blink-ripgrep.backends.git_grep.gitgrep_command")
 
   local cwd = assert(vim.uv.cwd())
-  local cmd = command_module.get_command(prefix)
+  local cmd = command_module.get_command(prefix, self.config)
 
   if cmd == nil then
     if self.config.debug then

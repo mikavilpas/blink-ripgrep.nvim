@@ -223,7 +223,9 @@ return {
             },
 
             gitgrep = {
-              -- no options are currently available
+              -- Any extra options you want to give to git grep. Can be used to
+              -- e.g. exclude some files from the search.
+              additional_gitgrep_options = {}
             },
 
             -- Show debug information in `:messages` that can help in
@@ -278,11 +280,14 @@ few things you can do to improve performance:
 - Set the `debug = true` option, which will log debug information to your
   `:messages` in Neovim. You can copy paste these commands to your terminal and
   try to figure out why the search is slow.
-- Use ripgrep's extensive options to exclude/include files
-  ([ripgrep docs](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#automatic-filtering))
+- Use the search backend's options to exclude/include files
   - ripgrep supports global as well as project/directory specific ignore files.
     By default, it uses `.gitignore`, `.git/info/exclude`, `.ignore`, and
-    `.rgignore` files.
+    `.rgignore` files
+    ([ripgrep docs](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#automatic-filtering))
+  - git grep can be configured to ignore files using `.gitattributes` files. See
+    [documentation/ignore-files-from-git-grep.md](documentation/ignore-files-from-git-grep.md)
+    for more information.
 
 - If you still experience performance issues, please open an issue for
   discussion.

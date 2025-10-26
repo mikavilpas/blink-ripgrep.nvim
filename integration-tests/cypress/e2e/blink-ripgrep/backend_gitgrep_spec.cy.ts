@@ -144,6 +144,36 @@ describe("the GitGrepBackend", () => {
     })
   })
 
+  it("can use git pathspecs to customize the search", () => {
+    // git supports either tracked or untracked .gitattributes files to give
+    // custom attributes to files. blink-ripgrep can use these attributes to
+    // customize the search.
+    //
+    // - https://git-scm.com/docs/git-grep#Documentation/git-grep.txt-pathspec
+    // - https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-pathspec
+
+    cy.visit("/")
+    startNeovimWithGitBackend({
+      startupScriptModifications: [
+        "gitgrep/ignore_files_with_gitattributes.lua",
+      ],
+    }).then(() => {
+      cy.contains("If you see this text, Neovim is ready!")
+      createGitReposToLimitSearchScope()
+
+      cy.typeIntoTerminal("cc")
+
+      // find a match that has more than 5 lines of context
+      cy.typeIntoTerminal("someText")
+
+      // git-grep should have ignored files with the "blink-ripgrep-ignore"
+      // attribute. The files with that attribute should not show up in the
+      // search results.
+      cy.contains("SomeTextFromFile3")
+      cy.contains("someTextFromFile2").should("not.exist")
+    })
+  })
+
   it("can customize the icon in the completion results", () => {
     cy.visit("/")
     startNeovimWithGitBackend().then((nvim) => {
@@ -191,7 +221,7 @@ describe("the GitGrepBackend", () => {
     })
   })
 
-  it("highlights multiple matches on the same line correctly", () => {
+  it("highlights multiple matches on the same line", () => {
     // https://github.com/mikavilpas/blink-ripgrep.nvim/issues/228
     cy.visit("/")
     startNeovimWithGitBackend({
