@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.1.0...v2.2.0) (2025-10-26)
+
+
+### Features
+
+* allow passing `additional_gitgrep_options` to git-grep backend ([#426](https://github.com/mikavilpas/blink-ripgrep.nvim/issues/426)) ([210b6ef](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/210b6ef735dcea429804dece28ec6c5962ba1e0c))
+
 ## [2.1.0](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.0.1...v2.1.0) (2025-10-16)
 
 
