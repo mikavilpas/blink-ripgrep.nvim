@@ -9,14 +9,3 @@ export function createGitReposToLimitSearchScope(): void {
     cwdRelative: "limited",
   })
 }
-
-export function createGitAttributesFile(): void {
-  cy.nvim_runBlockingShellCommand({
-    command: 'echo "*.log binary" > .gitattributes',
-    cwdRelative: ".",
-  })
-  cy.nvim_runBlockingShellCommand({
-    command: 'echo "*.log binary" > .gitattributes',
-    cwdRelative: "limited",
-  })
-}
