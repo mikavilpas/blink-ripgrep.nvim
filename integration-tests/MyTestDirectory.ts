@@ -178,6 +178,16 @@ export const MyTestDirectorySchema = z.object({
               name: z.literal("file3.lua"),
               type: z.literal("file"),
             }),
+            "ignored-dir": z.object({
+              name: z.literal("ignored-dir/"),
+              type: z.literal("directory"),
+              contents: z.object({
+                "file.lua": z.object({
+                  name: z.literal("file.lua"),
+                  type: z.literal("file"),
+                }),
+              }),
+            }),
           }),
         }),
       }),
@@ -241,6 +251,8 @@ export const testDirectoryFiles = z.enum([
   "limited/subproject/file1.lua",
   "limited/subproject/file2.lua",
   "limited/subproject/file3.lua",
+  "limited/subproject/ignored-dir/file.lua",
+  "limited/subproject/ignored-dir",
   "limited/subproject",
   "limited",
   "line-file.lua",
