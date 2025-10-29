@@ -18,6 +18,9 @@ To do it, follow these steps:
    #
    # The name of the attribute does not matter and can be chosen by the user.
    subproject/file2.lua blink-ripgrep-ignore
+
+   # ignore everything in this directory
+   subproject/ignored-dir/** blink-ripgrep-ignore
    ```
 
 2. Configure `blink-ripgrep` to pass the appropriate options to `git grep` to
