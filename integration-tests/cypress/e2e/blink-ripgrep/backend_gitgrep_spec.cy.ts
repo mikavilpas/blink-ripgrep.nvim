@@ -1,6 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import type { NeovimContext } from "cypress/support/tui-sandbox"
+import type { NeovimContext } from "../../support/tui-sandbox.js"
 import { assertMatchVisible } from "./utils/assertMatchVisible"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 

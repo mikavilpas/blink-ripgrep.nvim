@@ -6,7 +6,7 @@
   "scripts": {
     "cy:run": "pnpm --filter ./integration-tests/ cy:run",
     "dev": "pnpm --filter ./integration-tests/ dev",
-    "eslint": "pnpm --filter ./integration-tests/ eslint",
+    "lint": "pnpm --filter ./integration-tests/ lint",
     "markdownlint": "markdownlint-cli2 README.md",
     "prettier": "prettier --check .",
     "tui": "pnpm --filter ./integration-tests/ exec tui"
