@@ -145,8 +145,15 @@ local plugins = {
     end,
   },
 
-  { "folke/snacks.nvim" },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  -- renovate: datasource=github-releases depName=folke/snacks.nvim
+  { "folke/snacks.nvim", version = "v2.28.0" },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    -- renovate: datasource=github-releases depName=catppuccin/nvim
+    version = "v1.11.0",
+  },
 }
 require("lazy").setup({ spec = plugins })
 

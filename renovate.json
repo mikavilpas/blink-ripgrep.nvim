@@ -29,7 +29,7 @@
         "integration-tests/test-environment/.config/nvim/init.lua"
       ],
       "matchStrings": [
-        "--\\s*renovate:\\s*datasource=github-releases\\s+depName=(?<depName>\\S+)\\s*[\\r\\n]+[^=]+=\\s*\"?(?<currentValue>[^\",]+)\"?"
+        "-- renovate: datasource=github-releases depName=(?<depName>[^\\s]+)[\\s\\S]*?version\\s*=\\s*\"?(?<currentValue>[^\",]+)\"?"
       ]
     }
   ]
