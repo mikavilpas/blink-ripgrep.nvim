@@ -43,7 +43,7 @@ local plugins = {
     -- use a release tag to download pre-built binaries
     -- https://github.com/Saghen/blink.cmp/releases
     -- renovate: datasource=github-releases depName=saghen/blink.cmp
-    version = "v1.7.0",
+    version = "v1.8.0",
 
     -- to (locally) track nightly builds, use the following:
     -- version = false,
