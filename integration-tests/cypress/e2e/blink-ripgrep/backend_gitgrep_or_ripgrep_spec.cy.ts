@@ -1,15 +1,14 @@
-import type { NeovimContext } from "cypress/support/tui-sandbox"
+import type { NeovimContext } from "../../support/tui-sandbox"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
 
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
 function startNeovimWithThisBackend(
-  options?: Partial<NeovimArguments>,
+  options: Partial<NeovimArguments> = {},
 ): Cypress.Chainable<NeovimContext> {
   const backend = "use_gitgrep_or_ripgrep_backend.lua"
 
-  if (!options) options = {}
   options.startupScriptModifications = options.startupScriptModifications ?? []
 
   if (!options.startupScriptModifications.includes(backend)) {
@@ -35,7 +34,7 @@ describe("the GitGrepOrRipgrepBackend", () => {
       //
       // If the plugin works, this text should show up as a suggestion.
       cy.typeIntoTerminal("hip")
-      cy.contains("Hippopotamus" + "234 (rg)") // wait for blink to show up
+      cy.contains(`Hippopotamus234 (rg)`) // wait for blink to show up
       cy.typeIntoTerminal("234")
     })
   })
