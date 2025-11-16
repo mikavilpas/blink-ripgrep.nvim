@@ -21,6 +21,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-oxlint": "1.28.0",
+    "oxlint": "1.28.0",
     "oxlint-tsgolint": "0.6.0",
     "type-fest": "5.2.0",
     "typescript": "5.9.3",
