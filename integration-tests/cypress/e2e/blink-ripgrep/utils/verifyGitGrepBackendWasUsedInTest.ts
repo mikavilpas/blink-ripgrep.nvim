@@ -1,4 +1,4 @@
-import z from "zod"
+import { z } from "zod"
 
 export function verifyCorrectBackendWasUsedInTest(
   backend: "gitgrep" | "ripgrep" | "gitgrep-or-ripgrep",

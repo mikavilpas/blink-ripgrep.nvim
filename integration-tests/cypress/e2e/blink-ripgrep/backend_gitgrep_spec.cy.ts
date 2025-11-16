@@ -16,9 +16,8 @@ export type CatppuccinRgb = (typeof flavors.macchiato.colors)["surface0"]["rgb"]
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
 function startNeovimWithGitBackend(
-  options?: Partial<NeovimArguments>,
+  options: Partial<NeovimArguments> = {},
 ): Cypress.Chainable<NeovimContext> {
-  if (!options) options = {}
   options.startupScriptModifications = options.startupScriptModifications ?? []
 
   const backend = "use_gitgrep_backend.lua"
@@ -45,7 +44,7 @@ describe("the GitGrepBackend", () => {
       //
       // If the plugin works, this text should show up as a suggestion.
       cy.typeIntoTerminal("hip")
-      cy.contains("Hippopotamus" + "234 (rg)") // wait for blink to show up
+      cy.contains(`Hippopotamus234 (rg)`) // wait for blink to show up
       cy.typeIntoTerminal("234")
 
       // should show documentation with more details about the match
@@ -87,7 +86,7 @@ describe("the GitGrepBackend", () => {
 
       // get back into position and invoke the completion manually
       cy.typeIntoTerminal("{control+g}")
-      cy.contains("Hippopotamus" + "234 (rg)")
+      cy.contains(`Hippopotamus234 (rg)`)
     })
   })
 
@@ -328,7 +327,7 @@ describe("in debug mode", () => {
         // start a new ripgrep search. They must be used for filtering the
         // results instead.
         // https://cmp.saghen.dev/development/architecture.html#architecture
-        cy.contains("Hippopotamus" + "234 (rg)") // wait for blink to show up
+        cy.contains(`Hippopotamus234 (rg)`) // wait for blink to show up
         cy.typeIntoTerminal("234")
 
         // wait for the highlight to disappear to test that too

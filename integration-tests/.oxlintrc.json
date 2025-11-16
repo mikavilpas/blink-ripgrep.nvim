@@ -1,8 +1,11 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "unicorn"],
+  "plugins": ["typescript", "unicorn", "import"],
   "categories": {
-    "correctness": "off"
+    "correctness": "error",
+    "perf": "warn",
+    "suspicious": "warn",
+    "restriction": "warn"
   },
   "env": {
     "builtin": true,
@@ -216,6 +219,11 @@
       "rules": {
         "no-unused-expressions": "off"
       }
+    },
+    {
+      "files": ["cypress/e2e/blink-ripgrep/*.cy.ts"],
+      // cypress knows how to import its own files
+      "rules": { "import/unambiguous": "allow" }
     }
   ]
 }
