@@ -23,9 +23,9 @@
     "eslint-plugin-oxlint": "1.31.0",
     "oxlint": "1.31.0",
     "oxlint-tsgolint": "0.8.3",
-    "type-fest": "5.2.0",
+    "type-fest": "5.3.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.48.0",
+    "typescript-eslint": "8.48.1",
     "wait-on": "9.0.3",
     "zod": "4.1.13"
   }
