@@ -34,7 +34,7 @@ importers:
         version: 9.39.1
       '@tui-sandbox/library':
         specifier: 11.11.0
-        version: 11.11.0(cypress@15.7.1)(prettier@3.7.4)(type-fest@5.3.0)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.1.13)
+        version: 11.11.0(cypress@15.7.1)(prettier@3.7.4)(type-fest@5.3.1)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.1.13)
       '@types/node':
         specifier: 24.10.1
         version: 24.10.1
@@ -63,8 +63,8 @@ importers:
         specifier: 0.8.3
         version: 0.8.3
       type-fest:
-        specifier: 5.3.0
-        version: 5.3.0
+        specifier: 5.3.1
+        version: 5.3.1
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -2458,8 +2458,8 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  type-fest@5.3.0:
-    resolution: {integrity: sha512-d9CwU93nN0IA1QL+GSNDdwLAu1Ew5ZjTwupvedwg3WdfoH6pIDvYQ2hV0Uc2nKBLPq7NB5apCx57MLS5qlmO5g==}
+  type-fest@5.3.1:
+    resolution: {integrity: sha512-VCn+LMHbd4t6sF3wfU/+HKT63C9OoyrSIf4b+vtWHpt2U7/4InZG467YDNMFMR70DdHjAdpPWmw2lzRdg0Xqqg==}
     engines: {node: '>=20'}
 
   type-is@2.0.1:
@@ -2946,7 +2946,7 @@ snapshots:
     dependencies:
       typescript: 5.9.3
 
-  '@tui-sandbox/library@11.11.0(cypress@15.7.1)(prettier@3.7.4)(type-fest@5.3.0)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.1.13)':
+  '@tui-sandbox/library@11.11.0(cypress@15.7.1)(prettier@3.7.4)(type-fest@5.3.1)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.1.13)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.7.1(@trpc/server@11.7.1(typescript@5.9.3))(typescript@5.9.3)
@@ -2963,7 +2963,7 @@ snapshots:
       node-pty: 1.0.0
       prettier: 3.7.4
       tsx: 4.20.6
-      type-fest: 5.3.0
+      type-fest: 5.3.1
       typescript: 5.9.3
       wait-on: 9.0.3
       winston: 3.18.3
@@ -5289,7 +5289,7 @@ snapshots:
 
   type-fest@0.8.1: {}
 
-  type-fest@5.3.0:
+  type-fest@5.3.1:
     dependencies:
       tagged-tag: 1.0.0
 
