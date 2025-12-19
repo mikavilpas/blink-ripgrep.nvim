@@ -16,6 +16,52 @@ vim.api.nvim_set_hl(0, "BlinkRipgrepMatch", { link = "Search", default = true })
 ---@param match blink-ripgrep.Match | blink-ripgrep.Match
 function documentation.render_item_documentation(config, draw_opts, file, match)
   local bufnr = draw_opts.window:get_buf()
+  local mod = vim.api.nvim_get_option_value("modifiable", { buf = bufnr })
+  if not mod then
+    -- workaround for the documentation window being unmodifiable: temporarily
+    -- make it modifiable and then revert that change
+    -- https://github.com/mikavilpas/blink-ripgrep.nvim/issues/498
+    vim.api.nvim_set_option_value("modifiable", true, { buf = bufnr })
+  end
+
+  documentation.render_internal(config, bufnr, draw_opts, file, match)
+
+  if not mod then
+    vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
+  end
+end
+
+---@param context_size number
+---@param match_line number # the line number the match was found on
+---@param file_path string
+function documentation.get_match_context(context_size, match_line, file_path)
+  local start_line = math.max(1, match_line - context_size)
+  local end_line = match_line + context_size
+
+  local text = vim.fn.readfile(file_path, "", end_line)
+  assert(type(text) == "table", "expected table from readfile")
+  ---@cast text string[]
+
+  ---@type blink-ripgrep.NumberedLine[]
+  local context = {}
+  for i, line in ipairs(text) do
+    if i >= start_line then
+      table.insert(context, {
+        line_number = i,
+        text = line,
+      } --[[@as blink-ripgrep.NumberedLine]])
+    end
+  end
+
+  return context
+end
+
+---@param config blink-ripgrep.Options
+---@param bufnr number
+---@param draw_opts blink.cmp.CompletionDocumentationDrawOpts
+---@param file blink-ripgrep.RipgrepFile | blink-ripgrep.GitgrepFile
+---@param match blink-ripgrep.Match | blink-ripgrep.Match
+documentation.render_internal = function(config, bufnr, draw_opts, file, match)
   ---@type string[]
   local text = {
     file.relative_to_cwd,
@@ -78,31 +124,6 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
     context_preview,
     config.debug
   )
-end
-
----@param context_size number
----@param match_line number # the line number the match was found on
----@param file_path string
-function documentation.get_match_context(context_size, match_line, file_path)
-  local start_line = math.max(1, match_line - context_size)
-  local end_line = match_line + context_size
-
-  local text = vim.fn.readfile(file_path, "", end_line)
-  assert(type(text) == "table", "expected table from readfile")
-  ---@cast text string[]
-
-  ---@type blink-ripgrep.NumberedLine[]
-  local context = {}
-  for i, line in ipairs(text) do
-    if i >= start_line then
-      table.insert(context, {
-        line_number = i,
-        text = line,
-      } --[[@as blink-ripgrep.NumberedLine]])
-    end
-  end
-
-  return context
 end
 
 return documentation
