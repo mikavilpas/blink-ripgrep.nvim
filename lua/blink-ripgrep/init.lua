@@ -49,7 +49,7 @@
 local RgSource = {}
 RgSource.__index = RgSource
 
-RgSource.version = "2.2.0" -- x-release-please-version
+RgSource.version = "2.2.1" -- x-release-please-version
 
 ---@type blink-ripgrep.Options
 RgSource.config = {
