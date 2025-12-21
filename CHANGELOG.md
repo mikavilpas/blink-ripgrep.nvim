@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.2](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.1...v2.2.2) (2025-12-21)
+
+
+### Bug Fixes
+
+* remove upstreamed fix for unmodifiable documentation window ([#505](https://github.com/mikavilpas/blink-ripgrep.nvim/issues/505)) ([fc5ebb4](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/fc5ebb434d5afa9095e4ef8ef035672b9642f1e1))
+
 ## [2.2.1](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.0...v2.2.1) (2025-12-19)
 
 
