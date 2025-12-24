@@ -1,9 +1,9 @@
 import { flavors } from "@catppuccin/palette"
-import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import {
+  rgbify,
   textIsVisibleWithBackgroundColor,
   textIsVisibleWithColor,
-} from "@tui-sandbox/library/dist/src/client/cypress-assertions"
+} from "@tui-sandbox/library"
 import { z } from "zod"
 import { assertMatchVisible } from "./utils/assertMatchVisible"
 import { textIsVisibleWithColors } from "./utils/color-utils"

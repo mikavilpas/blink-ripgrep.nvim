@@ -1,10 +1,10 @@
 import { flavors } from "@catppuccin/palette"
-import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import {
+  rgbify,
   textIsVisibleWithBackgroundColor,
   textIsVisibleWithColor,
-} from "@tui-sandbox/library/dist/src/client/cypress-assertions"
-import type { MyTestDirectoryFile } from "MyTestDirectory"
+} from "@tui-sandbox/library"
+import type { MyTestDirectoryFile } from "../../../MyTestDirectory"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("searching inside projects with the RipgrepBackend", () => {

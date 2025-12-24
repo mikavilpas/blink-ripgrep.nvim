@@ -1,6 +1,5 @@
 import { flavors } from "@catppuccin/palette"
-import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import { textIsVisibleWithColor } from "@tui-sandbox/library/dist/src/client/cypress-assertions"
+import { rgbify, textIsVisibleWithColor } from "@tui-sandbox/library"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 describe("toggling features on/off", () => {

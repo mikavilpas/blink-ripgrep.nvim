@@ -1,7 +1,7 @@
 import {
   textIsVisibleWithBackgroundColor,
   textIsVisibleWithColor,
-} from "@tui-sandbox/library/dist/src/client/cypress-assertions"
+} from "@tui-sandbox/library"
 
 export function textIsVisibleWithColors(
   text: string,

@@ -1,13 +1,13 @@
 import { flavors } from "@catppuccin/palette"
-import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import type { NeovimContext } from "../../support/tui-sandbox.js"
 import { assertMatchVisible } from "./utils/assertMatchVisible"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
 
 import {
+  rgbify,
   textIsVisibleWithBackgroundColor,
   textIsVisibleWithColor,
-} from "@tui-sandbox/library/dist/src/client/cypress-assertions"
+} from "@tui-sandbox/library"
 import { textIsVisibleWithColors } from "./utils/color-utils"
 import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
 
