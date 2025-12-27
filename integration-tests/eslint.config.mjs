@@ -89,7 +89,7 @@ export default tseslint.config(
     },
   },
 
-  ...oxlint.configs["flat/recommended"],
+  ...oxlint.buildFromOxlintConfigFile("./.oxlintrc.json"),
   // should be the last item
   eslintConfigPrettier,
 )
