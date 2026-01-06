@@ -13,7 +13,7 @@
   "devDependencies": {
     "@catppuccin/palette": "1.7.1",
     "@eslint/js": "9.39.2",
-    "@tui-sandbox/library": "12.2.4",
+    "@tui-sandbox/library": "12.3.0",
     "@types/node": "24.10.4",
     "concurrently": "9.2.1",
     "cypress": "15.8.1",
@@ -22,11 +22,11 @@
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-oxlint": "1.36.0",
     "oxlint": "1.36.0",
-    "oxlint-tsgolint": "0.10.0",
+    "oxlint-tsgolint": "0.10.1",
     "type-fest": "5.3.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.51.0",
     "wait-on": "9.0.3",
-    "zod": "4.2.1"
+    "zod": "4.3.4"
   }
 }
