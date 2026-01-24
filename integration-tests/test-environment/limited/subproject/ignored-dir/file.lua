@@ -1,3 +1,3 @@
--- someTextFromIgnoredDir
+-- myTextFromIgnoredDir
 --
 -- the text in this file should be ignored because it's in an ignored directory
