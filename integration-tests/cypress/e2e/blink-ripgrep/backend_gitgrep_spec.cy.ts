@@ -170,7 +170,7 @@ describe("the GitGrepBackend", () => {
       // search results.
       cy.contains("SomeTextFromFile3")
       cy.contains("someTextFromFile2").should("not.exist")
-      cy.contains("someTextFromIgnoredDir").should("not.exist")
+      cy.contains("myTextFromIgnoredDir").should("not.exist")
     })
   })
 
