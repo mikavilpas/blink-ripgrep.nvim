@@ -32,6 +32,11 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.o.swapfile = false
 
+local config_dir =
+  assert(os.getenv("XDG_CONFIG_HOME"), "XDG_CONFIG_HOME not set")
+local repo_root =
+  vim.fs.abspath(vim.fs.joinpath(config_dir, "..", "..", "..", "..", ".."))
+
 -- install the following plugins
 ---@type LazySpec
 local plugins = {
@@ -127,7 +132,7 @@ local plugins = {
   {
     "mikavilpas/blink-ripgrep.nvim",
     -- for tests, always use the code from this repository
-    dir = "../..",
+    dir = repo_root,
     config = function()
       -- customize the search highlighting (Search)
       local colors = require("catppuccin.palettes.macchiato")
