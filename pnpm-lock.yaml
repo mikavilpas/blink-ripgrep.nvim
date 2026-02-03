@@ -31,7 +31,7 @@ importers:
         version: 9.39.2
       '@tui-sandbox/library':
         specifier: 12.3.0
-        version: 12.3.0(cypress@15.9.0)(prettier@3.8.1)(type-fest@5.4.2)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.3.6)
+        version: 12.3.0(cypress@15.9.0)(prettier@3.8.1)(type-fest@5.4.3)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.3.6)
       '@types/node':
         specifier: 24.10.9
         version: 24.10.9
@@ -55,13 +55,13 @@ importers:
         version: 1.42.0
       oxlint:
         specifier: 1.42.0
-        version: 1.42.0(oxlint-tsgolint@0.11.3)
+        version: 1.42.0(oxlint-tsgolint@0.11.4)
       oxlint-tsgolint:
-        specifier: 0.11.3
-        version: 0.11.3
+        specifier: 0.11.4
+        version: 0.11.4
       type-fest:
-        specifier: 5.4.2
-        version: 5.4.2
+        specifier: 5.4.3
+        version: 5.4.3
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -364,33 +364,33 @@ packages:
     resolution: {integrity: sha512-h9u4u/jiIRKbq25PM+zymTyW6bhTzELvOoUd+AvYriWOAKpLGnIamaET3pnHYoI5iYphAHBI4ayx0MehR+VVPQ==}
     engines: {node: '>= 10'}
 
-  '@oxlint-tsgolint/darwin-arm64@0.11.3':
-    resolution: {integrity: sha512-FU4e+w09D+2rkCVdL7I7zMuQOJ2tuapVhBGPGY66VAct2FUwFDVmgU+rNJ2hHIdc9uHg24v+FD8PcfFYpask8Q==}
+  '@oxlint-tsgolint/darwin-arm64@0.11.4':
+    resolution: {integrity: sha512-IhdhiC183s5wdFDZSQC8PaFFq1QROiVT5ahz7ysgEKVnkNDjy82ieM7ZKiUfm2ncXNX2RcFGSSZrQO6plR+VAQ==}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxlint-tsgolint/darwin-x64@0.11.3':
-    resolution: {integrity: sha512-7sm1d920HfFsC3hIP7SJVm11WhYufA8qnLQQVk7odTpSzVUAT1jtG8LdfFigzgb38zHszQbsqJ7OjAgIW/OgmA==}
+  '@oxlint-tsgolint/darwin-x64@0.11.4':
+    resolution: {integrity: sha512-KJmBg10Z1uGpJqxDzETXOytYyeVrKUepo8rCXeVkRlZ2QzZqMElgalFN4BI3ccgIPkQpzzu4SVzWNFz7yiKavQ==}
     cpu: [x64]
     os: [darwin]
 
-  '@oxlint-tsgolint/linux-arm64@0.11.3':
-    resolution: {integrity: sha512-eoJfdmHcpG9k8fufb8yL3rC3HC6QELoTEfs56lmGaRIHHmd1aj4MWDbGCqdRqPEp7oC5fVvFxi7wDkA1MDf99Q==}
+  '@oxlint-tsgolint/linux-arm64@0.11.4':
+    resolution: {integrity: sha512-P6I3dSSpoEnjFzTMlrbcBHNbErSxceZmcVUslBxrrIUH1NSVS1XfSz6S75vT2Gay7Jv6LI7zTTVAk4cSqkfe+w==}
     cpu: [arm64]
     os: [linux]
 
-  '@oxlint-tsgolint/linux-x64@0.11.3':
-    resolution: {integrity: sha512-t7jGK0vBApuAGvOnCPTxsdX+1e9nMdvqU3zHCJWQ7yUDaJxki0bCy4zbKfUgVo8ePeVRgIKWwqLFBOVTXQ5AMQ==}
+  '@oxlint-tsgolint/linux-x64@0.11.4':
+    resolution: {integrity: sha512-G0eAW3S7cp/vP7Kx6e7+Ze7WfNgSt1tc/rOexfLKnnIi+9BelyOa2wF9bWFPpxk3n3AdkBwKttU1/adDZlD87Q==}
     cpu: [x64]
     os: [linux]
 
-  '@oxlint-tsgolint/win32-arm64@0.11.3':
-    resolution: {integrity: sha512-6ellG0zcWnj2b6Mr7fl19x+nlFIWGWoKCBlYnqNZ4CaziRYGpYx7PLwHhPJq331w7zzRRSnYqhyTrVluYjZADQ==}
+  '@oxlint-tsgolint/win32-arm64@0.11.4':
+    resolution: {integrity: sha512-prgQEBiwp4TAxarh6dYbVOKw6riRJ6hB49vDD6DxQlOZQky7xHQ9qTec5/rf0JTUZ16YaJ9YfHycbJS3QVpTYw==}
     cpu: [arm64]
     os: [win32]
 
-  '@oxlint-tsgolint/win32-x64@0.11.3':
-    resolution: {integrity: sha512-rzvfaRJPK9eRYVWMXCt8JtvOsVFAsqScgsFhnXzsipU6W1Te0g+b4q068o7hZ3NRTjJxNgFJj8ayOkZ6NbX0tA==}
+  '@oxlint-tsgolint/win32-x64@0.11.4':
+    resolution: {integrity: sha512-5xXTzZIT/1meWMmS60Q+FYWvWncc6iTfC8tyQt7GDfPUoqQvE5WVgHm1QjDSJvxTD+6AHphpCqdhXq/KtxagRw==}
     cpu: [x64]
     os: [win32]
 
@@ -1329,6 +1329,7 @@ packages:
   glob@11.0.3:
     resolution: {integrity: sha512-2Nim7dha1KVkaiF4q6Dj+ngPPMdfvLJEOpZk/jKiUAkqKebpGAWQXAq9z1xu9HKu5lWfqw/FASuccEjyznjPaA==}
     engines: {node: 20 || >=22}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   global-dirs@3.0.1:
@@ -1855,8 +1856,8 @@ packages:
   ospath@1.2.2:
     resolution: {integrity: sha512-o6E5qJV5zkAbIDNhGSIlyOhScKXgQrSRMilfph0clDfM0nEnBOlKlH4sWDmG95BW/CvwNz0vmm7dJVtU2KlMiA==}
 
-  oxlint-tsgolint@0.11.3:
-    resolution: {integrity: sha512-zkuGXJzE5WIoGQ6CHG3GbxncPNrvUG9giTKdXMqKrlieCRxa9hGMvMJM+7DFxKSaryVAEFrTQJNrGJHpeMmFPg==}
+  oxlint-tsgolint@0.11.4:
+    resolution: {integrity: sha512-VyQc+69TxQwUdsEPiVFN7vNZdDVO/FHaEcHltnWs3O6rvwxv67uADlknQQO714sbRdEahOjgO5dFf+K9ili0gg==}
     hasBin: true
 
   oxlint@1.42.0:
@@ -2315,8 +2316,8 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  type-fest@5.4.2:
-    resolution: {integrity: sha512-FLEenlVYf7Zcd34ISMLo3ZzRE1gRjY1nMDTp+bQRBiPsaKyIW8K3Zr99ioHDUgA9OGuGGJPyYpNcffGmBhJfGg==}
+  type-fest@5.4.3:
+    resolution: {integrity: sha512-AXSAQJu79WGc79/3e9/CR77I/KQgeY1AhNvcShIH4PTcGYyC4xv6H4R4AUOwkPS5799KlVDAu8zExeCrkGquiA==}
     engines: {node: '>=20'}
 
   type-is@2.0.1:
@@ -2705,22 +2706,22 @@ snapshots:
 
   '@msgpack/msgpack@2.8.0': {}
 
-  '@oxlint-tsgolint/darwin-arm64@0.11.3':
+  '@oxlint-tsgolint/darwin-arm64@0.11.4':
     optional: true
 
-  '@oxlint-tsgolint/darwin-x64@0.11.3':
+  '@oxlint-tsgolint/darwin-x64@0.11.4':
     optional: true
 
-  '@oxlint-tsgolint/linux-arm64@0.11.3':
+  '@oxlint-tsgolint/linux-arm64@0.11.4':
     optional: true
 
-  '@oxlint-tsgolint/linux-x64@0.11.3':
+  '@oxlint-tsgolint/linux-x64@0.11.4':
     optional: true
 
-  '@oxlint-tsgolint/win32-arm64@0.11.3':
+  '@oxlint-tsgolint/win32-arm64@0.11.4':
     optional: true
 
-  '@oxlint-tsgolint/win32-x64@0.11.3':
+  '@oxlint-tsgolint/win32-x64@0.11.4':
     optional: true
 
   '@oxlint/darwin-arm64@1.42.0':
@@ -2787,7 +2788,7 @@ snapshots:
     dependencies:
       typescript: 5.9.3
 
-  '@tui-sandbox/library@12.3.0(cypress@15.9.0)(prettier@3.8.1)(type-fest@5.4.2)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.3.6)':
+  '@tui-sandbox/library@12.3.0(cypress@15.9.0)(prettier@3.8.1)(type-fest@5.4.3)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.3.6)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.8.1(@trpc/server@11.8.1(typescript@5.9.3))(typescript@5.9.3)
@@ -2805,7 +2806,7 @@ snapshots:
       node-pty: 1.0.0
       prettier: 3.8.1
       tsx: 4.21.0
-      type-fest: 5.4.2
+      type-fest: 5.4.3
       typescript: 5.9.3
       wait-on: 9.0.3
       winston: 3.19.0
@@ -4432,16 +4433,16 @@ snapshots:
 
   ospath@1.2.2: {}
 
-  oxlint-tsgolint@0.11.3:
+  oxlint-tsgolint@0.11.4:
     optionalDependencies:
-      '@oxlint-tsgolint/darwin-arm64': 0.11.3
-      '@oxlint-tsgolint/darwin-x64': 0.11.3
-      '@oxlint-tsgolint/linux-arm64': 0.11.3
-      '@oxlint-tsgolint/linux-x64': 0.11.3
-      '@oxlint-tsgolint/win32-arm64': 0.11.3
-      '@oxlint-tsgolint/win32-x64': 0.11.3
+      '@oxlint-tsgolint/darwin-arm64': 0.11.4
+      '@oxlint-tsgolint/darwin-x64': 0.11.4
+      '@oxlint-tsgolint/linux-arm64': 0.11.4
+      '@oxlint-tsgolint/linux-x64': 0.11.4
+      '@oxlint-tsgolint/win32-arm64': 0.11.4
+      '@oxlint-tsgolint/win32-x64': 0.11.4
 
-  oxlint@1.42.0(oxlint-tsgolint@0.11.3):
+  oxlint@1.42.0(oxlint-tsgolint@0.11.4):
     optionalDependencies:
       '@oxlint/darwin-arm64': 1.42.0
       '@oxlint/darwin-x64': 1.42.0
@@ -4451,7 +4452,7 @@ snapshots:
       '@oxlint/linux-x64-musl': 1.42.0
       '@oxlint/win32-arm64': 1.42.0
       '@oxlint/win32-x64': 1.42.0
-      oxlint-tsgolint: 0.11.3
+      oxlint-tsgolint: 0.11.4
 
   p-limit@3.1.0:
     dependencies:
@@ -4961,7 +4962,7 @@ snapshots:
 
   type-fest@0.8.1: {}
 
-  type-fest@5.4.2:
+  type-fest@5.4.3:
     dependencies:
       tagged-tag: 1.0.0
 
