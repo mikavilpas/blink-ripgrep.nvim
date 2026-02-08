@@ -294,7 +294,7 @@ describe("in debug mode", () => {
   })
 
   it("highlights the search word when a new search is started", () => {
-    if (Cypress.env("CI")) {
+    if (Cypress.expose("CI")) {
       cy.log("Skipping test in CI")
       return
     } else {
