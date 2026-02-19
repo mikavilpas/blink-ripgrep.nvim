@@ -25,7 +25,7 @@
     "oxlint-tsgolint": "0.13.0",
     "type-fest": "5.4.4",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.55.0",
+    "typescript-eslint": "8.56.0",
     "wait-on": "9.0.4",
     "zod": "4.3.6"
   }
