@@ -9,7 +9,7 @@ local GitGrepParser = {}
 ---@field type "gitgrep"
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
 ---@field matches table<string,blink-ripgrep.Match>
----@field relative_to_cwd string the relative path of the file to the current working directory
+---@field path string the path of the file
 
 ---@param lines string[]
 ---@param cwd string
@@ -48,7 +48,7 @@ function GitGrepParser.parse_output(lines, cwd)
           type = "gitgrep",
           language = language,
           matches = {},
-          relative_to_cwd = relative_filename,
+          path = relative_filename,
         }
         output.files[relative_filename] = file
       end

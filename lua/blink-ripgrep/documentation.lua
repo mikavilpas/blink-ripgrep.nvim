@@ -18,7 +18,7 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
   local bufnr = draw_opts.window:get_buf()
   ---@type string[]
   local text = {
-    file.relative_to_cwd,
+    file.path,
     string.rep(
       "─",
       -- TODO account for the width of the scrollbar if it's visible
@@ -31,7 +31,7 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
   local context_preview = documentation.get_match_context(
     config.backend.context_size,
     match.line_number,
-    file.relative_to_cwd
+    file.path
   )
   for _, line in ipairs(context_preview) do
     table.insert(text, line.text)
@@ -40,7 +40,7 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
   -- TODO add extmark highlighting for the divider line like in blink
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, text)
 
-  local filetype = vim.filetype.match({ filename = file.relative_to_cwd })
+  local filetype = vim.filetype.match({ filename = file.path })
   local parser_name = vim.treesitter.language.get_lang(filetype or "")
   local parser_installed = parser_name
     and pcall(function()

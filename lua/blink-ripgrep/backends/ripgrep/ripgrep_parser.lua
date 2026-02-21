@@ -7,7 +7,7 @@ local M = {}
 ---@field type "ripgrep"
 ---@field language string the treesitter language of the file, used to determine what grammar to highlight the preview with
 ---@field matches table<string,blink-ripgrep.Match>
----@field relative_to_cwd string the relative path of the file to the current working directory
+---@field path string the path of the file
 
 ---@class blink-ripgrep.Match
 ---@field line_number number
@@ -60,7 +60,7 @@ function M.parse(ripgrep_output, cwd)
           type = "ripgrep",
           language = language,
           matches = {},
-          relative_to_cwd = relative_filename,
+          path = relative_filename,
         }
       elseif json.type == "match" then
         local file, line_number = get_file_context(json, output)
