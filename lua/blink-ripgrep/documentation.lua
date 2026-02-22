@@ -61,7 +61,7 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
       end)
     end)
   else
-    assert(parser_name, "missing parser for " .. (filetype or "unknown")) -- lua-language-server should narrow this but can't
+    assert(parser_name, "missing parser for " .. file.path) -- lua-language-server should narrow this but can't
     require("blink.cmp.lib.window.docs").highlight_with_treesitter(
       bufnr,
       parser_name,
