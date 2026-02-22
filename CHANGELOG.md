@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.4](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.3...v2.2.4) (2026-02-22)
+
+
+### Bug Fixes
+
+* allow disabling regex highlighting fallback for unknown filetypes ([9b8f85e](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/9b8f85ee4b2275c4dcf9b26c055ff7b5d4eadf8c))
+
 ## [2.2.3](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.2...v2.2.3) (2026-02-22)
 
 
