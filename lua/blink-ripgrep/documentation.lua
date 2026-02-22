@@ -47,19 +47,25 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
       return vim.treesitter.get_parser(nil, file.language, {})
     end)
 
-  if not parser_installed and config.fallback_to_regex_highlighting then
-    -- Can't show highlighted text because no treesitter parser
-    -- has been installed for this language.
-    --
-    -- Fall back to regex based highlighting that is bundled in
-    -- neovim. It might not be perfect but it's much better
-    -- than no colors at all
-    vim.schedule(function()
-      vim.api.nvim_set_option_value("filetype", file.language, { buf = bufnr })
-      vim.api.nvim_buf_call(bufnr, function()
-        vim.cmd("syntax on")
+  if not parser_installed then
+    if config.fallback_to_regex_highlighting then
+      -- Can't show highlighted text because no treesitter parser
+      -- has been installed for this language.
+      --
+      -- Fall back to regex based highlighting that is bundled in
+      -- neovim. It might not be perfect but it's much better
+      -- than no colors at all
+      vim.schedule(function()
+        vim.api.nvim_set_option_value(
+          "filetype",
+          file.language,
+          { buf = bufnr }
+        )
+        vim.api.nvim_buf_call(bufnr, function()
+          vim.cmd("syntax on")
+        end)
       end)
-    end)
+    end
   else
     assert(parser_name, "missing parser for " .. file.path) -- lua-language-server should narrow this but can't
     require("blink.cmp.lib.window.docs").highlight_with_treesitter(

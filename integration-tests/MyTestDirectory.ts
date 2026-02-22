@@ -70,6 +70,10 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("disable_buffer_words_source.lua"),
           type: z.literal("file"),
         }),
+        "disable_highlighting_fallback_to_regex.lua": z.object({
+          name: z.literal("disable_highlighting_fallback_to_regex.lua"),
+          type: z.literal("file"),
+        }),
         "don't_use_debug_mode.lua": z.object({
           name: z.literal("don't_use_debug_mode.lua"),
           type: z.literal("file"),
@@ -188,6 +192,10 @@ export const MyTestDirectorySchema = z.object({
                 }),
               }),
             }),
+            "testlog.log": z.object({
+              name: z.literal("testlog.log"),
+              type: z.literal("file"),
+            }),
           }),
         }),
       }),
@@ -227,6 +235,7 @@ export const testDirectoryFiles = z.enum([
   "additional-words-dir",
   "config-modifications/customize_highlight_colors.lua",
   "config-modifications/disable_buffer_words_source.lua",
+  "config-modifications/disable_highlighting_fallback_to_regex.lua",
   "config-modifications/don't_use_debug_mode.lua",
   "config-modifications/enable_customize_icon_highlight.lua",
   "config-modifications/gitgrep/ignore_files_with_gitattributes.lua",
@@ -253,6 +262,7 @@ export const testDirectoryFiles = z.enum([
   "limited/subproject/file3.lua",
   "limited/subproject/ignored-dir/file.lua",
   "limited/subproject/ignored-dir",
+  "limited/subproject/testlog.log",
   "limited/subproject",
   "limited",
   "line-file.lua",

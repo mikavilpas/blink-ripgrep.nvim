@@ -190,6 +190,33 @@ describe("searching inside projects with the RipgrepBackend", () => {
         )
       })
     })
+
+    it("can disable regex based highlighting altogether", () => {
+      // This is a regression test for https://github.com/mikavilpas/blink-ripgrep.nvim/issues/598
+      cy.visit("/")
+      cy.startNeovim({
+        filename: "limited/subproject/file1.lua",
+        startupScriptModifications: [
+          "disable_highlighting_fallback_to_regex.lua",
+        ],
+      }).then(() => {
+        // when opening a file from a subproject, the search should be limited to
+        // the nearest .git directory (only the files in the same project should
+        // be searched)
+        cy.contains("This is text from file1.lua")
+        createGitReposToLimitSearchScope()
+
+        cy.typeIntoTerminal("o")
+        cy.typeIntoTerminal("samp") // match "samplelogmessage"
+
+        // make sure the match is shown
+        cy.contains("samplelogmessage")
+
+        // make sure the documentation window shows up by detecting the
+        // filename of the matched file
+        cy.contains("testlog.log")
+      })
+    })
   })
 
   describe("using .gitignore files to exclude files from searching", () => {
