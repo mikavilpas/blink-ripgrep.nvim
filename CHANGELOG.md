@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.3](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.2...v2.2.3) (2026-02-22)
+
+
+### Bug Fixes
+
+* informative error message when treesitter parser is missing ([969471a](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/969471a8ba61e86553c9091d507cb88008650371))
+
 ## [2.2.2](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.1...v2.2.2) (2025-12-21)
 
 
