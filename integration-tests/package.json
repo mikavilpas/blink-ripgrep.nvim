@@ -17,7 +17,7 @@
     "@types/node": "24.10.13",
     "concurrently": "9.2.1",
     "cypress": "15.10.0",
-    "eslint": "10.0.0",
+    "eslint": "10.0.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-oxlint": "1.49.0",
