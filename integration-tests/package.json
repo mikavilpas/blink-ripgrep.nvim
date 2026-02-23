@@ -22,7 +22,7 @@
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-oxlint": "1.49.0",
     "oxlint": "1.49.0",
-    "oxlint-tsgolint": "0.14.1",
+    "oxlint-tsgolint": "0.14.2",
     "type-fest": "5.4.4",
     "typescript": "5.9.3",
     "typescript-eslint": "8.56.0",
