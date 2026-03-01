@@ -288,7 +288,6 @@ few things you can do to improve performance:
   - git grep can be configured to ignore files using `.gitattributes` files. See
     [documentation/ignore-files-from-git-grep.md](documentation/ignore-files-from-git-grep.md)
     for more information.
-
 - If you still experience performance issues, please open an issue for
   discussion.
 
