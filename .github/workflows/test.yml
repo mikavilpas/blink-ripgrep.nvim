@@ -31,7 +31,7 @@ jobs:
 
           ubi --project mikefarah/yq
 
-          VERSION=$(yq '.tools."ubi:BurntSushi/ripgrep".version' .mise.toml)
+          VERSION=$(yq '.tools."github:BurntSushi/ripgrep".version' mise.toml)
           ubi --project BurntSushi/ripgrep --tag "$VERSION" --exe rg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
