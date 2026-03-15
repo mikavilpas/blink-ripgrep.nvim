@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.5](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.4...v2.2.5) (2026-03-15)
+
+
+### Bug Fixes
+
+* adapt to nightly no longer raising an error for missing parser ([#636](https://github.com/mikavilpas/blink-ripgrep.nvim/issues/636)) ([62213e3](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/62213e372c8945b0f5992ccb13429bcfbb766cb7))
+
 ## [2.2.4](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.3...v2.2.4) (2026-02-22)
 
 
