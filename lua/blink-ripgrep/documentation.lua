@@ -44,7 +44,12 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
   local parser_name = vim.treesitter.language.get_lang(filetype or "")
   local parser_installed = parser_name
     and pcall(function()
-      return vim.treesitter.get_parser(nil, file.language, {})
+      local parser, err = vim.treesitter.get_parser(nil, file.language, {})
+      assert(
+        parser,
+        "failed to get parser for " .. file.language .. ": " .. tostring(err)
+      )
+      return parser
     end)
 
   if not parser_installed then
