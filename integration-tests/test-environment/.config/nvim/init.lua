@@ -151,7 +151,7 @@ local plugins = {
   },
 
   -- renovate: datasource=github-releases depName=folke/snacks.nvim
-  { "folke/snacks.nvim", version = "v2.30.0" },
+  { "folke/snacks.nvim", version = "v2.31.0" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
