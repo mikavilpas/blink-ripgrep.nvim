@@ -157,7 +157,7 @@ local plugins = {
     name = "catppuccin",
     priority = 1000,
     -- renovate: datasource=github-releases depName=catppuccin/nvim
-    version = "v1.11.0",
+    version = "v2.0.0",
   },
 }
 require("lazy").setup({ spec = plugins })
