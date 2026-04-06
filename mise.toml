@@ -1,7 +1,7 @@
 [tools]
 "github:BurntSushi/ripgrep" = { version = "15.1.0", exe = "rg" }
 lua = "5.1"
-"github:JohnnyMorganz/stylua" = "2.4.0"
+"github:JohnnyMorganz/stylua" = "2.4.1"
 
 [tasks]
 test = "luarocks test --local"
