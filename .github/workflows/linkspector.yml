@@ -2,5 +2,5 @@ name: Linkspector
 on: [pull_request]
 jobs:
   check-links:
-    uses: mikavilpas/dotfiles/.github/workflows/linkspector.yml@7cd15141907036765dd800643396ea97d61995c2 # main
+    uses: mikavilpas/dotfiles/.github/workflows/linkspector.yml@b10277b554c301afcae99554bdf3946505915348 # main
     secrets: inherit
