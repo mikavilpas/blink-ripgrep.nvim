@@ -1,7 +1,9 @@
+import { startNeovim } from "./utils/startNeovim"
+
 describe("the healthcheck", () => {
   it("does not show any errors when ripgrep is installed", () => {
     cy.visit("/")
-    cy.startNeovim().then(() => {
+    startNeovim().then(() => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
 

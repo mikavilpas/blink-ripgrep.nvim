@@ -8,11 +8,21 @@ on:
 
 jobs:
   build:
-    name: Run tests
+    name: "${{ matrix.neovim.name }} / ${{ matrix.blink.name }}"
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
-        neovim_version: ["nightly", "stable"]
+        neovim:
+          - name: nvim-stable
+            version: stable
+          - name: nvim-nightly
+            version: nightly
+        blink:
+          - name: blink-stable
+            appname: nvim
+          - name: blink-nightly
+            appname: nvim_blink_nightly
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,7 +49,7 @@ jobs:
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@bbcfe82d35b8fb4660ef6ed4124e1fd9cef4688b # v1.2.0
         with:
-          nvim_version: ${{ matrix.neovim_version }}
+          nvim_version: ${{ matrix.neovim.version }}
           luarocks_version: "3.11.1"
 
       # https://github.com/cypress-io/github-action?tab=readme-ov-file#pnpm-workspaces
@@ -58,6 +68,8 @@ jobs:
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
       - name: Run end-to-end tests
+        env:
+          NVIM_APPNAME: ${{ matrix.blink.appname }}
         run: |
           rg --version
           pnpm tui run
@@ -67,7 +79,19 @@ jobs:
         # if: failure()
         if: failure()
         with:
-          name: cypress-screenshots
+          name:
+            cypress-screenshots-${{ matrix.neovim.name }}-${{ matrix.blink.name
+            }}
           path: integration-tests/cypress/screenshots
           if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
 
+  required-checks:
+    name: test-matrix-success
+    if: always()
+    needs:
+      - build
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Aggregate matrix result
+        if: needs.build.result != 'success'
+        run: exit 1

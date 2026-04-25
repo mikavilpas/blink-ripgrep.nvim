@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "cy:run": "pnpm --filter ./integration-tests/ cy:run",
+    "cy:run:nightly": "pnpm --filter ./integration-tests/ cy:run:nightly",
     "dev": "pnpm --filter ./integration-tests/ dev",
+    "dev:nightly": "pnpm --filter ./integration-tests/ dev:nightly",
     "lint": "pnpm --filter ./integration-tests/ lint",
     "markdownlint": "rumdl check",
     "prettier": "prettier --check .",

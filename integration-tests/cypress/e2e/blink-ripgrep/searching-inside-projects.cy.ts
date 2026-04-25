@@ -6,6 +6,7 @@ import {
 } from "@tui-sandbox/library"
 import type { MyTestDirectoryFile } from "../../../MyTestDirectory"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
+import { startNeovim } from "./utils/startNeovim"
 
 describe("searching inside projects with the RipgrepBackend", () => {
   // NOTE: the tests setup git repositories in the test environment using
@@ -15,7 +16,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
   // file.
   it("descends into subprojects", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "limited/main-project-file.lua" }).then(() => {
+    startNeovim({ filename: "limited/main-project-file.lua" }).then(() => {
       // when completing from a file in a superproject, the search may descend
       // to subprojects
       cy.contains("this text is from main-project-file")
@@ -30,7 +31,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
   it("limits the search to the nearest .git directory", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
+    startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
       // when opening a file from a subproject, the search should be limited to
       // the nearest .git directory (only the files in the same project should
       // be searched)
@@ -46,7 +47,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
   it("does not search if the project root is not found", () => {
     cy.visit("/")
-    cy.startNeovim({
+    startNeovim({
       filename: "limited/subproject/file1.lua",
       startupScriptModifications: [
         "use_not_found_project_root.lua",
@@ -99,7 +100,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
   describe("custom ripgrep options", () => {
     it("allows using a custom search_casing when searching", () => {
       cy.visit("/")
-      cy.startNeovim({
+      startNeovim({
         filename: "limited/subproject/file1.lua",
       }).then((nvim) => {
         cy.contains("This is text from file1.lua")
@@ -131,7 +132,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
   it("can highlight the match in the documentation window", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
+    startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
       // When a match has been found in a file in the project, the
       // documentation window should show a preview of the match context (lines
       // around the match), and highlight the part where the match was found.
@@ -156,7 +157,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
   describe("regex based syntax highlighting", () => {
     it("can highlight file types that don't have a treesitter parser installed", () => {
       cy.visit("/")
-      cy.startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
+      startNeovim({ filename: "limited/subproject/file1.lua" }).then(() => {
         // when opening a file from a subproject, the search should be limited to
         // the nearest .git directory (only the files in the same project should
         // be searched)
@@ -194,7 +195,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
     it("can disable regex based highlighting altogether", () => {
       // This is a regression test for https://github.com/mikavilpas/blink-ripgrep.nvim/issues/598
       cy.visit("/")
-      cy.startNeovim({
+      startNeovim({
         filename: "limited/subproject/file1.lua",
         startupScriptModifications: [
           "disable_highlighting_fallback_to_regex.lua",
@@ -225,7 +226,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       // the search. It works exactly like git does, and allows an intuitive way
       // to exclude files.
       cy.visit("/")
-      cy.startNeovim({
+      startNeovim({
         filename: "limited/dir with spaces/file with spaces.txt",
       }).then((nvim) => {
         // wait until text on the start screen is visible
