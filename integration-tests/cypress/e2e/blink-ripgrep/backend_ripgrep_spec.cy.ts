@@ -8,11 +8,12 @@ import { z } from "zod"
 import { assertMatchVisible } from "./utils/assertMatchVisible"
 import { textIsVisibleWithColors } from "./utils/color-utils"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
+import { startNeovim } from "./utils/startNeovim"
 
 describe("the RipgrepBackend", () => {
   it("shows words in other files as suggestions", () => {
     cy.visit("/")
-    cy.startNeovim().then((nvim) => {
+    startNeovim().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -48,7 +49,7 @@ describe("the RipgrepBackend", () => {
     // ripgrep feature). However, the user may want to ignore some paths from
     // blink-ripgrep.nvim specifically. Here we test that feature.
     cy.visit("/")
-    cy.startNeovim({
+    startNeovim({
       filename: "limited/subproject/file1.lua",
       startupScriptModifications: ["ripgrep/set_ignore_paths.lua"],
     }).then((nvim) => {
@@ -95,7 +96,7 @@ describe("the RipgrepBackend", () => {
     // was found. Although we don't explicitly show all the matches in the
     // project, this can still be very useful.
     cy.visit("/")
-    cy.startNeovim().then(() => {
+    startNeovim().then(() => {
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
 
@@ -126,7 +127,7 @@ describe("the RipgrepBackend", () => {
     // the search. It works exactly like git does, and allows an intuitive way
     // to exclude files.
     cy.visit("/")
-    cy.startNeovim({
+    startNeovim({
       filename: "limited/dir with spaces/file with spaces.txt",
       startupScriptModifications: ["ripgrep/use_additional_paths.lua"],
     }).then(() => {
@@ -143,7 +144,7 @@ describe("the RipgrepBackend", () => {
 
   it("can customize the icon in the completion results", () => {
     cy.visit("/")
-    cy.startNeovim().then((nvim) => {
+    startNeovim().then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -192,7 +193,7 @@ describe("the RipgrepBackend", () => {
   it("highlights multiple matches on the same line correctly", () => {
     // https://github.com/mikavilpas/blink-ripgrep.nvim/issues/228
     cy.visit("/")
-    cy.startNeovim({
+    startNeovim({
       startupScriptModifications: ["disable_buffer_words_source.lua"],
     }).then(() => {
       // wait until text on the start screen is visible
@@ -232,7 +233,7 @@ describe("the RipgrepBackend", () => {
 describe("in debug mode", () => {
   it("can execute the rg debug command in a shell", () => {
     cy.visit("/")
-    cy.startNeovim({
+    startNeovim({
       // also test that the plugin can handle spaces in the file path
       filename: "limited/dir with spaces/file with spaces.txt",
       startupScriptModifications: ["ripgrep/use_additional_paths.lua"],
@@ -287,7 +288,7 @@ describe("in debug mode", () => {
       return
     } else {
       cy.visit("/")
-      cy.startNeovim({}).then((nvim) => {
+      startNeovim({}).then((nvim) => {
         // wait until text on the start screen is visible
         cy.contains("If you see this text, Neovim is ready!")
         createGitReposToLimitSearchScope()

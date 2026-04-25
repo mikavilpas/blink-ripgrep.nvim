@@ -1,13 +1,14 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify, textIsVisibleWithColor } from "@tui-sandbox/library"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
+import { startNeovim } from "./utils/startNeovim"
 
 describe("toggling features on/off", () => {
   // Some features can be toggled on/off without restarting Neovim. This can be
   // useful to combat performance issues, for example.
   it("can toggle the plugin on/off in blink completions", () => {
     cy.visit("/")
-    cy.startNeovim({
+    startNeovim({
       filename: "limited/main-project-file.lua",
     }).then((nvim) => {
       // when completing from a file in a superproject, the search may descend
@@ -58,7 +59,7 @@ describe("toggling features on/off", () => {
 
   it("can toggle debug mode on/off", () => {
     cy.visit("/")
-    cy.startNeovim({
+    startNeovim({
       filename: "limited/main-project-file.lua",
     }).then((nvim) => {
       // when completing from a file in a superproject, the search may descend

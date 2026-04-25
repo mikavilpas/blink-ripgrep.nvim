@@ -46,6 +46,20 @@ export const MyTestDirectorySchema = z.object({
             }),
           }),
         }),
+        nvim_blink_nightly: z.object({
+          name: z.literal("nvim_blink_nightly/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "init.lua": z.object({
+              name: z.literal("init.lua"),
+              type: z.literal("file"),
+            }),
+            "prepare.lua": z.object({
+              name: z.literal("prepare.lua"),
+              type: z.literal("file"),
+            }),
+          }),
+        }),
       }),
     }),
     "additional-words-dir": z.object({
@@ -230,6 +244,9 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim/init.lua",
   ".config/nvim/prepare.lua",
   ".config/nvim",
+  ".config/nvim_blink_nightly/init.lua",
+  ".config/nvim_blink_nightly/prepare.lua",
+  ".config/nvim_blink_nightly",
   ".config",
   "additional-words-dir/words.txt",
   "additional-words-dir",
@@ -271,4 +288,4 @@ export const testDirectoryFiles = z.enum([
   ".",
 ])
 export type MyTestDirectoryFile = z.infer<typeof testDirectoryFiles>
-export type MyNeovimAppName = "nvim"
+export type MyNeovimAppName = "nvim" | "nvim_blink_nightly"

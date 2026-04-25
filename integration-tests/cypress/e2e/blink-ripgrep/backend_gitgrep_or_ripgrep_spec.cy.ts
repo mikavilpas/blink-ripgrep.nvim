@@ -1,5 +1,6 @@
 import type { NeovimContext } from "../../support/tui-sandbox"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
+import { startNeovim } from "./utils/startNeovim"
 import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
 
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
@@ -16,7 +17,7 @@ function startNeovimWithThisBackend(
   }
 
   assert(options.startupScriptModifications.includes(backend))
-  return cy.startNeovim(options)
+  return startNeovim(options)
 }
 
 describe("the GitGrepOrRipgrepBackend", () => {

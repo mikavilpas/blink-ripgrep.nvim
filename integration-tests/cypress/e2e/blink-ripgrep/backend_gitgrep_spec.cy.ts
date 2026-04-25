@@ -9,6 +9,7 @@ import {
   textIsVisibleWithColor,
 } from "@tui-sandbox/library"
 import { textIsVisibleWithColors } from "./utils/color-utils"
+import { startNeovim } from "./utils/startNeovim.js"
 import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
 
 export type CatppuccinRgb = (typeof flavors.macchiato.colors)["surface0"]["rgb"]
@@ -26,7 +27,7 @@ function startNeovimWithGitBackend(
   }
 
   assert(options.startupScriptModifications.includes(backend))
-  return cy.startNeovim(options)
+  return startNeovim(options)
 }
 
 describe("the GitGrepBackend", () => {
