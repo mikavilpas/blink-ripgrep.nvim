@@ -21,3 +21,4 @@ jobs:
             # space separated
             https://github.com/folke/snacks.nvim
             https://github.com/Saghen/blink.cmp
+            https://github.com/Saghen/blink.lib

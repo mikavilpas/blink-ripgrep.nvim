@@ -79,9 +79,13 @@ function GitGrepOrRipgrepBackend:get_matches(prefix, context, resolve)
 end
 
 ---@param cwd string
----@return blink.cmp.Task
+---@return blink.lib.Task
 function GitGrepOrRipgrepBackend:is_git_available(cwd)
-  local task = require("blink.cmp.lib.async").task
+  -- blink.cmp v2 moved the task module to the separate blink.lib plugin.
+  local ok, task = pcall(require, "blink.lib.task")
+  if not ok then
+    task = require("blink.cmp.lib.async").task
+  end
 
   ---@type vim.SystemObj
   local job
