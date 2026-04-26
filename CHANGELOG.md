@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.6](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.5...v2.2.6) (2026-04-26)
+
+
+### Bug Fixes
+
+* nightly-blink moved async Task to blink.lib plugin ([5c5c7fb](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/5c5c7fb8984a1baf50264075b849c973e17b645c))
+
 ## [2.2.5](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.4...v2.2.5) (2026-03-15)
 
 
