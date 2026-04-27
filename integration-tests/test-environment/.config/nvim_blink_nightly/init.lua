@@ -49,7 +49,7 @@ local plugins = {
 
     event = "VeryLazy",
     -- renovate: datasource=git-refs-master packageName=https://github.com/nvim-telescope/telescope.nvim
-    commit = "e1dbca9ea1d8",
+    commit = "506338434fec5ad19cb1f8d45bf92d66c4917393",
 
     -- to (locally) track nightly builds, use the following:
     -- version = false,
