@@ -45,11 +45,10 @@ local plugins = {
     dependencies = {
       "saghen/blink.lib",
     },
-    -- dir = "/Users/mikavilpas/git/blink.cmp/",
 
     event = "VeryLazy",
-    -- renovate: datasource=git-refs-master packageName=https://github.com/nvim-telescope/telescope.nvim
-    commit = "506338434fec5ad19cb1f8d45bf92d66c4917393",
+    -- renovate: datasource=git-refs packageName=https://github.com/Saghen/blink.cmp
+    commit = "404ab55beb8b63d4c4be4bfd4e528441745b000a",
 
     -- to (locally) track nightly builds, use the following:
     -- version = false,
