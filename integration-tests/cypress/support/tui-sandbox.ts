@@ -8,7 +8,10 @@ import type {
   GenericTerminalBrowserApi,
 } from "@tui-sandbox/library/browser/neovim-client.js"
 import type { MyNeovimConfigModification } from "@tui-sandbox/library/client"
-import { drawTextBox } from "@tui-sandbox/library/client"
+import {
+  drawTextBox,
+  extractTerminalContent,
+} from "@tui-sandbox/library/client"
 import type {
   AllKeys,
   BlockingCommandClientInput,
@@ -348,19 +351,8 @@ afterEach(function () {
 /** Read the current terminal content from the xterm.js DOM. */
 function getTerminalContent(): string | undefined {
   const rows = Cypress.$("div.xterm-rows > div")
-  if (rows.length === 0) return undefined
-
-  const lines: string[] = []
-  rows.each((_, row) => {
-    lines.push(Cypress.$(row).text())
-  })
-
-  // Trim trailing empty lines for readability
-  while (lines.length > 0 && lines[lines.length - 1]?.trim() === "") {
-    lines.pop()
-  }
-
-  return lines.length > 0 ? lines.join("\n") : undefined
+  const rowTexts = rows.toArray().map((row) => Cypress.$(row).text())
+  return extractTerminalContent(rowTexts)
 }
 
 // On test failure in headless mode (cypress run / CI), append the terminal
