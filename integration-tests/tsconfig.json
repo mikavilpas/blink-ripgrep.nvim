@@ -4,6 +4,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "target": "ESNext",
+    "rootDir": ".",
     "isolatedModules": true,
     "esModuleInterop": true,
     "noEmit": true,
