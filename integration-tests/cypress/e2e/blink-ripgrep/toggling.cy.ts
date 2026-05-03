@@ -1,7 +1,7 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify, textIsVisibleWithColor } from "@tui-sandbox/library"
-import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
-import { startNeovim } from "./utils/startNeovim"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
+import { startNeovim } from "./utils/startNeovim.js"
 
 describe("toggling features on/off", () => {
   // Some features can be toggled on/off without restarting Neovim. This can be

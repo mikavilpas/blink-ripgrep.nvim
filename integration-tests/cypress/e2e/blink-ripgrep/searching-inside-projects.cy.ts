@@ -4,9 +4,9 @@ import {
   textIsVisibleWithBackgroundColor,
   textIsVisibleWithColor,
 } from "@tui-sandbox/library"
-import type { MyTestDirectoryFile } from "../../../MyTestDirectory"
-import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
-import { startNeovim } from "./utils/startNeovim"
+import type { MyTestDirectoryFile } from "../../../MyTestDirectory.js"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
+import { startNeovim } from "./utils/startNeovim.js"
 
 describe("searching inside projects with the RipgrepBackend", () => {
   // NOTE: the tests setup git repositories in the test environment using

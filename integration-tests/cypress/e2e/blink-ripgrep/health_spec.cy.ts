@@ -1,4 +1,4 @@
-import { startNeovim } from "./utils/startNeovim"
+import { startNeovim } from "./utils/startNeovim.js"
 
 describe("the healthcheck", () => {
   it("does not show any errors when ripgrep is installed", () => {

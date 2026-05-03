@@ -1,9 +1,9 @@
 import { z } from "zod"
-import type { MyNeovimAppName } from "../../../../MyTestDirectory"
+import type { MyNeovimAppName } from "../../../../MyTestDirectory.js"
 import type {
   MyStartNeovimServerArguments,
   NeovimContext,
-} from "../../../support/tui-sandbox"
+} from "../../../support/tui-sandbox.js"
 
 const nvimAppNameSchema = z.enum([
   "nvim",

@@ -5,10 +5,10 @@ import {
   textIsVisibleWithColor,
 } from "@tui-sandbox/library"
 import { z } from "zod"
-import { assertMatchVisible } from "./utils/assertMatchVisible"
-import { textIsVisibleWithColors } from "./utils/color-utils"
-import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
-import { startNeovim } from "./utils/startNeovim"
+import { assertMatchVisible } from "./utils/assertMatchVisible.js"
+import { textIsVisibleWithColors } from "./utils/color-utils.js"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
+import { startNeovim } from "./utils/startNeovim.js"
 
 describe("the RipgrepBackend", () => {
   it("shows words in other files as suggestions", () => {
