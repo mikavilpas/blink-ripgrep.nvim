@@ -1,6 +1,6 @@
-import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
-import { startNeovim } from "./utils/startNeovim"
-import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
+import { startNeovim } from "./utils/startNeovim.js"
+import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest.js"
 
 describe("debug mode", () => {
   it("can clean up (kill) a previous rg search", () => {

@@ -31,7 +31,7 @@ import type {
   MyNeovimAppName,
   MyTestDirectory,
   MyTestDirectoryFile,
-} from "../../MyTestDirectory"
+} from "../../MyTestDirectory.js"
 
 export type TerminalTestApplicationContext = {
   /** Types text into the terminal, making the terminal application receive the

@@ -1,7 +1,7 @@
-import type { NeovimContext } from "../../support/tui-sandbox"
-import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope"
-import { startNeovim } from "./utils/startNeovim"
-import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest"
+import type { NeovimContext } from "../../support/tui-sandbox.js"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
+import { startNeovim } from "./utils/startNeovim.js"
+import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest.js"
 
 type NeovimArguments = Parameters<typeof cy.startNeovim>[0]
 
