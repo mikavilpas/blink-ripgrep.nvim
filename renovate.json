@@ -5,6 +5,19 @@
     {
       "matchDepNames": ["lua"],
       "allowedVersions": "<=5.1"
+    },
+    {
+      "description": [
+        "Update blink nightly deps at the same time.",
+        "This is needed because blink.cmp depends on blink.lib.",
+        "We want the latest versions and hope that they are compatible."
+      ],
+      "matchPackageNames": [
+        "https://github.com/saghen/blink.lib",
+        "https://github.com/Saghen/blink.cmp"
+      ],
+      "matchDatasources": ["git-refs"],
+      "groupName": "blink-nightly-deps"
     }
   ]
 }
