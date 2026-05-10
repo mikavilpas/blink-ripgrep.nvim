@@ -18,7 +18,7 @@
     "prettier-plugin-organize-imports": "4.3.0",
     "prettier-plugin-packagejson": "3.0.2"
   },
-  "packageManager": "pnpm@11.0.6",
+  "packageManager": "pnpm@11.0.7",
   "pnpm": {
     "onlyBuiltDependencies": [
       "core-js",
