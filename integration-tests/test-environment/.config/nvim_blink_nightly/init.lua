@@ -52,7 +52,7 @@ local plugins = {
 
     event = "VeryLazy",
     -- renovate: datasource=git-refs packageName=https://github.com/Saghen/blink.cmp
-    commit = "d3874d2a13aa19b095bdd10d37a82a8f0aa7cad3",
+    commit = "2ef3db111181c5eef22a462aa0122349a6027f28",
 
     -- to (locally) track nightly builds, use the following:
     -- version = false,
