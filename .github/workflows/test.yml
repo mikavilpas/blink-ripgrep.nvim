@@ -80,10 +80,6 @@ jobs:
       - name: Run tests
         uses: nvim-neorocks/nvim-busted-action@bbcfe82d35b8fb4660ef6ed4124e1fd9cef4688b # v1.2.0
         with:
-          # This action MUST install a neovim by design.
-          nvim_version:
-            ${{ matrix.neovim.version == 'nightly' && 'stable' ||
-            matrix.neovim.version }}
           luarocks_version: "3.11.1"
           before: |
             # The pinned action runs `rhysd/action-setup-vim` before this
@@ -92,9 +88,10 @@ jobs:
             # instead of the Neovim the action just installed.
             if [ "${{ matrix.neovim.name }}" = "nightly" ]; then
               echo "${{ steps.neovim-nightly.outputs.prefix }}/bin" >> "$GITHUB_PATH"
+              short="$(printf '%s' "$NEOVIM_COMMIT" | cut -c1-7)"
               nvim --version
-              nvim --version | grep -dev- || {
-                echo "Expected to find 'dev' in the nightly version string, but did not."
+              nvim --version | grep --quiet "$short" || {
+                echo "Extracted Neovim does not report the expected commit $NEOVIM_COMMIT (looked for $short)"
                 exit 1
               }
             fi
