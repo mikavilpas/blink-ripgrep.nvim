@@ -82,8 +82,8 @@ jobs:
         with:
           # This action MUST install a neovim by design.
           nvim_version:
-            ${{ matrix.neovim.name == 'nightly' && 'stable' ||
-            matrix.neovim.name }}
+            ${{ matrix.neovim.version == 'nightly' && 'stable' ||
+            matrix.neovim.version }}
           luarocks_version: "3.11.1"
           before: |
             # The pinned action runs `rhysd/action-setup-vim` before this
