@@ -8,10 +8,30 @@ on:
 permissions:
   contents: read
 
+env:
+  # renovate: datasource=git-refs-master packageName=https://github.com/neovim/neovim
+  NEOVIM_NIGHTLY_COMMIT: 259f1173e4c3132d88674927527e5e82df32b5b8
 jobs:
+  # Build the pinned Neovim nightly once (cached by commit) and publish it as an
+  # artifact, instead of rebuilding it in every matrix job on a cache miss.
+  build-neovim-nightly:
+    name: Build pinned Neovim nightly
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Build pinned Neovim nightly
+        uses: mikavilpas/neovim-action/build-nightly@b1bd18b18f2900aa301b4f51e5d9bd6cb58cb845 # v2.0.0
+        with:
+          commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
+
   build:
     name: "${{ matrix.neovim.name }} / ${{ matrix.blink.name }}"
     runs-on: ubuntu-24.04
+    needs: build-neovim-nightly
     strategy:
       fail-fast: false
       matrix:
@@ -49,6 +69,38 @@ jobs:
           ubi --project BurntSushi/ripgrep --tag "$VERSION" --exe rg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download pinned Neovim nightly
+        id: neovim-nightly
+        if: matrix.neovim.version == 'nightly'
+        uses: mikavilpas/neovim-action/restore-nightly@b1bd18b18f2900aa301b4f51e5d9bd6cb58cb845 # v2.0.0
+        with:
+          commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
+
+      - name: Run tests
+        uses: nvim-neorocks/nvim-busted-action@bbcfe82d35b8fb4660ef6ed4124e1fd9cef4688b # v1.2.0
+        with:
+          # This action MUST install a neovim by design.
+          nvim_version:
+            ${{ matrix.neovim.version == 'nightly' && 'stable' ||
+            matrix.neovim.version }}
+          luarocks_version: "3.11.1"
+          before: |
+            # The pinned action runs `rhysd/action-setup-vim` before this
+            # `before` hook, and the `luarocks test` run after it. Prepending our
+            # pinned nightly to PATH here therefore makes nlua/busted use it
+            # instead of the Neovim the action just installed.
+            if [ "${{ matrix.neovim.name }}" = "nightly" ]; then
+              echo "${{ steps.neovim-nightly.outputs.prefix }}/bin" >> "$GITHUB_PATH"
+              nvim --version
+              nvim --version | grep -dev- || {
+                echo "Expected to find 'dev' in the nightly version string, but did not."
+                exit 1
+              }
+            fi
+            # copied from mise.toml
+            luarocks init --no-gitignore
+            luarocks install busted 2.2.0-1
 
       - name: Run lua tests
         uses: nvim-neorocks/nvim-busted-action@bbcfe82d35b8fb4660ef6ed4124e1fd9cef4688b # v1.2.0
