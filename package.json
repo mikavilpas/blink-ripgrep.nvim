@@ -16,14 +16,5 @@
   "devDependencies": {
     "oxfmt": "0.56.0"
   },
-  "packageManager": "pnpm@11.9.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "core-js",
-      "cypress",
-      "esbuild",
-      "node-pty",
-      "puppeteer"
-    ]
-  }
+  "packageManager": "pnpm@11.9.0"
 }
