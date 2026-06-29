@@ -1,14 +1,14 @@
 import { flavors } from "@catppuccin/palette"
-import type { NeovimContext } from "../../support/tui-sandbox.js"
-import { assertMatchVisible } from "./utils/assertMatchVisible.js"
-import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
-
 import {
   rgbify,
   textIsVisibleWithBackgroundColor,
   textIsVisibleWithColor,
 } from "@tui-sandbox/library"
+
+import type { NeovimContext } from "../../support/tui-sandbox.js"
+import { assertMatchVisible } from "./utils/assertMatchVisible.js"
 import { textIsVisibleWithColors } from "./utils/color-utils.js"
+import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
 import { startNeovim } from "./utils/startNeovim.js"
 import { verifyCorrectBackendWasUsedInTest } from "./utils/verifyGitGrepBackendWasUsedInTest.js"
 
