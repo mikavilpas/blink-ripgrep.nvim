@@ -30,7 +30,7 @@ jobs:
           node-version-file: .nvmrc
           cache: "pnpm"
       - run: pnpm install
-      - run: pnpm oxfmt --check
+      - run: pnpm run format:check
 
   stylua:
     name: stylua
