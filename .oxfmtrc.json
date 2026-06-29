@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "proseWrap": "always",
+  "semi": false,
+  "printWidth": 80,
+  "sortPackageJson": {},
+  "sortImports": true,
+  "ignorePatterns": [
+    "integration-tests/dist/",
+    "pnpm-lock.yaml",
+    ".repro",
+    "CHANGELOG.md"
+  ]
+}
