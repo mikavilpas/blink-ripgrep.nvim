@@ -10,7 +10,7 @@ permissions:
 
 env:
   # renovate: datasource=git-refs-master packageName=https://github.com/neovim/neovim
-  NEOVIM_NIGHTLY_COMMIT: 84cd87908e81da33c8daa5646668939d7ea6afa7
+  NEOVIM_NIGHTLY_COMMIT: 7945732ed7bb211f91112292a13b51fc3182599b
 jobs:
   # Build the pinned Neovim nightly once (cached by commit) and publish it as an
   # artifact, instead of rebuilding it in every matrix job on a cache miss.
