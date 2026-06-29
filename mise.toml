@@ -4,6 +4,9 @@ lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.5.2"
 "github:rvben/rumdl" = "0.2.26"
 
+[env]
+_.path = ["lua_modules/bin"]
+
 [tasks]
 test = "luarocks test --local"
 test-focus = "luarocks test --local -- --filter focus"

@@ -24,7 +24,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Build pinned Neovim nightly
-        uses: mikavilpas/neovim-action/build-nightly@673c9715ab356c92820355ad99d7c23ca564da0c # v3.2.0
+        uses: mikavilpas/neovim-action/build-nightly@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
         with:
           commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
 
@@ -71,42 +71,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download pinned Neovim nightly
-        id: neovim-nightly
         if: matrix.neovim.version == 'nightly'
-        uses: mikavilpas/neovim-action/restore-nightly@673c9715ab356c92820355ad99d7c23ca564da0c # v3.2.0
+        uses: mikavilpas/neovim-action/restore-nightly@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
         with:
           commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
 
-      - name: Run tests
-        uses: nvim-neorocks/nvim-busted-action@bbcfe82d35b8fb4660ef6ed4124e1fd9cef4688b # v1.2.0
+      - name: Install stable Neovim
+        if: matrix.neovim.version == 'stable'
+        uses: rhysd/action-setup-vim@febef33995d6649302e9d88dda81e071b68f16a7 # v1.6.1
         with:
-          # This action MUST install a neovim by design.
-          nvim_version:
-            ${{ matrix.neovim.version == 'nightly' && 'stable' ||
-            matrix.neovim.version }}
-          luarocks_version: "3.11.1"
-          before: |
-            # The pinned action runs `rhysd/action-setup-vim` before this
-            # `before` hook, and the `luarocks test` run after it. Prepending our
-            # pinned nightly to PATH here therefore makes nlua/busted use it
-            # instead of the Neovim the action just installed.
-            if [ "${{ matrix.neovim.name }}" = "nightly" ]; then
-              echo "${{ steps.neovim-nightly.outputs.prefix }}/bin" >> "$GITHUB_PATH"
-              nvim --version
-              nvim --version | grep -dev- || {
-                echo "Expected to find 'dev' in the nightly version string, but did not."
-                exit 1
-              }
-            fi
-            # copied from mise.toml
-            luarocks init --no-gitignore
-            luarocks install busted 2.2.0-1
+          neovim: true
+          version: stable
 
-      - name: Run lua tests
-        uses: nvim-neorocks/nvim-busted-action@bbcfe82d35b8fb4660ef6ed4124e1fd9cef4688b # v1.2.0
-        with:
-          nvim_version: ${{ matrix.neovim.version }}
-          luarocks_version: "3.11.1"
+      - name: Run tests
+        uses: mikavilpas/neovim-action/busted@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
 
       # https://github.com/cypress-io/github-action?tab=readme-ov-file#pnpm-workspaces
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
