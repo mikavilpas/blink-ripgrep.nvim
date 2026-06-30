@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Build pinned Neovim nightly
-        uses: mikavilpas/neovim-action/build-nightly@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
+        uses: mikavilpas/neovim-action/build-nightly@4f1c9a2235ee7428930602c0ba3e4f20377b61d8 # v3.3.0
         with:
           commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
 
@@ -64,7 +64,7 @@ jobs:
 
       - name: Download pinned Neovim nightly
         if: matrix.neovim.version == 'nightly'
-        uses: mikavilpas/neovim-action/restore-nightly@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
+        uses: mikavilpas/neovim-action/restore-nightly@4f1c9a2235ee7428930602c0ba3e4f20377b61d8 # v3.3.0
         with:
           commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
 
@@ -76,7 +76,7 @@ jobs:
           version: stable
 
       - name: Run tests
-        uses: mikavilpas/neovim-action/busted@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
+        uses: mikavilpas/neovim-action/busted@4f1c9a2235ee7428930602c0ba3e4f20377b61d8 # v3.3.0
 
       # https://github.com/cypress-io/github-action?tab=readme-ov-file#pnpm-workspaces
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
