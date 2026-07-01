@@ -55,8 +55,6 @@ jobs:
               https://raw.githubusercontent.com/houseabsolute/ubi/master/bootstrap/bootstrap-ubi.sh |
               TARGET="$HOME/.local/bin" sh
 
-          ubi --project mikefarah/yq
-
           VERSION=$(yq '.tools."github:BurntSushi/ripgrep".version' mise.toml)
           ubi --project BurntSushi/ripgrep --tag "$VERSION" --exe rg
         env:
