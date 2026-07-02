@@ -14,7 +14,7 @@
     "tui": "pnpm --filter ./integration-tests/ exec tui"
   },
   "devDependencies": {
-    "oxfmt": "0.56.0"
+    "oxfmt": "0.57.0"
   },
   "packageManager": "pnpm@11.9.0"
 }
