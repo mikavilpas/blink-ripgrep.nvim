@@ -22,7 +22,7 @@
     "eslint": "10.6.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.4.0",
-    "eslint-plugin-oxlint": "1.71.0",
+    "eslint-plugin-oxlint": "1.72.0",
     "oxlint": "1.72.0",
     "oxlint-tsgolint": "0.23.0",
     "type-fest": "5.7.0",
