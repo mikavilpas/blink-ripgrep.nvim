@@ -21,8 +21,8 @@ importers:
         specifier: 10.0.1
         version: 10.0.1(eslint@10.6.0(supports-color@8.1.1))
       '@tui-sandbox/library':
-        specifier: 12.6.2
-        version: 12.6.2(cypress@15.18.0)(prettier@3.8.4)(type-fest@5.7.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)
+        specifier: 12.7.1
+        version: 12.7.1(cypress@15.18.0)(oxfmt@0.57.0)(prettier@3.8.4)(type-fest@5.7.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)
       '@types/node':
         specifier: 24.13.2
         version: 24.13.2
@@ -616,12 +616,13 @@ packages:
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@tui-sandbox/library@12.6.2':
-    resolution: {integrity: sha512-8ISmZfKJopkI8oufIHiVCAvYcaOpyAECQKT0kcgIfb+V9ianFSuLca1Kkg71X4jTmPU4cYV04vzIzUEwQSTt/w==}
+  '@tui-sandbox/library@12.7.1':
+    resolution: {integrity: sha512-wyENtDzLCCEcerwLix3EaYLYJedwVqcGTQipKXPeHGsXFk7Yu+McBxZH4fAgzzH7FARdejrBPuUyPr8NzZkoOQ==}
     engines: {node: '>=24.0.0'}
     hasBin: true
     peerDependencies:
       cypress: ^13 || ^14 || ^15
+      oxfmt: '>= 0.56.0'
       prettier: '>= 3.3.3'
       type-fest: '>= 4.27.0'
       typescript: '>= 5.6.3'
@@ -2180,7 +2181,7 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  '@tui-sandbox/library@12.6.2(cypress@15.18.0)(prettier@3.8.4)(type-fest@5.7.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)':
+  '@tui-sandbox/library@12.7.1(cypress@15.18.0)(oxfmt@0.57.0)(prettier@3.8.4)(type-fest@5.7.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)':
     dependencies:
       '@catppuccin/palette': 1.8.0
       '@trpc/client': 11.18.0(@trpc/server@11.18.0(typescript@6.0.3))(typescript@6.0.3)
@@ -2194,6 +2195,7 @@ snapshots:
       cypress: 15.18.0
       dree: 5.1.5
       neovim: 5.4.0
+      oxfmt: 0.57.0
       prettier: 3.8.4
       sirv: 3.0.2
       string-width: 8.2.1
