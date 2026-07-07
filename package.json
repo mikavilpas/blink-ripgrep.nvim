@@ -16,5 +16,5 @@
   "devDependencies": {
     "oxfmt": "0.57.0"
   },
-  "packageManager": "pnpm@11.9.0"
+  "packageManager": "pnpm@11.10.0"
 }
