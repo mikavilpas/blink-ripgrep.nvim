@@ -16,7 +16,7 @@
     "@catppuccin/palette": "1.8.0",
     "@eslint/js": "10.0.1",
     "@tui-sandbox/library": "12.7.1",
-    "@types/node": "24.13.2",
+    "@types/node": "24.13.3",
     "concurrently": "10.0.3",
     "cypress": "15.18.1",
     "eslint": "10.6.0",
