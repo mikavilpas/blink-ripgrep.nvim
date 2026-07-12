@@ -21,8 +21,8 @@ importers:
         specifier: 10.0.1
         version: 10.0.1(eslint@10.6.0(supports-color@8.1.1))
       '@tui-sandbox/library':
-        specifier: 12.7.1
-        version: 12.7.1(cypress@15.18.1)(oxfmt@0.58.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)
+        specifier: 12.7.2
+        version: 12.7.2(cypress@15.18.1)(oxfmt@0.58.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)
       '@types/node':
         specifier: 24.13.3
         version: 24.13.3
@@ -616,8 +616,8 @@ packages:
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@tui-sandbox/library@12.7.1':
-    resolution: {integrity: sha512-wyENtDzLCCEcerwLix3EaYLYJedwVqcGTQipKXPeHGsXFk7Yu+McBxZH4fAgzzH7FARdejrBPuUyPr8NzZkoOQ==}
+  '@tui-sandbox/library@12.7.2':
+    resolution: {integrity: sha512-TOrHtmddhic3oA5Q1/i4ILY8LWOtRVMuHGJ0LpXhkU2HTR6gBVtC9MoMozV+cmX75wbRFiUhqLNczGQCEUAD2Q==}
     engines: {node: '>=24.0.0'}
     hasBin: true
     peerDependencies:
@@ -1720,8 +1720,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.22.4:
-    resolution: {integrity: sha512-X8EX+XV4QR5xCsrgxaED954zTDfY8KqlDtskKEL0cHhyS/P8b4IFOvGDQpsC9Q1XnLq915wEfwwY/zzskCtmhg==}
+  tsx@4.23.0:
+    resolution: {integrity: sha512-eUdUIaCr963q2h5u3+QwvYp0+eqPvn+egeqZUm0hwERCqqx1E3kK5ehbGCvqSE5MQAULr67ww0cA3jKc3YkM1w==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -2181,7 +2181,7 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  '@tui-sandbox/library@12.7.1(cypress@15.18.1)(oxfmt@0.58.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)':
+  '@tui-sandbox/library@12.7.2(cypress@15.18.1)(oxfmt@0.58.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.0.10)(zod@4.4.3)':
     dependencies:
       '@catppuccin/palette': 1.8.0
       '@trpc/client': 11.18.0(@trpc/server@11.18.0(typescript@6.0.3))(typescript@6.0.3)
@@ -2199,7 +2199,7 @@ snapshots:
       prettier: 3.8.4
       sirv: 3.0.2
       string-width: 8.2.1
-      tsx: 4.22.4
+      tsx: 4.23.0
       type-fest: 5.8.0
       typescript: 6.0.3
       wait-on: 9.0.10
@@ -3346,7 +3346,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsx@4.22.4:
+  tsx@4.23.0:
     dependencies:
       esbuild: 0.28.1
     optionalDependencies:
