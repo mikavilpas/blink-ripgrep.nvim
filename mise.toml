@@ -1,5 +1,5 @@
 [tools]
-"github:BurntSushi/ripgrep" = { version = "15.1.0", exe = "rg" }
+"github:BurntSushi/ripgrep" = { version = "15.2.0", exe = "rg" }
 lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.5.2"
 "github:rvben/rumdl" = "0.2.34"
