@@ -12,10 +12,7 @@
         "This is needed because blink.cmp depends on blink.lib.",
         "We want the latest versions and hope that they are compatible."
       ],
-      "matchPackageNames": [
-        "https://github.com/saghen/blink.lib",
-        "https://github.com/Saghen/blink.cmp"
-      ],
+      "matchPackageNames": ["https://github.com/saghen/blink.lib", "https://github.com/Saghen/blink.cmp"],
       "matchDatasources": ["git-refs"],
       "groupName": "blink-nightly-deps"
     }

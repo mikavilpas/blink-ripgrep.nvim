@@ -1,16 +1,14 @@
 # Tutorial: ignoring Files from `git grep`
 
-> As a developer, when using `git grep` to search through my codebase, I want to
-> ignore certain files or directories.
+> As a developer, when using `git grep` to search through my codebase, I want to ignore certain files or directories.
 >
-> Maybe they contain non-useful information that still needs to be tracked with
-> git, or maybe the files are too large and slow down the search.
+> Maybe they contain non-useful information that still needs to be tracked with git, or maybe the files are too large
+> and slow down the search.
 
-git-grep can be configured to respect `.gitattributes` files for ignoring files.
-To do it, follow these steps:
+git-grep can be configured to respect `.gitattributes` files for ignoring files. To do it, follow these steps:
 
-1. Create or edit a `.gitattributes` file in the root of your git repository.
-   Add patterns for the files/directories you want to ignore. Example:
+1. Create or edit a `.gitattributes` file in the root of your git repository. Add patterns for the files/directories you
+   want to ignore. Example:
 
    ```gitattributes
    # ignore the following from blink-ripgrep by giving them a specific attribute
@@ -23,8 +21,7 @@ To do it, follow these steps:
    subproject/ignored-dir/** blink-ripgrep-ignore
    ```
 
-2. Configure `blink-ripgrep` to pass the appropriate options to `git grep` to
-   ignore files with the specified attribute:
+2. Configure `blink-ripgrep` to pass the appropriate options to `git grep` to ignore files with the specified attribute:
 
    ```lua
    require("blink-ripgrep").setup({

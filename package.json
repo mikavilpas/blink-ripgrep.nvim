@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "cy:run": "pnpm --filter ./integration-tests/ cy:run",
     "cy:run:nightly": "pnpm --filter ./integration-tests/ cy:run:nightly",
@@ -14,6 +15,7 @@
     "tui": "pnpm --filter ./integration-tests/ exec tui"
   },
   "devDependencies": {
+    "@mikavilpas/oxfmt-config": "3.0.0",
     "oxfmt": "0.59.0"
   },
   "packageManager": "pnpm@11.15.0"

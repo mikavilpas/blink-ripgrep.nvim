@@ -7,25 +7,21 @@
   />
 </a>
 
-Ripgrep / git grep source for the
-[blink.cmp](https://github.com/Saghen/blink.cmp) completion plugin. Adding it to
-your configuration offers matching words from your entire project as
-completions. This can reduce the chance of typos as well as repetitive typing.
+Ripgrep / git grep source for the [blink.cmp](https://github.com/Saghen/blink.cmp) completion plugin. Adding it to your
+configuration offers matching words from your entire project as completions. This can reduce the chance of typos as well
+as repetitive typing.
 
 It offers two search backends:
 
 - **ripgrep** (`rg`): works out of the box for any project or directory
-- **git grep**: is faster than `rg`, and works only for projects that are
-  tracked by git
+- **git grep**: is faster than `rg`, and works only for projects that are tracked by git
   - only searches files that are tracked by git
-  - recommended: enable by setting `backend.use = "gitgrep-or-ripgrep"` (see
-    below)
+  - recommended: enable by setting `backend.use = "gitgrep-or-ripgrep"` (see below)
 
 > [!NOTE]
 >
-> By default, a project root is considered to be the nearest ancestor directory
-> containing a `.git` directory. This can be configured with the
-> `project_root_marker` option.
+> By default, a project root is considered to be the nearest ancestor directory containing a `.git` directory. This can
+> be configured with the `project_root_marker` option.
 
 ![blink-ripgrep search with a context preview](./demo/screenshot.png)
 
@@ -34,8 +30,7 @@ Forked here (mikavilpas/blink.cmp) for my own use from
 
 ## 📦 Installation
 
-The configuration of blink-ripgrep needs to be embedded into the configuration
-for blink.
+The configuration of blink-ripgrep needs to be embedded into the configuration for blink.
 
 ### Minimal config
 
@@ -263,38 +258,29 @@ return {
 
 ## 🏁 Performance
 
-Generally performance is very good, but depending on the size of your project
-and your computer's specifications, the search can be fast or slow. Here are a
-few things you can do to improve performance:
+Generally performance is very good, but depending on the size of your project and your computer's specifications, the
+search can be fast or slow. Here are a few things you can do to improve performance:
 
-- Use the git grep backend by setting the `backend = "gitgrep"` option (see
-  above). This can be faster in medium/large projects, but note that it only
-  provides results from files that are tracked by git.
-- Set the `prefix_min_len` option to a larger number avoid starting a search for
-  very short words. This can prevent unnecessary searches and improve
-  performance.
-- Use the `max_filesize` option to exclude large files from the search. This can
-  prevent performance issues when searching in projects with large files.
-- Disable automatic mode and use the manual mode to start the search only when
-  you need it (see below).
-- Set the `debug = true` option, which will log debug information to your
-  `:messages` in Neovim. You can copy paste these commands to your terminal and
-  try to figure out why the search is slow.
+- Use the git grep backend by setting the `backend = "gitgrep"` option (see above). This can be faster in medium/large
+  projects, but note that it only provides results from files that are tracked by git.
+- Set the `prefix_min_len` option to a larger number avoid starting a search for very short words. This can prevent
+  unnecessary searches and improve performance.
+- Use the `max_filesize` option to exclude large files from the search. This can prevent performance issues when
+  searching in projects with large files.
+- Disable automatic mode and use the manual mode to start the search only when you need it (see below).
+- Set the `debug = true` option, which will log debug information to your `:messages` in Neovim. You can copy paste
+  these commands to your terminal and try to figure out why the search is slow.
 - Use the search backend's options to exclude/include files
-  - ripgrep supports global as well as project/directory specific ignore files.
-    By default, it uses `.gitignore`, `.git/info/exclude`, `.ignore`, and
-    `.rgignore` files
+  - ripgrep supports global as well as project/directory specific ignore files. By default, it uses `.gitignore`,
+    `.git/info/exclude`, `.ignore`, and `.rgignore` files
     ([ripgrep docs](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#automatic-filtering))
   - git grep can be configured to ignore files using `.gitattributes` files. See
-    [documentation/ignore-files-from-git-grep.md](documentation/ignore-files-from-git-grep.md)
-    for more information.
-- If you still experience performance issues, please open an issue for
-  discussion.
+    [documentation/ignore-files-from-git-grep.md](documentation/ignore-files-from-git-grep.md) for more information.
+- If you still experience performance issues, please open an issue for discussion.
 
 ### Automatic mode
 
-In this mode, the search starts automatically when typing a word that is at
-least `prefix_min_len` in length.
+In this mode, the search starts automatically when typing a word that is at least `prefix_min_len` in length.
 
 This is enabled by including the `ripgrep` provider in blink-cmp's providers:
 
@@ -319,9 +305,8 @@ return {
 
 ### Manual mode
 
-If you prefer to start the search manually, you can use a keymap to invoke the
-search. The example configuration includes a keymap that invokes the search when
-pressing `Ctrl+g`.
+If you prefer to start the search manually, you can use a keymap to invoke the search. The example configuration
+includes a keymap that invokes the search when pressing `Ctrl+g`.
 
 ## Highlight groups
 
@@ -332,13 +317,11 @@ The plugin uses the following highlight groups to style the results:
 
 ## 🤔 How it works
 
-When you enter insert mode and start typing a word, blink triggers a search with
-blink-ripgrep. Only one search is done to save resources. After getting the
-results, the following keys are used to filter the results.
+When you enter insert mode and start typing a word, blink triggers a search with blink-ripgrep. Only one search is done
+to save resources. After getting the results, the following keys are used to filter the results.
 
-In this demo (using the option `debug = true` above), we can see the search
-starting when the word flashes with a different color. Notice how the word only
-flashes once:
+In this demo (using the option `debug = true` above), we can see the search starting when the word flashes with a
+different color. Notice how the word only flashes once:
 
 <!-- TODO add a better demo -->
 

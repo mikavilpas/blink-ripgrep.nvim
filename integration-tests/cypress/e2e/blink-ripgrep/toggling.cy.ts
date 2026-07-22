@@ -11,7 +11,7 @@ describe("toggling features on/off", () => {
     cy.visit("/")
     startNeovim({
       filename: "limited/main-project-file.lua",
-    }).then((nvim) => {
+    }).then(nvim => {
       // when completing from a file in a superproject, the search may descend
       // to subprojects
       cy.contains("this text is from main-project-file")
@@ -38,7 +38,7 @@ describe("toggling features on/off", () => {
         .runLuaCode({
           luaCode: `return _G.blink_ripgrep_invocations`,
         })
-        .should((result) => {
+        .should(result => {
           // ripgrep should only have been invoked once
           expect(result.value).to.be.an("array")
           const invocations = JSON.stringify(result.value)
@@ -62,7 +62,7 @@ describe("toggling features on/off", () => {
     cy.visit("/")
     startNeovim({
       filename: "limited/main-project-file.lua",
-    }).then((nvim) => {
+    }).then(nvim => {
       // when completing from a file in a superproject, the search may descend
       // to subprojects
       cy.contains("this text is from main-project-file")
@@ -79,7 +79,7 @@ describe("toggling features on/off", () => {
         .runLuaCode({
           luaCode: `return require("blink-ripgrep").config.debug`,
         })
-        .should((result) => {
+        .should(result => {
           assert(result.value === true, "Debug should be on")
         })
 
@@ -93,7 +93,7 @@ describe("toggling features on/off", () => {
         .runLuaCode({
           luaCode: `return require("blink-ripgrep").config.debug`,
         })
-        .should((result) => {
+        .should(result => {
           assert(result.value === false, "Debug should be off")
         })
 
@@ -105,7 +105,7 @@ describe("toggling features on/off", () => {
         .runLuaCode({
           luaCode: `return require("blink-ripgrep").config.debug`,
         })
-        .should((result) => {
+        .should(result => {
           assert(result.value === true, "Debug should be on")
         })
     })

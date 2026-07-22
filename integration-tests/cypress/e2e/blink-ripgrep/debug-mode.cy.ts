@@ -9,7 +9,7 @@ describe("debug mode", () => {
     // https://github.com/mikavilpas/blink-ripgrep.nvim/issues/102
 
     cy.visit("/")
-    startNeovim({}).then((nvim) => {
+    startNeovim({}).then(nvim => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -20,16 +20,14 @@ describe("debug mode", () => {
       // search for something that does not exist. This should start a couple
       // of searches
       cy.typeIntoTerminal("yyyyyy", { delay: 80 })
-      nvim.runExCommand({ command: "messages" }).then((result) => {
-        expect(result.value).to.contain(
-          "killed previous RipgrepBackend invocation",
-        )
+      nvim.runExCommand({ command: "messages" }).then(result => {
+        expect(result.value).to.contain("killed previous RipgrepBackend invocation")
       })
       nvim
         .runLuaCode({
           luaCode: `return _G.blink_ripgrep_invocations`,
         })
-        .should((result) => {
+        .should(result => {
           expect(result.value).to.be.an("array")
           expect(result.value).to.have.length.above(2)
         })
@@ -44,7 +42,7 @@ describe("debug mode", () => {
     cy.visit("/")
     startNeovim({
       startupScriptModifications: ["use_gitgrep_backend.lua"],
-    }).then((nvim) => {
+    }).then(nvim => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -55,16 +53,14 @@ describe("debug mode", () => {
       // search for something that does not exist. This should start a couple
       // of searches
       cy.typeIntoTerminal("yyyyyy", { delay: 80 })
-      nvim.runExCommand({ command: "messages" }).then((result) => {
-        expect(result.value).to.contain(
-          "killed previous GitGrepBackend invocation",
-        )
+      nvim.runExCommand({ command: "messages" }).then(result => {
+        expect(result.value).to.contain("killed previous GitGrepBackend invocation")
       })
       nvim
         .runLuaCode({
           luaCode: `return _G.blink_ripgrep_invocations`,
         })
-        .should((result) => {
+        .should(result => {
           expect(result.value).to.be.an("array")
           expect(result.value).to.have.length.above(2)
         })
