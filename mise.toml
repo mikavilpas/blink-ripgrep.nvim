@@ -2,7 +2,7 @@
 "github:BurntSushi/ripgrep" = { version = "15.2.0", exe = "rg" }
 lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.5.2"
-"github:rvben/rumdl" = "0.2.39"
+"github:rvben/rumdl" = "0.2.40"
 
 [env]
 _.path = ["lua_modules/bin"]
