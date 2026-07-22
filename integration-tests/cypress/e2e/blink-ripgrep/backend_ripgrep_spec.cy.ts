@@ -1,9 +1,5 @@
 import { flavors } from "@catppuccin/palette"
-import {
-  rgbify,
-  textIsVisibleWithBackgroundColor,
-  textIsVisibleWithColor,
-} from "@tui-sandbox/library"
+import { rgbify, textIsVisibleWithBackgroundColor, textIsVisibleWithColor } from "@tui-sandbox/library"
 import { z } from "zod"
 
 import { assertMatchVisible } from "./utils/assertMatchVisible.js"
@@ -14,7 +10,7 @@ import { startNeovim } from "./utils/startNeovim.js"
 describe("the RipgrepBackend", () => {
   it("shows words in other files as suggestions", () => {
     cy.visit("/")
-    startNeovim().then((nvim) => {
+    startNeovim().then(nvim => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -34,10 +30,7 @@ describe("the RipgrepBackend", () => {
       // should show the text for the matched line
       //
       // the text should also be syntax highlighted
-      textIsVisibleWithColor(
-        "was my previous password",
-        rgbify(flavors.macchiato.colors.green.rgb),
-      )
+      textIsVisibleWithColor("was my previous password", rgbify(flavors.macchiato.colors.green.rgb))
 
       // should show the file name
       cy.contains(nvim.dir.contents["other-file.lua"].name)
@@ -53,7 +46,7 @@ describe("the RipgrepBackend", () => {
     startNeovim({
       filename: "limited/subproject/file1.lua",
       startupScriptModifications: ["ripgrep/set_ignore_paths.lua"],
-    }).then((nvim) => {
+    }).then(nvim => {
       // wait until text on the start screen is visible
       cy.contains("This is text from file1.lua")
       createGitReposToLimitSearchScope()
@@ -75,14 +68,12 @@ describe("the RipgrepBackend", () => {
         .runLuaCode({
           luaCode: `return _G.blink_ripgrep_invocations`,
         })
-        .should((result) => {
+        .should(result => {
           // ripgrep should only have been invoked once
           expect(result.value).to.be.an("array")
           expect(result.value).to.have.length(1)
 
-          const invocations = z
-            .array(z.array(z.string()))
-            .parse(result.value)[0]
+          const invocations = z.array(z.array(z.string())).parse(result.value)[0]
           const invocation = invocations[0]
           expect(invocation).to.eql("ignored")
         })
@@ -145,7 +136,7 @@ describe("the RipgrepBackend", () => {
 
   it("can customize the icon in the completion results", () => {
     cy.visit("/")
-    startNeovim().then((nvim) => {
+    startNeovim().then(nvim => {
       // wait until text on the start screen is visible
       cy.contains("If you see this text, Neovim is ready!")
       createGitReposToLimitSearchScope()
@@ -159,10 +150,7 @@ describe("the RipgrepBackend", () => {
         // initially the customization has not been applied in this test, so
         // the default icon should be visible
         const defaultIcon = "󰉿"
-        textIsVisibleWithColor(
-          defaultIcon,
-          rgbify(flavors.macchiato.colors.green.rgb),
-        )
+        textIsVisibleWithColor(defaultIcon, rgbify(flavors.macchiato.colors.green.rgb))
       }
 
       // now enable customize_highlight_colors. This will change the icon on
@@ -184,10 +172,7 @@ describe("the RipgrepBackend", () => {
       nvim.doFile({
         luaFile: "config-modifications/customize_highlight_colors.lua",
       })
-      textIsVisibleWithColor(
-        icon,
-        rgbify(flavors.macchiato.colors.flamingo.rgb),
-      )
+      textIsVisibleWithColor(icon, rgbify(flavors.macchiato.colors.flamingo.rgb))
     })
   })
 
@@ -238,7 +223,7 @@ describe("in debug mode", () => {
       // also test that the plugin can handle spaces in the file path
       filename: "limited/dir with spaces/file with spaces.txt",
       startupScriptModifications: ["ripgrep/use_additional_paths.lua"],
-    }).then((nvim) => {
+    }).then(nvim => {
       // wait until text on the start screen is visible
       cy.contains("this is file with spaces.txt")
       nvim.runExCommand({ command: `!mkdir "%:h/.git"` })
@@ -249,7 +234,7 @@ describe("in debug mode", () => {
       cy.typeIntoTerminal("spa")
       cy.contains("spaceroni-macaroni")
 
-      nvim.runExCommand({ command: "messages" }).then((result) => {
+      nvim.runExCommand({ command: "messages" }).then(result => {
         // make sure the logged command can be run in a shell
         expect(result.value)
         cy.log(result.value ?? "")
@@ -257,7 +242,7 @@ describe("in debug mode", () => {
         cy.typeIntoTerminal("{esc}:term{enter}", { delay: 3 })
 
         // get the current buffer name
-        nvim.runExCommand({ command: "echo expand('%')" }).then((bufname) => {
+        nvim.runExCommand({ command: "echo expand('%')" }).then(bufname => {
           cy.log(bufname.value ?? "")
           expect(bufname.value).to.contain("term://")
         })
@@ -289,7 +274,7 @@ describe("in debug mode", () => {
       return
     } else {
       cy.visit("/")
-      startNeovim({}).then((nvim) => {
+      startNeovim({}).then(nvim => {
         // wait until text on the start screen is visible
         cy.contains("If you see this text, Neovim is ready!")
         createGitReposToLimitSearchScope()
@@ -308,10 +293,7 @@ describe("in debug mode", () => {
         // If the plugin works, this text should show up as a suggestion.
         cy.typeIntoTerminal("hip")
         // the search should have been started for the prefix "hip"
-        textIsVisibleWithBackgroundColor(
-          "hip",
-          rgbify(flavors.macchiato.colors.flamingo.rgb),
-        )
+        textIsVisibleWithBackgroundColor("hip", rgbify(flavors.macchiato.colors.flamingo.rgb))
 
         //
         // blink is now in the Fuzzy(3) stage, and additional keypresses must not
@@ -322,16 +304,13 @@ describe("in debug mode", () => {
         cy.typeIntoTerminal("234")
 
         // wait for the highlight to disappear to test that too
-        textIsVisibleWithBackgroundColor(
-          "hip",
-          rgbify(flavors.macchiato.colors.base.rgb),
-        )
+        textIsVisibleWithBackgroundColor("hip", rgbify(flavors.macchiato.colors.base.rgb))
 
         nvim
           .runLuaCode({
             luaCode: `return _G.blink_ripgrep_invocations`,
           })
-          .should((result) => {
+          .should(result => {
             // ripgrep should only have been invoked once
             expect(result.value).to.be.an("array")
             expect(result.value).to.have.length(1)

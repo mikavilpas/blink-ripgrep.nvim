@@ -20,12 +20,5 @@
     "noFallthroughCasesInSwitch": true
   },
 
-  "include": [
-    "./library",
-    "./client",
-    "./server",
-    "./cypress",
-    "./eslint.config.mjs",
-    "./tui-sandbox.config.ts"
-  ]
+  "include": ["./library", "./client", "./server", "./cypress", "./eslint.config.mjs", "./tui-sandbox.config.ts"]
 }

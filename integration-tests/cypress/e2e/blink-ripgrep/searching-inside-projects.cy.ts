@@ -1,9 +1,5 @@
 import { flavors } from "@catppuccin/palette"
-import {
-  rgbify,
-  textIsVisibleWithBackgroundColor,
-  textIsVisibleWithColor,
-} from "@tui-sandbox/library"
+import { rgbify, textIsVisibleWithBackgroundColor, textIsVisibleWithColor } from "@tui-sandbox/library"
 
 import type { MyTestDirectoryFile } from "../../../MyTestDirectory.js"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
@@ -50,11 +46,8 @@ describe("searching inside projects with the RipgrepBackend", () => {
     cy.visit("/")
     startNeovim({
       filename: "limited/subproject/file1.lua",
-      startupScriptModifications: [
-        "use_not_found_project_root.lua",
-        "ripgrep/disable_project_root_fallback.lua",
-      ],
-    }).then((nvim) => {
+      startupScriptModifications: ["use_not_found_project_root.lua", "ripgrep/disable_project_root_fallback.lua"],
+    }).then(nvim => {
       // when opening a file from a subproject, the search should be limited to
       // the nearest .git directory (only the files in the same project should
       // be searched)
@@ -79,21 +72,16 @@ describe("searching inside projects with the RipgrepBackend", () => {
         .runLuaCode({
           luaCode: `return _G.blink_ripgrep_invocations`,
         })
-        .should((result) => {
-          expect(result.value).to.eql([
-            ["ignored-because-no-command"],
-            ["ignored-because-no-command"],
-          ])
+        .should(result => {
+          expect(result.value).to.eql([["ignored-because-no-command"], ["ignored-because-no-command"]])
         })
 
-      nvim.runExCommand({ command: "messages" }).then((result) => {
+      nvim.runExCommand({ command: "messages" }).then(result => {
         // make sure the search was logged to be skipped due to not finding the
         // root directory, etc. basically we want to double check it was
         // skipped for this exact reason and not due to some other possible
         // bug
-        expect(result.value).to.contain(
-          "no command returned, skipping the search",
-        )
+        expect(result.value).to.contain("no command returned, skipping the search")
       })
     })
   })
@@ -103,7 +91,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       cy.visit("/")
       startNeovim({
         filename: "limited/subproject/file1.lua",
-      }).then((nvim) => {
+      }).then(nvim => {
         cy.contains("This is text from file1.lua")
         createGitReposToLimitSearchScope()
 
@@ -148,10 +136,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
       // we should see the match highlighted with the configured color
       // somewhere on the page (in the documentation window)
-      textIsVisibleWithBackgroundColor(
-        "Subtraction",
-        rgbify(flavors.macchiato.colors.mauve.rgb),
-      )
+      textIsVisibleWithBackgroundColor("Subtraction", rgbify(flavors.macchiato.colors.mauve.rgb))
     })
   })
 
@@ -171,14 +156,8 @@ describe("searching inside projects with the RipgrepBackend", () => {
 
         // make sure the syntax is highlighted
         // (needs https://github.com/Saghen/blink.cmp/pull/462)
-        textIsVisibleWithColor(
-          "defn",
-          rgbify(flavors.macchiato.colors.pink.rgb),
-        )
-        textIsVisibleWithColor(
-          "Clojure Calculator",
-          rgbify(flavors.macchiato.colors.green.rgb),
-        )
+        textIsVisibleWithColor("defn", rgbify(flavors.macchiato.colors.pink.rgb))
+        textIsVisibleWithColor("Clojure Calculator", rgbify(flavors.macchiato.colors.green.rgb))
 
         // hide the documentation and reshow it to make sure the syntax is
         // still highlighted
@@ -186,10 +165,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
         cy.contains("Clojure Calculator").should("not.exist")
 
         cy.typeIntoTerminal("{control} ")
-        textIsVisibleWithColor(
-          "Clojure Calculator",
-          rgbify(flavors.macchiato.colors.green.rgb),
-        )
+        textIsVisibleWithColor("Clojure Calculator", rgbify(flavors.macchiato.colors.green.rgb))
       })
     })
 
@@ -198,9 +174,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       cy.visit("/")
       startNeovim({
         filename: "limited/subproject/file1.lua",
-        startupScriptModifications: [
-          "disable_highlighting_fallback_to_regex.lua",
-        ],
+        startupScriptModifications: ["disable_highlighting_fallback_to_regex.lua"],
       }).then(() => {
         // when opening a file from a subproject, the search should be limited to
         // the nearest .git directory (only the files in the same project should
@@ -229,7 +203,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
       cy.visit("/")
       startNeovim({
         filename: "limited/dir with spaces/file with spaces.txt",
-      }).then((nvim) => {
+      }).then(nvim => {
         // wait until text on the start screen is visible
         cy.contains("this is file with spaces.txt")
         createGitReposToLimitSearchScope()
@@ -246,7 +220,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
           .runExCommand({
             command: `!echo "dir with spaces/other file with spaces.txt" > $HOME/limited/.gitignore`,
           })
-          .then((result) => {
+          .then(result => {
             expect(result.value).not.to.include("shell returned 1")
             expect(result.value).not.to.include("returned 1")
           })

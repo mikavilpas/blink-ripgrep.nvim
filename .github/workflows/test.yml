@@ -145,9 +145,7 @@ jobs:
         # if: failure()
         if: failure()
         with:
-          name:
-            cypress-screenshots-${{ matrix.neovim.name }}-${{ matrix.blink.name
-            }}
+          name: cypress-screenshots-${{ matrix.neovim.name }}-${{ matrix.blink.name }}
           path: integration-tests/cypress/screenshots
           if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
 

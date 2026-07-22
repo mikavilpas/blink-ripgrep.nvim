@@ -3,6 +3,8 @@ packages:
 allowBuilds:
   cypress: true
   esbuild: true
+minimumReleaseAgeExclude:
+  - "@mikavilpas/oxfmt-config@3.0.0"
 saveExact: true
 
 # https://pnpm.io/pnpm-workspace_yaml

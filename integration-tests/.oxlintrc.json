@@ -213,10 +213,7 @@
       }
     },
     {
-      "files": [
-        "cypress/e2e/blink-ripgrep/utils/*.ts",
-        "cypress/e2e/blink-ripgrep/*.cy.ts"
-      ],
+      "files": ["cypress/e2e/blink-ripgrep/utils/*.ts", "cypress/e2e/blink-ripgrep/*.cy.ts"],
       "rules": {
         "no-unused-expressions": "off"
       }
