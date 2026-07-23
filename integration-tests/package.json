@@ -15,7 +15,7 @@
   "devDependencies": {
     "@catppuccin/palette": "1.8.0",
     "@mikavilpas/oxlint-config": "1.0.0",
-    "@tui-sandbox/library": "12.7.3",
+    "@tui-sandbox/library": "13.0.1",
     "@types/node": "24.13.3",
     "concurrently": "10.0.3",
     "cypress": "15.18.1",
