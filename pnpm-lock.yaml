@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@mikavilpas/oxfmt-config':
-        specifier: 3.0.0
-        version: 3.0.0(oxfmt@0.60.0)
+        specifier: 3.0.2
+        version: 3.0.2(oxfmt@0.60.0)
       oxfmt:
         specifier: 0.60.0
         version: 0.60.0
@@ -24,8 +24,8 @@ importers:
         specifier: 1.0.0
         version: 1.0.0(oxlint-tsgolint@7.0.2001)(oxlint@1.75.0(oxlint-tsgolint@7.0.2001))
       '@tui-sandbox/library':
-        specifier: 13.0.1
-        version: 13.0.1(cypress@15.19.0)(oxfmt@0.60.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.1.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.4.3)
+        specifier: 13.0.2
+        version: 13.0.2(cypress@15.19.0)(oxfmt@0.60.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.1.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.4.3)
       '@types/node':
         specifier: 24.13.3
         version: 24.13.3
@@ -252,8 +252,8 @@ packages:
   '@hapi/topo@6.0.2':
     resolution: {integrity: sha512-KR3rD5inZbGMrHmgPxsJ9dbi6zEK+C3ZwUwTa+eMwWLz7oijWUTWD2pMSNNYJAU6Qq+65NkxXjqHr/7LM2Xkqg==}
 
-  '@mikavilpas/oxfmt-config@3.0.0':
-    resolution: {integrity: sha512-4DwrRdllfMa4hxgbjFxkdvt0RY3Dr9qFoRDwfh4sfb3wjGsM0WYNTQK/xCxQ3A0T1b7h2Yxteyedi7mPjZw5Pw==}
+  '@mikavilpas/oxfmt-config@3.0.2':
+    resolution: {integrity: sha512-EN31oQttxjYzs31S3wwnyS+aS3DkSwHXPYP1Qx0DDWa7BGUbxmIFAQr6IdJNIIMv4qN6gT9doyN2ZIoGGC7z0Q==}
     peerDependencies:
       oxfmt: ^0.59.0
 
@@ -563,8 +563,8 @@ packages:
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@tui-sandbox/library@13.0.1':
-    resolution: {integrity: sha512-HPdRbbE9kM4SshlWXsXc9kTisUFO3ykWNAUgfEoXWCOnBQKb7pD6KPy5u4OhiJs4QpaDxeps/pxHXTyVpRLW8A==}
+  '@tui-sandbox/library@13.0.2':
+    resolution: {integrity: sha512-KsxTn70Z3RMrI4cqEoWZdURKaB/DYDTjJdzicbHKd0KDiUS1VIpN7Y9Wp6GAinfqOoic6stILR5h/C6SW6qg9w==}
     engines: {node: '>=24.0.0'}
     hasBin: true
     peerDependencies:
@@ -1650,7 +1650,7 @@ snapshots:
     dependencies:
       '@hapi/hoek': 11.0.7
 
-  '@mikavilpas/oxfmt-config@3.0.0(oxfmt@0.60.0)':
+  '@mikavilpas/oxfmt-config@3.0.2(oxfmt@0.60.0)':
     dependencies:
       oxfmt: 0.60.0
 
@@ -1811,7 +1811,7 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  '@tui-sandbox/library@13.0.1(cypress@15.19.0)(oxfmt@0.60.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.1.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.4.3)':
+  '@tui-sandbox/library@13.0.2(cypress@15.19.0)(oxfmt@0.60.0)(prettier@3.8.4)(type-fest@5.8.0)(typescript@6.0.3)(wait-on@9.1.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.4.3)':
     dependencies:
       '@catppuccin/palette': 1.8.0
       '@trpc/client': 11.18.0(@trpc/server@11.18.0(typescript@6.0.3))(typescript@6.0.3)

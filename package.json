@@ -15,7 +15,7 @@
     "tui": "pnpm --filter ./integration-tests/ exec tui"
   },
   "devDependencies": {
-    "@mikavilpas/oxfmt-config": "3.0.0",
+    "@mikavilpas/oxfmt-config": "3.0.2",
     "oxfmt": "0.60.0"
   },
   "packageManager": "pnpm@11.15.1"
