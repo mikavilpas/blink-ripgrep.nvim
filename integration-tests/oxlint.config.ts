@@ -1,7 +1,6 @@
 import mikaConfig from "@mikavilpas/oxlint-config"
 import { defineConfig } from "oxlint"
 
-// oxlint-disable-next-line import/no-default-export
 export default defineConfig({
   extends: [mikaConfig],
   jsPlugins: [
