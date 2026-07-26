@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@catppuccin/palette": "1.8.0",
-    "@mikavilpas/oxlint-config": "1.0.0",
+    "@mikavilpas/oxlint-config": "1.1.0",
     "@tui-sandbox/library": "13.0.2",
     "@types/node": "24.13.3",
     "concurrently": "10.0.3",
