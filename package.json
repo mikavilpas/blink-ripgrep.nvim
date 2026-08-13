@@ -18,5 +18,5 @@
     "@mikavilpas/oxfmt-config": "3.0.3",
     "oxfmt": "0.62.0"
   },
-  "packageManager": "pnpm@11.20.0"
+  "packageManager": "pnpm@11.21.0"
 }
