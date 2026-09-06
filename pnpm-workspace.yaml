@@ -1,5 +1,5 @@
 packages:
-  - "./integration-tests/"
+  - integration-tests/
 allowBuilds:
   cypress: true
   esbuild: true
