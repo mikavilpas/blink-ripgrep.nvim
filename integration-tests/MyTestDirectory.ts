@@ -22,42 +22,24 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("git/"),
           type: z.literal("directory"),
           contents: z.object({
-            config: z.object({
-              name: z.literal("config"),
-              type: z.literal("file"),
-            }),
-            ignore: z.object({
-              name: z.literal("ignore"),
-              type: z.literal("file"),
-            }),
+            config: z.object({ name: z.literal("config"), type: z.literal("file") }),
+            ignore: z.object({ name: z.literal("ignore"), type: z.literal("file") }),
           }),
         }),
         nvim: z.object({
           name: z.literal("nvim/"),
           type: z.literal("directory"),
           contents: z.object({
-            "init.lua": z.object({
-              name: z.literal("init.lua"),
-              type: z.literal("file"),
-            }),
-            "prepare.lua": z.object({
-              name: z.literal("prepare.lua"),
-              type: z.literal("file"),
-            }),
+            "init.lua": z.object({ name: z.literal("init.lua"), type: z.literal("file") }),
+            "prepare.lua": z.object({ name: z.literal("prepare.lua"), type: z.literal("file") }),
           }),
         }),
         nvim_blink_nightly: z.object({
           name: z.literal("nvim_blink_nightly/"),
           type: z.literal("directory"),
           contents: z.object({
-            "init.lua": z.object({
-              name: z.literal("init.lua"),
-              type: z.literal("file"),
-            }),
-            "prepare.lua": z.object({
-              name: z.literal("prepare.lua"),
-              type: z.literal("file"),
-            }),
+            "init.lua": z.object({ name: z.literal("init.lua"), type: z.literal("file") }),
+            "prepare.lua": z.object({ name: z.literal("prepare.lua"), type: z.literal("file") }),
           }),
         }),
       }),
@@ -65,12 +47,7 @@ export const MyTestDirectorySchema = z.object({
     "additional-words-dir": z.object({
       name: z.literal("additional-words-dir/"),
       type: z.literal("directory"),
-      contents: z.object({
-        "words.txt": z.object({
-          name: z.literal("words.txt"),
-          type: z.literal("file"),
-        }),
-      }),
+      contents: z.object({ "words.txt": z.object({ name: z.literal("words.txt"), type: z.literal("file") }) }),
     }),
     "config-modifications": z.object({
       name: z.literal("config-modifications/"),
@@ -88,10 +65,7 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("disable_highlighting_fallback_to_regex.lua"),
           type: z.literal("file"),
         }),
-        "don't_use_debug_mode.lua": z.object({
-          name: z.literal("don't_use_debug_mode.lua"),
-          type: z.literal("file"),
-        }),
+        "don't_use_debug_mode.lua": z.object({ name: z.literal("don't_use_debug_mode.lua"), type: z.literal("file") }),
         "enable_customize_icon_highlight.lua": z.object({
           name: z.literal("enable_customize_icon_highlight.lua"),
           type: z.literal("file"),
@@ -114,10 +88,7 @@ export const MyTestDirectorySchema = z.object({
               name: z.literal("disable_project_root_fallback.lua"),
               type: z.literal("file"),
             }),
-            "set_ignore_paths.lua": z.object({
-              name: z.literal("set_ignore_paths.lua"),
-              type: z.literal("file"),
-            }),
+            "set_ignore_paths.lua": z.object({ name: z.literal("set_ignore_paths.lua"), type: z.literal("file") }),
             "use_additional_paths.lua": z.object({
               name: z.literal("use_additional_paths.lua"),
               type: z.literal("file"),
@@ -128,100 +99,56 @@ export const MyTestDirectorySchema = z.object({
             }),
           }),
         }),
-        "use_gitgrep_backend.lua": z.object({
-          name: z.literal("use_gitgrep_backend.lua"),
-          type: z.literal("file"),
-        }),
+        "use_gitgrep_backend.lua": z.object({ name: z.literal("use_gitgrep_backend.lua"), type: z.literal("file") }),
         "use_gitgrep_or_ripgrep_backend.lua": z.object({
           name: z.literal("use_gitgrep_or_ripgrep_backend.lua"),
           type: z.literal("file"),
         }),
-        "use_manual_mode.lua": z.object({
-          name: z.literal("use_manual_mode.lua"),
-          type: z.literal("file"),
-        }),
+        "use_manual_mode.lua": z.object({ name: z.literal("use_manual_mode.lua"), type: z.literal("file") }),
         "use_not_found_project_root.lua": z.object({
           name: z.literal("use_not_found_project_root.lua"),
           type: z.literal("file"),
         }),
       }),
     }),
-    "initial-file.txt": z.object({
-      name: z.literal("initial-file.txt"),
-      type: z.literal("file"),
-    }),
+    "initial-file.txt": z.object({ name: z.literal("initial-file.txt"), type: z.literal("file") }),
     limited: z.object({
       name: z.literal("limited/"),
       type: z.literal("directory"),
       contents: z.object({
-        ".gitattributes": z.object({
-          name: z.literal(".gitattributes"),
-          type: z.literal("file"),
-        }),
+        ".gitattributes": z.object({ name: z.literal(".gitattributes"), type: z.literal("file") }),
         "dir with spaces": z.object({
           name: z.literal("dir with spaces/"),
           type: z.literal("directory"),
           contents: z.object({
-            "file with spaces.txt": z.object({
-              name: z.literal("file with spaces.txt"),
-              type: z.literal("file"),
-            }),
+            "file with spaces.txt": z.object({ name: z.literal("file with spaces.txt"), type: z.literal("file") }),
             "other file with spaces.txt": z.object({
               name: z.literal("other file with spaces.txt"),
               type: z.literal("file"),
             }),
           }),
         }),
-        "main-project-file.lua": z.object({
-          name: z.literal("main-project-file.lua"),
-          type: z.literal("file"),
-        }),
+        "main-project-file.lua": z.object({ name: z.literal("main-project-file.lua"), type: z.literal("file") }),
         subproject: z.object({
           name: z.literal("subproject/"),
           type: z.literal("directory"),
           contents: z.object({
-            "example.clj": z.object({
-              name: z.literal("example.clj"),
-              type: z.literal("file"),
-            }),
-            "file1.lua": z.object({
-              name: z.literal("file1.lua"),
-              type: z.literal("file"),
-            }),
-            "file2.lua": z.object({
-              name: z.literal("file2.lua"),
-              type: z.literal("file"),
-            }),
-            "file3.lua": z.object({
-              name: z.literal("file3.lua"),
-              type: z.literal("file"),
-            }),
+            "example.clj": z.object({ name: z.literal("example.clj"), type: z.literal("file") }),
+            "file1.lua": z.object({ name: z.literal("file1.lua"), type: z.literal("file") }),
+            "file2.lua": z.object({ name: z.literal("file2.lua"), type: z.literal("file") }),
+            "file3.lua": z.object({ name: z.literal("file3.lua"), type: z.literal("file") }),
             "ignored-dir": z.object({
               name: z.literal("ignored-dir/"),
               type: z.literal("directory"),
-              contents: z.object({
-                "file.lua": z.object({
-                  name: z.literal("file.lua"),
-                  type: z.literal("file"),
-                }),
-              }),
+              contents: z.object({ "file.lua": z.object({ name: z.literal("file.lua"), type: z.literal("file") }) }),
             }),
-            "testlog.log": z.object({
-              name: z.literal("testlog.log"),
-              type: z.literal("file"),
-            }),
+            "testlog.log": z.object({ name: z.literal("testlog.log"), type: z.literal("file") }),
           }),
         }),
       }),
     }),
-    "line-file.lua": z.object({
-      name: z.literal("line-file.lua"),
-      type: z.literal("file"),
-    }),
-    "other-file.lua": z.object({
-      name: z.literal("other-file.lua"),
-      type: z.literal("file"),
-    }),
+    "line-file.lua": z.object({ name: z.literal("line-file.lua"), type: z.literal("file") }),
+    "other-file.lua": z.object({ name: z.literal("other-file.lua"), type: z.literal("file") }),
     "two-matches-on-same-line-file.txt": z.object({
       name: z.literal("two-matches-on-same-line-file.txt"),
       type: z.literal("file"),
