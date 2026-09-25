@@ -13,7 +13,7 @@ env:
   NEOVIM_NIGHTLY_COMMIT: 0ea627cfb7713dd77dab00fff1073e5e407f263e
 jobs:
   build-neovim-nightly:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Build pinned Neovim nightly
         uses: mikavilpas/neovim-action/build-nightly@4f1c9a2235ee7428930602c0ba3e4f20377b61d8 # v3.3.0
@@ -22,7 +22,7 @@ jobs:
 
   busted:
     name: "Busted / ${{ matrix.neovim.name }}"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: build-neovim-nightly
     strategy:
       fail-fast: false
@@ -58,6 +58,9 @@ jobs:
       - name: Install stable Neovim
         if: matrix.neovim.version == 'stable'
         uses: rhysd/action-setup-vim@febef33995d6649302e9d88dda81e071b68f16a7 # v1.6.1
+        env:
+          # https://github.com/rhysd/action-setup-vim/issues/80
+          TMPDIR: ${{ runner.temp }}
         with:
           neovim: true
           version: stable
@@ -67,7 +70,7 @@ jobs:
 
   build:
     name: "e2e ${{ matrix.neovim.name }}, ${{ matrix.blink.name }}"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: build-neovim-nightly
     strategy:
       fail-fast: false
@@ -114,6 +117,9 @@ jobs:
       - name: Install stable Neovim
         if: matrix.neovim.version == 'stable'
         uses: rhysd/action-setup-vim@febef33995d6649302e9d88dda81e071b68f16a7 # v1.6.1
+        env:
+          # https://github.com/rhysd/action-setup-vim/issues/80
+          TMPDIR: ${{ runner.temp }}
         with:
           neovim: true
           version: stable
@@ -156,7 +162,7 @@ jobs:
       - build-neovim-nightly
       - busted
       - build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
