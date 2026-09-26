@@ -1,6 +1,6 @@
 minimumReleaseAge: 4320 # 3 days, https://pnpm.io/settings/dependency-resolution#minimumreleaseage
 packages:
-  - "./integration-tests/"
+  - integration-tests/
 allowBuilds:
   cypress: true
   esbuild: true
