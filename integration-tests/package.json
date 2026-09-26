@@ -16,15 +16,15 @@
     "@catppuccin/palette": "1.8.0",
     "@mikavilpas/oxlint-config": "3.0.1",
     "@tui-sandbox/library": "13.0.3",
-    "@types/node": "24.13.3",
+    "@types/node": "24.13.6",
     "concurrently": "10.0.5",
-    "cypress": "16.0.0",
+    "cypress": "16.1.0",
     "eslint-plugin-no-only-tests": "3.4.0",
-    "oxlint": "1.82.0",
-    "oxlint-tsgolint": "7.0.2001",
-    "type-fest": "5.9.0",
+    "oxlint": "1.85.0",
+    "oxlint-tsgolint": "7.0.2002",
+    "type-fest": "5.10.0",
     "typescript": "7.0.2",
     "wait-on": "9.1.0",
-    "zod": "4.5.4"
+    "zod": "4.6.5"
   }
 }
