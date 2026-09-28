@@ -73,7 +73,7 @@ describe("searching inside projects with the RipgrepBackend", () => {
           luaCode: `return _G.blink_ripgrep_invocations`,
         })
         .should(result => {
-          expect(result.value).to.eql([["ignored-because-no-command"], ["ignored-because-no-command"]])
+          expect(result.value).to.eql([["ignored-because-no-command"]])
         })
 
       nvim.runExCommand({ command: "messages" }).then(result => {
