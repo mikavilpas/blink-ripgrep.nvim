@@ -116,7 +116,9 @@ describe("the GitGrepBackend", () => {
       cy.typeIntoTerminal("cc")
 
       // find a match that has more than 5 lines of context
-      cy.typeIntoTerminal("line_7")
+      cy.typeIntoTerminal("line")
+      cy.contains(`This is line`)
+      cy.typeIntoTerminal("_7")
 
       // we should now see lines 2-12 (default 5 lines of context around the match)
       cy.contains(`"This is line 1"`).should("not.exist")
