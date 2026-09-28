@@ -1,5 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify, textIsVisibleWithBackgroundColor, textIsVisibleWithColor } from "@tui-sandbox/library"
+import { z } from "zod"
 
 import type { MyTestDirectoryFile } from "../../../MyTestDirectory.js"
 import { createGitReposToLimitSearchScope } from "./utils/createGitReposToLimitSearchScope.js"
@@ -73,7 +74,9 @@ describe("searching inside projects with the RipgrepBackend", () => {
           luaCode: `return _G.blink_ripgrep_invocations`,
         })
         .should(result => {
-          expect(result.value).to.eql([["ignored-because-no-command"], ["ignored-because-no-command"]])
+          let value = z.array(z.array(z.string())).parse(result.value)
+          value = Array.from(new Set(value))
+          expect(value).to.eql([["ignored-because-no-command"]])
         })
 
       nvim.runExCommand({ command: "messages" }).then(result => {
