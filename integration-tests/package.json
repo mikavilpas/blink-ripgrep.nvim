@@ -15,16 +15,16 @@
   "devDependencies": {
     "@catppuccin/palette": "1.8.0",
     "@mikavilpas/oxlint-config": "3.0.1",
-    "@tui-sandbox/library": "13.0.3",
-    "@types/node": "24.13.6",
+    "@tui-sandbox/library": "13.0.4",
+    "@types/node": "24.19.0",
     "concurrently": "10.0.5",
-    "cypress": "16.1.0",
+    "cypress": "16.1.1",
     "eslint-plugin-no-only-tests": "3.4.0",
-    "oxlint": "1.85.0",
+    "oxlint": "1.86.0",
     "oxlint-tsgolint": "7.0.2003",
     "type-fest": "5.10.0",
     "typescript": "7.0.2",
-    "wait-on": "9.1.0",
+    "wait-on": "9.5.1",
     "zod": "4.6.5"
   }
 }
