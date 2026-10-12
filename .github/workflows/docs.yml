@@ -4,4 +4,4 @@ permissions:
 on: [pull_request]
 jobs:
   check-links:
-    uses: mikavilpas/dotfiles/.github/workflows/docs.yml@3f8fc4703393d755cfef6b61e44bfa7d8a6fe10e # main
+    uses: mikavilpas/dotfiles/.github/workflows/docs.yml@bb16f7117d1df3f181a5a23684a6682ba6422328 # main
