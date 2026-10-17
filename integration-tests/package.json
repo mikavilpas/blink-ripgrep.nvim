@@ -18,7 +18,7 @@
     "@tui-sandbox/library": "13.0.6",
     "@types/node": "24.19.2",
     "concurrently": "10.0.6",
-    "cypress": "16.1.1",
+    "cypress": "16.2.0",
     "eslint-plugin-no-only-tests": "3.4.0",
     "oxlint": "1.88.0",
     "oxlint-tsgolint": "7.0.2004",
