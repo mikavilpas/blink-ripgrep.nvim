@@ -183,7 +183,7 @@ importers:
         version: 3.0.1(oxlint-tsgolint@7.0.2004)(oxlint@1.88.0(oxlint-tsgolint@7.0.2004))
       '@tui-sandbox/library':
         specifier: 13.0.6
-        version: 13.0.6(cypress@16.1.1)(oxfmt@0.73.0)(prettier@3.9.9)(type-fest@5.10.0)(typescript@7.0.2)(wait-on@9.5.1(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.6.7)
+        version: 13.0.6(cypress@16.2.0)(oxfmt@0.73.0)(prettier@3.9.9)(type-fest@5.10.0)(typescript@7.0.2)(wait-on@9.5.1(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.6.7)
       '@types/node':
         specifier: 24.19.2
         version: 24.19.2
@@ -191,8 +191,8 @@ importers:
         specifier: 10.0.6
         version: 10.0.6
       cypress:
-        specifier: 16.1.1
-        version: 16.1.1
+        specifier: 16.2.0
+        version: 16.2.0
       eslint-plugin-no-only-tests:
         specifier: 3.4.0
         version: 3.4.0
@@ -1078,8 +1078,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  cypress@16.1.1:
-    resolution: {integrity: sha512-T09qNpMKssD6eEMqqfywQ8OUub/VrNCvIUFAyQCfWsJ6o4CZ5Yeapce+WoZY9FXly6+3+pk7sjEB5voxduWQlQ==}
+  cypress@16.2.0:
+    resolution: {integrity: sha512-qWW9RTldmGDmrWHL6UnsFxuOB3bJ3Kh9Ix7nb5mggI/d2IMPbl7ROd6+iy+zLIBp7ujQOQ8a5JQ6eODUJYsXVQ==}
     engines: {node: ^22.0.0 || ^24.0.0 || >=26.0.0}
     hasBin: true
 
@@ -2117,7 +2117,7 @@ snapshots:
     dependencies:
       typescript: 7.0.2
 
-  '@tui-sandbox/library@13.0.6(cypress@16.1.1)(oxfmt@0.73.0)(prettier@3.9.9)(type-fest@5.10.0)(typescript@7.0.2)(wait-on@9.5.1(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.6.7)':
+  '@tui-sandbox/library@13.0.6(cypress@16.2.0)(oxfmt@0.73.0)(prettier@3.9.9)(type-fest@5.10.0)(typescript@7.0.2)(wait-on@9.5.1(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1))(zod@4.6.7)':
     dependencies:
       '@catppuccin/palette': 1.8.0
       '@trpc/client': 11.19.0(@trpc/server@11.19.0(typescript@7.0.2))(typescript@7.0.2)
@@ -2128,7 +2128,7 @@ snapshots:
       '@xterm/xterm': 6.0.0
       concurrently: 10.0.5
       cors: 2.8.6
-      cypress: 16.1.1
+      cypress: 16.2.0
       dree: 5.1.5
       neovim: 5.5.0
       oxfmt: 0.73.0
@@ -2419,7 +2419,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  cypress@16.1.1:
+  cypress@16.2.0:
     dependencies:
       '@cypress/request': 4.0.1
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
