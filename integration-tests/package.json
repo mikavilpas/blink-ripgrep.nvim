@@ -17,7 +17,7 @@
     "@mikavilpas/oxlint-config": "3.0.1",
     "@tui-sandbox/library": "13.0.6",
     "@types/node": "26.6.6",
-    "concurrently": "10.0.6",
+    "concurrently": "10.0.7",
     "cypress": "16.2.1",
     "eslint-plugin-no-only-tests": "3.4.0",
     "oxlint": "1.92.0",
