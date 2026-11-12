@@ -10,6 +10,7 @@
 ---@field debug? boolean # Show debug information in `:messages` that can help in diagnosing issues with the plugin.
 ---@field mode? blink-ripgrep.Mode # The mode to use for showing completions. Defaults to automatically showing suggestions.
 ---@field toggles? blink-ripgrep.ToggleKeymaps # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
+---@field future_features? blink-ripgrep.FutureFeatures # Keymaps to toggle features on/off. This can be used to alter the behavior of the plugin without restarting Neovim. Nothing is enabled by default.
 
 ---@class blink-ripgrep.BackendConfig
 ---@field use? blink-ripgrep.BackendSelection # The backend to use for searching. Defaults to "ripgrep".
@@ -41,6 +42,9 @@
 ---@alias blink-ripgrep.Mode
 ---| "on" # Show completions when triggered by blink
 ---| "off" # Don't show completions at all
+
+---@class blink-ripgrep.FutureFeatures
+---@field use_blink_nightly? boolean # (default: false) If true, the plugin will adapt to using the nightly version of blink.
 
 ---@class blink-ripgrep.RgSource : blink.cmp.Source
 ---@field get_command fun(context: blink.cmp.Context, prefix: string): blink-ripgrep.RipgrepCommand | nil

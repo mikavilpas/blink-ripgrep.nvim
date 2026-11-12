@@ -42,6 +42,8 @@ local repo_root =
 local plugins = {
   {
     "saghen/blink.cmp",
+    -- renovate: datasource=git-refs packageName=https://github.com/Saghen/blink.cmp
+    commit = "7b31e1b6497be70f620bbad83a789929248697ac",
     dependencies = {
       {
         "saghen/blink.lib",
@@ -51,8 +53,6 @@ local plugins = {
     },
 
     event = "VeryLazy",
-    -- renovate: datasource=git-refs packageName=https://github.com/Saghen/blink.cmp
-    commit = "7b31e1b6497be70f620bbad83a789929248697ac",
 
     -- to (locally) track nightly builds, use the following:
     -- version = false,
@@ -90,6 +90,9 @@ local plugins = {
               },
               backend = {
                 customize_icon_highlight = false,
+              },
+              future_features = {
+                use_blink_nightly = true,
               },
             },
           },
