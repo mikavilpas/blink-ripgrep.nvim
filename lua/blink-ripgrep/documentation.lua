@@ -73,12 +73,34 @@ function documentation.render_item_documentation(config, draw_opts, file, match)
     end
   else
     assert(parser_name, "missing parser for " .. file.path) -- lua-language-server should narrow this but can't
-    require("blink.cmp.lib.window.docs").highlight_with_treesitter(
-      bufnr,
-      parser_name,
-      2,
-      #text
-    )
+    local future_features = config.future_features or {}
+    if future_features.use_blink_nightly then
+      -- nightly blink
+      local docs = require("blink.cmp.lib.window.docs")
+      local oneline_text = table.concat(
+        vim.api.nvim_buf_get_lines(bufnr, 0, -1, false),
+        "\n"
+      ) .. "\n"
+      local ok, parser =
+        pcall(vim.treesitter.get_string_parser, oneline_text, parser_name)
+      if ok and parser then
+        docs.highlight_with_treesitter(
+          parser,
+          oneline_text,
+          bufnr,
+          2,
+          #oneline_text
+        )
+      end
+    else
+      -- stable blink
+      require("blink.cmp.lib.window.docs").highlight_with_treesitter(
+        bufnr,
+        parser_name,
+        2,
+        #text
+      )
+    end
   end
 
   require("blink-ripgrep.highlighting").highlight_match_in_doc_window(

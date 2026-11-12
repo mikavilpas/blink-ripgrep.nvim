@@ -226,6 +226,13 @@ return {
             -- Show debug information in `:messages` that can help in
             -- diagnosing issues with the plugin.
             debug = false,
+
+            future_features = {
+              -- If true, the plugin will adapt to using the nightly version of
+              -- blink. See the supported version of saghen/blink.cmp in
+              -- integration-tests/test-environment/.config/nvim_blink_nightly/init.lua
+              use_blink_nightly = false,
+            }
           },
           -- (optional) customize how the results are displayed. Many options
           -- are available - make sure your lua LSP is set up so you get
