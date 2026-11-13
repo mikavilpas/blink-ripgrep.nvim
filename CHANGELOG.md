@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.7](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.6...v2.2.7) (2026-11-13)
+
+
+### Bug Fixes
+
+* nightly blink changing internal highlight_with_treesitter() sig ([bd2e829](https://github.com/mikavilpas/blink-ripgrep.nvim/commit/bd2e829a1d6ab6cc8da158fc78cd832cbe21c81e))
+
 ## [2.2.6](https://github.com/mikavilpas/blink-ripgrep.nvim/compare/v2.2.5...v2.2.6) (2026-04-26)
 
 
