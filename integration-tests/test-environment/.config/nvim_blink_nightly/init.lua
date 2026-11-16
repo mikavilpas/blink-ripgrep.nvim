@@ -43,7 +43,7 @@ local plugins = {
   {
     "saghen/blink.cmp",
     -- renovate: datasource=git-refs packageName=https://github.com/Saghen/blink.cmp
-    commit = "7b31e1b6497be70f620bbad83a789929248697ac",
+    commit = "3d3631f641e6e9b60066f269f435d23c524ceeb0",
     dependencies = {
       {
         "saghen/blink.lib",
