@@ -20,7 +20,7 @@
     "concurrently": "10.0.7",
     "cypress": "16.3.0",
     "eslint-plugin-no-only-tests": "3.4.0",
-    "oxlint": "1.93.0",
+    "oxlint": "1.94.0",
     "oxlint-tsgolint": "7.0.2007",
     "type-fest": "5.10.0",
     "typescript": "7.0.2",
