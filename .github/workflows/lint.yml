@@ -2,6 +2,8 @@ name: Linting
 permissions:
   contents: read
 on: [push, pull_request]
+env:
+  MISE_TASK_RUN_AUTO_INSTALL: false
 
 jobs:
   selene:
@@ -11,15 +13,11 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: NTBBloodbath/selene-action@23ef05dd5c4d687f4d3c939f76a1c342baf454aa # v1.0.0
+      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
         with:
-          # Github secret token
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # selene arguments, should be the same as in ../../mise.toml
-          args: --display-style=quiet ./lua/ ./spec/
-          # selene version
-          # renovate: datasource=github-releases depName=Kampfkarren/selene
-          version: 0.32.0
+          install_args: aqua:Kampfkarren/selene
+      - name: selene
+        run: mise run lint
 
   markdownlint:
     name: markdownlint

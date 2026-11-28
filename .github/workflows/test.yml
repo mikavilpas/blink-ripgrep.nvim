@@ -11,6 +11,7 @@ permissions:
 env:
   # renovate: datasource=git-refs-master packageName=https://github.com/neovim/neovim
   NEOVIM_NIGHTLY_COMMIT: b091c9b0a030d78ec58022491c78489826e2763d
+  MISE_TASK_RUN_AUTO_INSTALL: false
 jobs:
   build-neovim-nightly:
     runs-on: ubuntu-26.04
@@ -36,18 +37,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Install tools with UBI
-        shell: bash
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          # make the tools available for subsequent steps
-          echo "$(pwd)/bin" >> "$GITHUB_PATH"
-          curl --silent --location \
-              https://raw.githubusercontent.com/houseabsolute/ubi/master/bootstrap/bootstrap-ubi.sh |
-              TARGET="$HOME/.local/bin" sh
-
-          VERSION=$(yq '.tools."github:BurntSushi/ripgrep".version' mise.toml)
-          ubi --project BurntSushi/ripgrep --tag "$VERSION" --exe rg
+      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
+        with:
+          install_args: ripgrep
 
       - name: Download pinned Neovim nightly
         if: matrix.neovim.version == 'nightly'
@@ -93,20 +85,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Install tools with UBI
-        shell: bash
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          # make the tools available for subsequent steps
-          echo "$(pwd)/bin" >> "$GITHUB_PATH"
-          curl --silent --location \
-              https://raw.githubusercontent.com/houseabsolute/ubi/master/bootstrap/bootstrap-ubi.sh |
-              TARGET="$HOME/.local/bin" sh
-
-          VERSION=$(yq '.tools."github:BurntSushi/ripgrep".version' mise.toml)
-          ubi --project BurntSushi/ripgrep --tag "$VERSION" --exe rg
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
+        with:
+          install_args: ripgrep
 
       - name: Download pinned Neovim nightly
         if: matrix.neovim.version == 'nightly'

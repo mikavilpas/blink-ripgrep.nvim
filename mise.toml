@@ -1,8 +1,9 @@
 [tools]
-"github:BurntSushi/ripgrep" = { version = "15.2.0", exe = "rg" }
+ripgrep = "15.2.0"
 lua = "5.1"
+"aqua:Kampfkarren/selene" = "0.32.0"
 "github:JohnnyMorganz/stylua" = "2.6.0"
-"github:rvben/rumdl" = "0.3.5"
+"github:rvben/rumdl" = "0.3.8"
 
 [env]
 _.path = ["lua_modules/bin"]
