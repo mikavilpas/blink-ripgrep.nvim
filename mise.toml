@@ -1,5 +1,5 @@
 [tools]
-ripgrep = "15.2.0"
+ripgrep = "16.0.0"
 lua = "5.1"
 "aqua:Kampfkarren/selene" = "0.32.0"
 "github:JohnnyMorganz/stylua" = "2.6.0"
